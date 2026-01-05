@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Waypoint FE
 
-## Getting Started
+Waypoint 프론트엔드 프로젝트입니다.
 
-First, run the development server:
+## 🛠 Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| **Language** | TypeScript |
+| **Framework** | Next.js 16.1.1 |
+| **UI Library** | React 19.2.3 |
+| **Styling** | Tailwind CSS 4 |
+| **Package Manager** | npm |
+
+## ⚙️ Getting Started
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 저장소 복제
+git clone https://github.com/way-po-int/waypoint-FE.git
+
+# 프로젝트 디렉토리로 이동
+cd waypoint-fe
+
+# 의존성 설치
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 로컬 개발 서버 실행
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+개발 서버는 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
 
-## Learn More
+## 📝 Convention
 
-To learn more about Next.js, take a look at the following resources:
+### Commit Message Convention
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+협업 시 커밋 로그의 가독성을 위해 아래 규칙을 엄수합니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Format:** `type(scope): Subject [Jira-Key]`
 
-## Deploy on Vercel
+- **Type**: 소문자로 작성, 콜론(:) 뒤에만 한 칸 띄움.
+- **Scope**: 부가 설명은 세부 사항 대신 큰 범위의 컴포넌트 명칭 사용.
+- **Subject**: 한글 사용, 동명사로 종결, 과거시제/특수기호 미사용.
+- **Body**: 단위가 큰 커밋일 경우 변경 사유와 상세 내용을 기술.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Type | 설명 |
+|------|------|
+| `feat` | 새로운 기능 구현 |
+| `fix` | 버그 수정 |
+| `docs` | 문서 수정 |
+| `style` | 코드 포맷팅 (로직 변경 없음) |
+| `refactor` | 코드 리팩토링 |
+| `chore` | 빌드 업무, 패키지 설정 수정 |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Example:** `feat(login): 로그인 기능 구현 [WAPO-123]`
+
+### Pull Request Convention
+
+- **PR 제목**: Commit Message Convention을 따르되, 맨 뒤에 Jira 키를 대괄호로 감싸 작성합니다.
+- **Merge 규칙**: PR을 Merge할 때 해당 제목을 Merge Commit Message로 사용합니다.
+
+#### PR Template
+
+```markdown
+## 📝 변경 사항
+
+- 핵심 변경 내용을 간략히 작성하세요.
+
+## 🔍 변경사항 세부 설명
+
+- 변경 이유와 상세 구현 내용을 작성하세요.
+
+## 📸 스크린샷
+
+- UI 변경이 있는 경우 첨부하세요.
+
+## 💬 기타
+
+- 리뷰어에게 전달할 특이사항을 작성하세요.
+```
+
+## 📁 Project Structure
+
+```
+waypoint-fe/
+├── app/              # Next.js App Router (Page, Layout)
+├── components/       # 공통 컴포넌트
+├── constants/        # 상수 정의
+├── hooks/           # 커스텀 훅
+├── styles/          # Tailwind Global Styles
+├── types/           # TypeScript 인터페이스/타입 정의
+└── utils/           # 공용 유틸리티 함수
+```
