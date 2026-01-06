@@ -38,6 +38,15 @@ npm run dev
 
 ## 📝 Convention
 
+### Git Branch Strategy
+
+- **브랜치 전략**: **Rebase-based Workflow** 사용
+  - Git 그래프를 깔끔하게 유지
+  - 충돌 해결을 에디터에서 진행 가능
+  - 빌드 후 PR 가능
+- **브랜치명 규칙**: `feature/[Jira-Key]-상세 기능`
+  - 예: `feature/WAPO-123-login-page`
+
 ### Commit Message Convention
 
 협업 시 커밋 로그의 가독성을 위해 아래 규칙을 엄수합니다.
@@ -63,7 +72,7 @@ npm run dev
 ### Pull Request Convention
 
 - **PR 제목**: Commit Message Convention을 따르되, 맨 뒤에 Jira 키를 대괄호로 감싸 작성합니다.
-- **Merge 규칙**: PR을 Merge할 때 해당 제목을 Merge Commit Message로 사용합니다.
+- **Merge 규칙**: PR의 해당 제목을 Merge Commit Message로 사용합니다.
 
 #### PR Template
 
@@ -85,12 +94,39 @@ npm run dev
 - 리뷰어에게 전달할 특이사항을 작성하세요.
 ```
 
+### Code Convention
+
+#### 명명 규칙 (Naming Convention)
+
+- **변수, 함수**: `camelCase`
+  - 예: `userName`, `getUserData()`
+- **클래스, 컴포넌트**: `PascalCase`
+  - 예: `UserProfile`, `LoginButton`
+- **상수**: `UPPER_SNAKE_CASE`
+  - 예: `API_BASE_URL`, `MAX_RETRY_COUNT`
+- **Boolean 변수**: 접두사 `is` 활용
+  - 예: `isLogin`, `isLoading`, `isValid`
+
+#### 주석 규칙
+
+- 복잡한 로직이나 ToDo에 대한 주석 작성 필수
+- ToDo Tree와 같은 VS Code 확장 프로그램 활용 권장
+- 코드 파악의 어려움을 줄이기 위해 적절한 주석 활용
+
 ## 📁 Project Structure
+
+#### 파일 구조 원칙
+
+- 컴포넌트 폴더를 App 폴더 밖에 생성
+- **DDD(Domain-Driven Design)** 법칙 적용
+- **파일 하나에 하나의 함수/컴포넌트만 포함**하는 방식
+
+#### 디렉토리 구조
 
 ```
 waypoint-fe/
 ├── app/              # Next.js App Router (Page, Layout)
-├── components/       # 공통 컴포넌트
+├── components/       # 공통 컴포넌트 (App 폴더 밖)
 ├── constants/        # 상수 정의
 ├── hooks/           # 커스텀 훅
 ├── styles/          # Tailwind Global Styles
