@@ -1,6 +1,24 @@
-const Home = () => {
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+const SPLASH_DURATION = 300; // 300ms
+
+const LandingPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    // 300ms 후 로그인 페이지로 이동
+    const timer = setTimeout(() => {
+      router.push("/login");
+    }, SPLASH_DURATION);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between px-6 py-16">
+    <main className="flex min-h-screen flex-col items-center justify-center px-6">
       {/* 로고 영역 */}
       <div className="flex flex-1 items-center">
         <div className="text-center">
@@ -10,30 +28,14 @@ const Home = () => {
         </div>
       </div>
 
-      {/* 버튼 영역 */}
-      <div className="w-full space-y-3">
-        {/* 회원가입 버튼 */}
-        <button className="h-14 w-full rounded-xl border-2 border-gray-200 bg-white text-base font-semibold text-gray-900 transition-colors hover:bg-gray-50">
-          회원가입
-        </button>
-
-        {/* 카카오 로그인 버튼 */}
-        <button className="h-14 w-full rounded-xl bg-[#1a1a1a] text-base font-semibold text-white transition-colors hover:bg-black">
-          카카오 로그인
-        </button>
-
-        {/* 네이버 로그인 버튼 */}
-        <button className="h-14 w-full rounded-xl bg-[#1a1a1a] text-base font-semibold text-white transition-colors hover:bg-black">
-          네이버 로그인
-        </button>
-
-        {/* 구글 로그인 버튼 */}
-        <button className="h-14 w-full rounded-xl bg-[#1a1a1a] text-base font-semibold text-white transition-colors hover:bg-black">
-          구글 로그인
-        </button>
+      {/* 저작권 표시 */}
+      <div className="pb-16">
+        <p className="text-center text-sm text-gray-900">
+          © All rights are reserved by Waypoint
+        </p>
       </div>
     </main>
   );
 };
 
-export default Home;
+export default LandingPage;
