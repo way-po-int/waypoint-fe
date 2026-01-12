@@ -10,7 +10,7 @@ Waypoint 프론트엔드 프로젝트입니다.
 | **Framework** | Next.js 16.1.1 |
 | **UI Library** | React 19.2.3 |
 | **Styling** | Tailwind CSS 4 |
-| **Package Manager** | npm |
+| **Package Manager** | pnpm |
 
 ## ⚙️ Getting Started
 
@@ -24,14 +24,14 @@ git clone https://github.com/way-po-int/waypoint-FE.git
 cd waypoint-fe
 
 # 의존성 설치
-npm install
+pnpm install
 ```
 
 ### Development
 
 ```bash
 # 로컬 개발 서버 실행
-npm run dev
+pnpm run dev
 ```
 
 개발 서버는 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
