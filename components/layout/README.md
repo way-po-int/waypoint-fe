@@ -18,6 +18,7 @@
 | `onBack` | `() => void` | `undefined` | 뒤로가기 버튼 클릭 핸들러 |
 | `onClose` | `() => void` | `undefined` | 닫기 버튼 클릭 핸들러 |
 | `onNotification` | `() => void` | `undefined` | 알림 버튼 클릭 핸들러 |
+| `showBackground` | `boolean` | `true` | 배경색 표시 여부 (false 시 투명) |
 | `className` | `string` | `""` | 추가 CSS 클래스 |
 
 ### 사용 예시
@@ -62,7 +63,18 @@
 />
 ```
 
-#### 5. 커스텀 핸들러
+#### 5. 배경색 없는 버전
+
+```tsx
+<Header 
+  variant="center" 
+  title="페이지 제목"
+  showBackButton
+  showBackground={false}
+/>
+```
+
+#### 6. 커스텀 핸들러
 
 ```tsx
 <Header 

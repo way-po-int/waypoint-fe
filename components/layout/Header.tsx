@@ -15,7 +15,8 @@ interface HeaderProps {
   showNotificationButton?: boolean;
   onClose?: () => void;
   onNotification?: () => void;
-  // 커스텀 스타일
+  // 스타일
+  showBackground?: boolean;
   className?: string;
 }
 
@@ -28,6 +29,7 @@ const Header = ({
   onBack,
   onClose,
   onNotification,
+  showBackground = true,
   className = "",
 }: HeaderProps) => {
   const router = useRouter();
@@ -61,7 +63,9 @@ const Header = ({
 
   return (
     <header
-      className={`flex h-14 w-full items-center justify-between bg-[#E8EBED] px-4 ${className}`}
+      className={`flex h-14 w-full items-center justify-between px-4 ${
+        showBackground ? "bg-[#E8EBED]" : "bg-transparent"
+      } ${className}`}
     >
       {/* 좌측 영역 */}
       <div className="flex items-center">
