@@ -76,10 +76,109 @@
 />
 ```
 
+## NavigationBar
+
+하단 네비게이션 바 컴포넌트입니다. 각 페이지에서 필요한 네비게이션 아이템을 전달하여 사용할 수 있습니다.
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `NavItem[]` | - | 네비게이션 아이템 배열 (필수) |
+| `className` | `string` | `""` | 추가 CSS 클래스 |
+
+### NavItem 인터페이스
+
+```typescript
+interface NavItem {
+  icon: React.ReactNode;  // 아이콘 컴포넌트
+  label: string;          // 라벨 텍스트
+  path: string;           // 이동할 경로
+}
+```
+
+### DiamondIcon
+
+기본 제공되는 다이아몬드 모양의 아이콘 컴포넌트입니다.
+
+```typescript
+<DiamondIcon isActive={boolean} />
+```
+
+### 사용 예시
+
+#### 1. 기본 사용 (DiamondIcon 사용)
+
+```tsx
+import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
+
+const navItems = [
+  {
+    icon: <DiamondIcon isActive={true} />,
+    label: "컬렉션",
+    path: "/home",
+  },
+  {
+    icon: <DiamondIcon isActive={false} />,
+    label: "프로젝트",
+    path: "/projects",
+  },
+  {
+    icon: <DiamondIcon isActive={false} />,
+    label: "마이",
+    path: "/my",
+  },
+];
+
+<NavigationBar items={navItems} />
+```
+
+#### 2. 커스텀 아이콘 사용
+
+```tsx
+const navItems = [
+  {
+    icon: <HomeIcon />,
+    label: "홈",
+    path: "/home",
+  },
+  {
+    icon: <SearchIcon />,
+    label: "검색",
+    path: "/search",
+  },
+];
+
+<NavigationBar items={navItems} />
+```
+
+#### 3. 자동 활성화 상태 (현재 경로 기반)
+
+```tsx
+// NavigationBar는 현재 pathname을 자동으로 감지하여
+// 해당하는 메뉴를 활성화 상태로 표시합니다
+const navItems = [
+  { icon: null, label: "컬렉션", path: "/home" },      // icon이 null이면 기본 DiamondIcon 사용
+  { icon: null, label: "프로젝트", path: "/projects" },
+  { icon: null, label: "마이", path: "/my" },
+];
+
+<NavigationBar items={navItems} />
+```
+
 ## 전체 레이아웃 예시
 
 ```tsx
+import Header from "@/components/layout/Header";
+import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
+
 const MyPage = () => {
+  const navItems = [
+    { icon: <DiamondIcon isActive={true} />, label: "컬렉션", path: "/home" },
+    { icon: <DiamondIcon isActive={false} />, label: "프로젝트", path: "/projects" },
+    { icon: <DiamondIcon isActive={false} />, label: "마이", path: "/my" },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header 
@@ -91,6 +190,8 @@ const MyPage = () => {
       <main className="flex-1 p-4">
         {/* 페이지 컨텐츠 */}
       </main>
+      
+      <NavigationBar items={navItems} />
     </div>
   );
 };
