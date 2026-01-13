@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# 1. 파일 경로 인수 받기
+MSG_FILE=$1
+[ -z "$MSG_FILE" ] && exit 0
+
+# 2. 현재 브랜치 이름 가져오기
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+# 3. JIRA 키 추출 (알파벳 대문자-숫자 패턴)
+JIRA_KEY=$(echo "$BRANCH_NAME" | grep -oE '[A-Z]+-[0-9]+' | head -1)
+
+# 4. JIRA 키가 없으면 그냥 종료
+if [ -z "$JIRA_KEY" ]; then
+  exit 0
+fi
+
+# 5. 이미 메시지에 JIRA 키가 있으면 중복 방지를 위해 종료
+if grep -q "\[$JIRA_KEY\]" "$MSG_FILE"; then
+  exit 0
+fi
+
+# 6. 첫 줄과 내용을 안전하게 분리하여 재구성
+# macOS와 윈도우 모두에서 호환되는 head/tail 방식 사용
+FIRST_LINE=$(head -n 1 "$MSG_FILE")
+REST_LINES=$(tail -n +2 "$MSG_FILE")
+
+# 파일 덮어쓰기
+echo "$FIRST_LINE [$JIRA_KEY]" > "$MSG_FILE"
+
+# 내용이 있을 경우에만 나머지 줄 추가
+if [ -n "$REST_LINES" ]; then
+  echo "$REST_LINES" >> "$MSG_FILE"
+fi
