@@ -2,8 +2,12 @@
 
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
+  const router = useRouter();
+
   const navItems = [
     {
       icon: <DiamondIcon isActive={true} />,
@@ -22,18 +26,25 @@ const HomePage = () => {
     },
   ];
 
+  const handleCollectionCreate = () => {
+    router.push("/home/create");
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* 헤더: LOGO + 알림 버튼 */}
       <Header variant="logo" showNotificationButton />
 
       {/* 메인 컨텐츠 */}
-      <main className="flex flex-1 flex-col items-center justify-center p-4">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">홈 페이지</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Header와 Navigation이 적용되었습니다
-          </p>
+      <main className="flex flex-1 flex-col p-4">
+        <div className="flex flex-col flex-1 items-center justify-center gap-20">
+          <h2 className="text-xl font-bold text-center">
+            새 컬렉션을 추가해보세요.
+          </h2>
+
+          <Button onClick={handleCollectionCreate} className="w-full">
+            컬렉션 추가하기
+          </Button>
         </div>
       </main>
 
