@@ -121,12 +121,12 @@ const HomePage = () => {
           // 컬렉션이 있을 경우
           <div className="flex flex-1 flex-col">
             {/* 타이틀 */}
-            <h2 className="sticky top-14 z-10 bg-white py-2 text-lg font-semibold text-gray-900">
+            <h2 className="fixed top-14 left-1/2 -translate-x-1/2 z-10 bg-white max-w-[375px] w-full p-4 text-lg font-semibold text-gray-900">
               내 컬렉션
             </h2>
 
             {/* 컬렉션 리스트 */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto mt-6">
               {collections.map((collection) => (
                 <CollectionCard
                   key={collection.collectionId}
