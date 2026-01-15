@@ -2,6 +2,7 @@
 
 import CollectionDetailPageFooter from "@/components/collection/detailpage/CollectionDetailPageFooter";
 import CollectionDetailPageHeader from "@/components/collection/detailpage/CollectionDetailPageHeader";
+import PlaceCard from "@/components/collection/detailpage/PlaceCard";
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 import { collectionMockData } from "@/mocks/collectionMockData";
@@ -37,7 +38,7 @@ const CollectionPage = () => {
   ];
 
   return (
-    <div className="w-[375px]">
+    <div className="w-[375px] h-screen overflow-hidden">
       {/* header */}
       <Header
         variant="center"
@@ -48,9 +49,13 @@ const CollectionPage = () => {
       />
       <CollectionDetailPageHeader />
       {collection?.places.length !== 0 ? (
-        <></>
+        <main className="flex flex-col gap-3 pt-[116px] pb-[160px] px-5 h-full overflow-y-auto">
+          {collection?.places.map((place) => (
+            <PlaceCard key={place.placeName} place={place} />
+          ))}
+        </main>
       ) : (
-        <main className="fixed top-0 w-full flex items-center justify-center h-[90vh]">
+        <main className="pt-[116px] pb-[160px] h-full flex items-center justify-center">
           <h3 className="text-center text-lg font-bold">
             현재 추가된 <br />
             장소가 없습니다.
