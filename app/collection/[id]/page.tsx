@@ -42,6 +42,7 @@ const CollectionPage = () => {
         title={collection?.title || ""}
         showBackButton
         showNotificationButton
+				className="fixed top-0 z-10"
       />
       <CollectionDetailPageHeader />
       <NavigationBar items={navItems} className="fixed bottom-0 w-full"/>
