@@ -1,5 +1,6 @@
 "use client";
 
+import CollectionDetailPageFooter from "@/components/collection/detailpage/CollectionDetailPageFooter";
 import CollectionDetailPageHeader from "@/components/collection/detailpage/CollectionDetailPageHeader";
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
@@ -36,16 +37,27 @@ const CollectionPage = () => {
   ];
 
   return (
-    <div>
+    <div className="w-[375px]">
+      {/* header */}
       <Header
         variant="center"
         title={collection?.title || ""}
         showBackButton
         showNotificationButton
-				className="fixed top-0 z-10"
+        className="fixed top-0 z-10"
       />
       <CollectionDetailPageHeader />
-      <NavigationBar items={navItems} className="fixed bottom-0 w-full"/>
+      {collection?.places.length !== 0 ? (
+        <></>
+      ) : (
+        <main className="fixed top-0 w-full flex items-center justify-center h-[90vh]">
+          <h3 className="text-center text-lg font-bold">
+            현재 추가된 <br />
+            장소가 없습니다.
+          </h3>
+        </main>
+      )}
+
       {/* fotter */}
       <CollectionDetailPageFooter />
       <NavigationBar items={navItems} className="fixed bottom-0 w-[375px]" />
