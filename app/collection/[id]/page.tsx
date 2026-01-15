@@ -46,6 +46,9 @@ const CollectionPage = () => {
       />
       <CollectionDetailPageHeader />
       <NavigationBar items={navItems} className="fixed bottom-0 w-full"/>
+      {/* fotter */}
+      <CollectionDetailPageFooter />
+      <NavigationBar items={navItems} className="fixed bottom-0 w-[375px]" />
     </div>
   );
 };
