@@ -12,8 +12,8 @@ const PlaceCard = ({ place }: { place: Place }) => {
     <div className="flex flex-col gap-2.5 bg-slate-200 p-2.5 rounded-xl">
       <div className="flex justify-between items-center">
         <p className="text-base font-bold">{place.placeName}</p>
-        <Button variant="ghost" className="w-6 h-6">
-          <EllipsisIcon />
+        <Button variant="ghost">
+          <EllipsisIcon className="size-6" />
         </Button>
       </div>
       <p className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
@@ -32,14 +32,14 @@ const PlaceCard = ({ place }: { place: Place }) => {
             variant="ghost"
             className="bg-slate-100 rounded-2 px-[3px] py-[2px] gap-2.5"
           >
-            <FlagTriangleRight size={20} />
+            <FlagTriangleRight className="size-5" />
             <p className="text-sm">{place.likeCount}</p>
           </Button>
           <Button
             variant="ghost"
             className="bg-slate-100 rounded-2 px-[3px] py-[2px] gap-2.5"
           >
-            <BanIcon size={20} />
+            <BanIcon className="size-5" />
             <p className="text-sm">{place.dislikeCount}</p>
           </Button>
         </div>

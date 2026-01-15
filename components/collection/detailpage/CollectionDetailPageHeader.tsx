@@ -22,7 +22,7 @@ const CollectionDetailPageHeader = () => {
             className="w-32 h-10 justify-between border border-gray-200 bg-white text-black hover:bg-gray-50"
           >
             {sortBy === "latest" ? "최신 순" : "이름 순"}
-            <ChevronDownIcon className="h-4 w-4 text-gray-400" />
+            <ChevronDownIcon className="text-gray-400" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -38,11 +38,11 @@ const CollectionDetailPageHeader = () => {
         </DropdownMenuContent>
       </DropdownMenu>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" className="w-6 h-6">
-          <SearchIcon />
+        <Button variant="ghost">
+          <SearchIcon className="size-6" />
         </Button>
-        <Button variant="ghost" className="w-6 h-6">
-          <MenuIcon />
+        <Button variant="ghost">
+          <MenuIcon className="size-6" />
         </Button>
       </div>
     </div>
