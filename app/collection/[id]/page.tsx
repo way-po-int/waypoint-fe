@@ -1,5 +1,6 @@
 "use client";
 
+import CollectionDetailPageHeader from "@/components/collection/detailpage/CollectionDetailPageHeader";
 import Header from "@/components/layout/Header";
 import { collectionMockData } from "@/mocks/collectionMockData";
 import { Collection } from "@/types/collection";
@@ -23,6 +24,7 @@ const CollectionPage = () => {
         showBackButton
         showNotificationButton
       />
+      <CollectionDetailPageHeader />
     </div>
   );
 };
