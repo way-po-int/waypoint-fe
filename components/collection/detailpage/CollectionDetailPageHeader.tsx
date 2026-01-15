@@ -14,7 +14,7 @@ const CollectionDetailPageHeader = () => {
   const [sortBy, setSortBy] = useState<"latest" | "name">("latest");
 
   return (
-    <div className="fixed top-14 py-2.5 px-5 flex justify-between items-center w-full">
+    <div className="fixed top-14 py-2.5 px-5 flex justify-between items-center w-full bg-white">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
