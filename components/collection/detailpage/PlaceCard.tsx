@@ -22,12 +22,12 @@ const PlaceCard = ({ place }: { place: Place }) => {
       <div className="h-22 bg-white flex items-center justify-center">
         사진이 들어갈 공간입니다.
       </div>
-      <div className="flex flex-row w-full justify-between items-center">
-        <div className="flex gap-[7px] items-center">
-          <MapPinIcon className="w-4.5 h-4.5" />
-          <p className="text-sm">{place.placeAddress}</p>
+      <div className="flex flex-row w-full justify-between items-center gap-2">
+        <div className="flex gap-[7px] items-center min-w-0 flex-1">
+          <MapPinIcon className="size-4.5 flex-shrink-0" />
+          <p className="text-sm overflow-hidden text-ellipsis whitespace-nowrap min-w-0">{place.placeAddress}</p>
         </div>
-        <div className="flex gap-2.5">
+        <div className="flex gap-2.5 flex-shrink-0">
           <Button
             variant="ghost"
             className="bg-slate-100 rounded-2 px-[3px] py-[2px] gap-2.5"
