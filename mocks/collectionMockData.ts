@@ -98,4 +98,12 @@ export const collectionMockData: Collection[] = [
       },
     ],
   },
+  {
+    collectionId: 4,
+    title: "서울 여행지 리스트",
+    destination: "서울",
+    memberCount: 1,
+    thumbnailImageUrl: "https://placehold.co/600x300/FFFFFF/FFFFFF.png",
+    places: [],
+  },
 ];
