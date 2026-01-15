@@ -2,6 +2,7 @@
 
 import CollectionDetailPageHeader from "@/components/collection/detailpage/CollectionDetailPageHeader";
 import Header from "@/components/layout/Header";
+import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 import { collectionMockData } from "@/mocks/collectionMockData";
 import { Collection } from "@/types/collection";
 import { useParams } from "next/navigation";
@@ -16,6 +17,24 @@ const CollectionPage = () => {
     ) || null
   );
 
+  const navItems = [
+    {
+      icon: <DiamondIcon isActive={true} />,
+      label: "컬렉션",
+      path: "/home",
+    },
+    {
+      icon: <DiamondIcon isActive={false} />,
+      label: "프로젝트",
+      path: "/projects",
+    },
+    {
+      icon: <DiamondIcon isActive={false} />,
+      label: "마이",
+      path: "/my",
+    },
+  ];
+
   return (
     <div>
       <Header
@@ -25,6 +44,7 @@ const CollectionPage = () => {
         showNotificationButton
       />
       <CollectionDetailPageHeader />
+      <NavigationBar items={navItems} className="fixed bottom-0 w-full"/>
     </div>
   );
 };
