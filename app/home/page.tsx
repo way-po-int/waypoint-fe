@@ -59,8 +59,7 @@ const HomePage = () => {
 
   // 컬렉션 카드 핸들러
   const handleCollectionCard = (id: CollectionId) => {
-    // TODO: 컬렉션 페이지로 이동
-    console.log("컬렉션 페이지로 이동", id);
+    router.push(`/collection/${id}`);
   };
 
   // 컬렉션 수정 핸들러
