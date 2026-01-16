@@ -11,6 +11,7 @@ export interface Collection {
   title: string;
   destination: string;
   memberCount: number;
+  members: string[];
   thumbnailImageUrl: string;
   places: Place[];
 }
