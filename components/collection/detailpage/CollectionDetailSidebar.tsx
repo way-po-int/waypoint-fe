@@ -23,6 +23,7 @@ import {
 import {
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -76,6 +77,9 @@ const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
             <X className="size-6" />
           </Button>
         </DrawerClose>
+        <DrawerDescription className="sr-only">
+          여행 멤버 관리 사이드바
+        </DrawerDescription>
       </DrawerHeader>
       <div className="flex flex-col gap-2 mt-2 px-2">
         <DrawerTitle className="flex items-center justify-between gap-2">
