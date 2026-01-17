@@ -63,7 +63,13 @@ const CollectionDetailPageHeader = ({
         </Button>
         <Drawer direction="right">
           <DrawerTrigger asChild>
-            <Button variant="ghost">
+            <Button
+              variant="ghost"
+              onClick={(e) => {
+                // Drawer가 열릴 때 포커스를 제거하여 aria-hidden 충돌 방지
+                e.currentTarget.blur();
+              }}
+            >
               <MenuIcon className="size-6" />
             </Button>
           </DrawerTrigger>

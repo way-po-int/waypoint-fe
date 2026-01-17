@@ -16,7 +16,13 @@ const LeaveCollectionDialog = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="bg-destructive text-white fixed bottom-5 left-2 right-2">
+        <Button
+          className="bg-destructive text-white fixed bottom-5 left-2 right-2"
+          onClick={(e) => {
+            // AlertDialog가 열리기 전에 포커스를 제거하여 aria-hidden 충돌 방지
+            e.currentTarget.blur();
+          }}
+        >
           이 컬렉션에서 나가기
         </Button>
       </AlertDialogTrigger>
