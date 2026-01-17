@@ -3,6 +3,16 @@
 import Divider from "@/components/common/Divider";
 import { Button } from "@/components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -147,9 +157,26 @@ const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
           <Button className="py-3 px-8">이 컬렉션으로 여행계획 시작하기</Button>
         </div>
       </div>
-      <Button className="bg-destructive text-white fixed bottom-5 left-2 right-2">
-        이 컬렉션에서 나가기
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button className="bg-destructive text-white fixed bottom-5 left-2 right-2">
+            이 컬렉션에서 나가기
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="gap-8">
+          <AlertDialogHeader className="text-left">
+            <AlertDialogTitle className="text-sm font-semibold text-gray-500">
+              컬렉션의 소유자는 나갈 수 없습니다.
+              <br />
+              여행멤버 관리에서 먼저 소유자를 변경해 주세요.
+            </AlertDialogTitle>
+            <AlertDialogDescription className="sr-only" />
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex flex-row justify-end">
+            <AlertDialogAction>확인</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </DrawerContent>
   );
 };
