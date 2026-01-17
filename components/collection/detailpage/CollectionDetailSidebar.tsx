@@ -101,6 +101,9 @@ const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
           <Button className="py-3 px-8">이 컬렉션으로 여행계획 시작하기</Button>
         </div>
       </div>
+      <Button className="bg-destructive text-white fixed bottom-5 left-2 right-2">
+        이 컬렉션에서 나가기
+      </Button>
     </DrawerContent>
   );
 };
