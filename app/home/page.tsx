@@ -64,8 +64,7 @@ const HomePage = () => {
 
   // 컬렉션 수정 핸들러
   const handleEdit = (id: CollectionId) => {
-    // TODO: 수정 페이지로 이동
-    console.log("컬렉션 수정 페이지로 이동", id);
+    router.push(`/home/${id}/edit`);
   };
 
   // 컬렉션 삭제 Dialog 열기
