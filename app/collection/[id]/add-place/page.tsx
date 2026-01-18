@@ -10,6 +10,8 @@ import {
 import { SearchIcon } from "lucide-react";
 import SearchPlaceItem from "@/components/collection/detailpage/SearchPlaceItem";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface SearchPlace {
   name: string;
@@ -49,7 +51,8 @@ const mockPlaces: SearchPlace[] = [
 
 const AddPlacePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-
+  const params = useParams();
+  const collectionId = params.id as string;
   const filteredPlaces = mockPlaces.filter((place) =>
     place.name.includes(searchQuery),
   );
@@ -84,12 +87,14 @@ const AddPlacePage = () => {
               }}
             />
           ))}
-          <Button
-            variant="ghost"
-            className="text-xs text-slate-500 w-full justify-center p-0 h-auto mt-10"
-          >
-            장소를 찾지 못하시겠나요?
-          </Button>
+          <Link href={`/collection/${collectionId}/add-place/manual`}>
+            <Button
+              variant="ghost"
+              className="text-xs text-slate-500 w-full justify-center p-0 h-auto mt-10"
+            >
+              장소를 찾지 못하시겠나요?
+            </Button>
+          </Link>
         </div>
       )}
     </div>
