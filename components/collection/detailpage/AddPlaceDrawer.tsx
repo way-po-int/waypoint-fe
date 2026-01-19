@@ -23,7 +23,9 @@ const AddPlaceDrawer = () => {
           <DrawerTitle className="text-base font-bold">
             AI로 컨텐츠 장소 찾아오기
           </DrawerTitle>
-          <DrawerDescription aria-hidden="true">장소 추가</DrawerDescription>
+          <DrawerDescription aria-hidden="true" className="hidden">
+            장소 추가
+          </DrawerDescription>
           <Button variant="ghost" className="w-6 h-6">
             <CircleQuestionMarkIcon className="size-6" />
           </Button>
@@ -37,8 +39,11 @@ const AddPlaceDrawer = () => {
           </div>
           <Button className="px-8 py-5">저장하기</Button>
           <Divider className="my-3" />
-          <Link href={`/collection/${collectionId}/add-place`} className="w-full">
-            <Button className="px-8 py-5 w-full" >장소 검색해서 추가하기</Button>
+          <Link
+            href={`/collection/${collectionId}/add-place`}
+            className="w-full"
+          >
+            <Button className="px-8 py-5 w-full">장소 검색해서 추가하기</Button>
           </Link>
         </div>
       </div>
