@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const SPLASH_DURATION = 300; // 300ms
+const SPLASH_DURATION = 1600; // 1600ms
 
 const LandingPage = () => {
   const router = useRouter();
