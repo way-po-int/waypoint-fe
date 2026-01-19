@@ -8,6 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import CollectionDetailSidebar from "./CollectionDetailSidebar";
 
 interface CollectionDetailPageHeaderProps {
   sortBy: "latest" | "oldest" | string;
@@ -59,9 +61,20 @@ const CollectionDetailPageHeader = ({
         <Button variant="ghost">
           <SearchIcon className="size-6" />
         </Button>
-        <Button variant="ghost">
-          <MenuIcon className="size-6" />
-        </Button>
+        <Drawer direction="right">
+          <DrawerTrigger asChild>
+            <Button
+              variant="ghost"
+              onClick={(e) => {
+                // Drawer가 열릴 때 포커스를 제거하여 aria-hidden 충돌 방지
+                e.currentTarget.blur();
+              }}
+            >
+              <MenuIcon className="size-6" />
+            </Button>
+          </DrawerTrigger>
+          <CollectionDetailSidebar members={members} />
+        </Drawer>
       </div>
     </div>
   );
