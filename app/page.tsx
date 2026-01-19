@@ -2,69 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
-interface RouteInfo {
-  path: string;
-  label: string;
-  description?: string;
-  params?: { name: string; placeholder: string }[];
-}
+import { getRoutes, defaultDynamicParams } from "./routes.config";
 
 const DevPage = () => {
-  const [dynamicParams, setDynamicParams] = useState<Record<string, string>>({
-    collectionId: "1",
-    id: "1",
-  });
+  const [dynamicParams, setDynamicParams] = useState<Record<string, string>>(
+    defaultDynamicParams
+  );
 
-  const routes: RouteInfo[] = [
-    {
-      path: "/landing",
-      label: "Landing Page",
-      description: "스플래시 화면",
-    },
-    {
-      path: "/login",
-      label: "Login Page",
-      description: "로그인 페이지",
-    },
-    {
-      path: "/signup",
-      label: "Signup Page",
-      description: "회원가입 페이지",
-    },
-    {
-      path: "/home",
-      label: "Home Page",
-      description: "홈 페이지",
-    },
-    {
-      path: "/home/create",
-      label: "Create Collection",
-      description: "컬렉션 생성 페이지",
-    },
-    {
-      path: `/home/${dynamicParams.collectionId}/edit`,
-      label: "Edit Collection",
-      description: "컬렉션 편집 페이지",
-      params: [{ name: "collectionId", placeholder: "Collection ID" }],
-    },
-    {
-      path: `/collection/${dynamicParams.id}`,
-      label: "Collection Detail",
-      description: "컬렉션 상세 페이지",
-      params: [{ name: "id", placeholder: "Collection ID" }],
-    },
-    {
-      path: `/project`,
-      label: "Project Page",
-      description: "프로젝트 페이지",
-    },
-    {
-      path: `/my`,
-      label: "My Page",
-      description: "마이 페이지",
-    }
-  ];
+  const routes = getRoutes(dynamicParams);
 
   const handleParamChange = (paramName: string, value: string) => {
     setDynamicParams((prev) => ({
@@ -87,39 +32,30 @@ const DevPage = () => {
         </div>
 
         {/* Dynamic Parameters Section */}
-        <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
-          <h2 className="mb-4 text-xl font-bold text-gray-900">
-            동적 라우트 파라미터
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                Collection ID
-              </label>
-              <input
-                type="text"
-                value={dynamicParams.collectionId}
-                onChange={(e) =>
-                  handleParamChange("collectionId", e.target.value)
-                }
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                placeholder="예: 1"
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                Detail Page ID
-              </label>
-              <input
-                type="text"
-                value={dynamicParams.id}
-                onChange={(e) => handleParamChange("id", e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                placeholder="예: 1"
-              />
+        {Object.keys(dynamicParams).length > 0 && (
+          <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
+              동적 라우트 파라미터
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {Object.entries(dynamicParams).map(([key, value]) => (
+                <div key={key}>
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                    {key.charAt(0).toUpperCase() +
+                      key.slice(1).replace(/([A-Z])/g, " $1")}
+                  </label>
+                  <input
+                    type="text"
+                    value={value}
+                    onChange={(e) => handleParamChange(key, e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    placeholder={`예: ${value}`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        )}
 
         {/* Routes Section */}
         <div className="rounded-lg bg-white p-6 shadow-md">
@@ -173,12 +109,18 @@ const DevPage = () => {
 
         {/* Footer Info */}
         <div className="mt-8 rounded-lg bg-blue-50 p-4 text-sm text-blue-800">
-          <ul className="ml-4 mt-2 list-disc space-y-1">
+          <p className="font-semibold mb-2">개발자 가이드</p>
+          <ul className="ml-4 list-disc space-y-1">
             <li>동적 라우트는 위에서 파라미터 값을 변경할 수 있습니다</li>
             <li>각 카드를 클릭하면 해당 페이지로 이동합니다</li>
             <li>
-              추후 작업에 따라 페이지 목록을 추가해주세요.
+              <strong>새 페이지 추가:</strong>{" "}
+              <code className="bg-blue-100 px-1 py-0.5 rounded">
+                app/routes.config.ts
+              </code>{" "}
+              파일을 열어서 라우트를 추가하세요
             </li>
+            <li>파일 내부에 상세한 예시와 가이드가 포함되어 있습니다</li>
           </ul>
         </div>
       </div>
