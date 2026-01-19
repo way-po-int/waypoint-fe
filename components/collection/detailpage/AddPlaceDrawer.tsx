@@ -1,3 +1,5 @@
+"use client";
+
 import Divider from "@/components/common/Divider";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,8 +10,12 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { CircleQuestionMarkIcon } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const AddPlaceDrawer = () => {
+  const params = useParams();
+  const collectionId = params.id as string;
   return (
     <DrawerContent className="p-2">
       <DrawerHeader>
@@ -17,6 +23,9 @@ const AddPlaceDrawer = () => {
           <DrawerTitle className="text-base font-bold">
             AI로 컨텐츠 장소 찾아오기
           </DrawerTitle>
+          <DrawerDescription aria-hidden="true" className="hidden">
+            장소 추가
+          </DrawerDescription>
           <Button variant="ghost" className="w-6 h-6">
             <CircleQuestionMarkIcon className="size-6" />
           </Button>
@@ -29,8 +38,13 @@ const AddPlaceDrawer = () => {
             <Input placeholder="Input Value" />
           </div>
           <Button className="px-8 py-5">저장하기</Button>
-          <Divider className="my-3"/>
-					<Button className="px-8 py-5">장소 검색해서 추가하기</Button>
+          <Divider className="my-3" />
+          <Link
+            href={`/collection/${collectionId}/add-place`}
+            className="w-full"
+          >
+            <Button className="px-8 py-5 w-full">장소 검색해서 추가하기</Button>
+          </Link>
         </div>
       </div>
     </DrawerContent>

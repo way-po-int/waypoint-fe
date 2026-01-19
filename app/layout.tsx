@@ -34,8 +34,7 @@ const RootLayout = ({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* 모바일 뷰 컨테이너 (375px 고정) */}
-        <div className="mx-auto min-h-screen max-w-[375px] bg-white">
+        <div className="min-h-screen w-full bg-white">
           {children}
         </div>
         <Toaster position="bottom-center" />
