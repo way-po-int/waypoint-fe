@@ -54,6 +54,16 @@ const DevPage = () => {
       description: "컬렉션 상세 페이지",
       params: [{ name: "id", placeholder: "Collection ID" }],
     },
+    {
+      path: `/project`,
+      label: "Project Page",
+      description: "프로젝트 페이지",
+    },
+    {
+      path: `/my`,
+      label: "My Page",
+      description: "마이 페이지",
+    }
   ];
 
   const handleParamChange = (paramName: string, value: string) => {
@@ -167,8 +177,7 @@ const DevPage = () => {
             <li>동적 라우트는 위에서 파라미터 값을 변경할 수 있습니다</li>
             <li>각 카드를 클릭하면 해당 페이지로 이동합니다</li>
             <li>
-              이 페이지는 개발 환경에서만 사용하세요 (프로덕션에서는 접근 제한
-              필요)
+              추후 작업에 따라 페이지 목록을 추가해주세요.
             </li>
           </ul>
         </div>
