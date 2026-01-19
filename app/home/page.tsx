@@ -97,7 +97,7 @@ const HomePage = () => {
       <Header
         variant="logo"
         showNotificationButton
-        className="fixed top-0 z-10 left-1/2 -translate-x-1/2 max-w-[375px]"
+        className="fixed top-0 z-10 inset-x-0"
       />
 
       {/* 메인 컨텐츠 */}
@@ -119,7 +119,7 @@ const HomePage = () => {
           // 컬렉션이 있을 경우
           <div className="flex flex-1 flex-col">
             {/* 타이틀 */}
-            <h2 className="fixed top-14 left-1/2 -translate-x-1/2 z-10 bg-white max-w-[375px] w-full p-4 text-lg font-semibold text-gray-900">
+            <h2 className="fixed top-14 z-10 inset-x-0 bg-white w-full p-4 text-lg font-semibold text-gray-900">
               내 컬렉션
             </h2>
 
@@ -162,7 +162,7 @@ const HomePage = () => {
             </AlertDialog>
 
             {/* 하단 고정 컬렉션 추가 버튼 */}
-            <div className="p-4 bg-white fixed bottom-20 left-1/2 -translate-x-1/2 max-w-[375px] w-full">
+            <div className="p-4 bg-white fixed inset-x-0 bottom-20 w-full">
               <Button onClick={handleCollectionCreate} className="w-full">
                 컬렉션 추가하기
               </Button>
@@ -174,7 +174,7 @@ const HomePage = () => {
       {/* 네비게이션 바 */}
       <NavigationBar
         items={navItems}
-        className="fixed bottom-0 z-10 left-1/2 -translate-x-1/2 max-w-[375px]"
+        className="fixed bottom-0 z-10 inset-x-0"
       />
     </div>
   );

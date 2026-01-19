@@ -62,14 +62,14 @@ const CollectionPage = () => {
   ];
 
   return (
-    <div className="w-[375px] h-screen overflow-hidden">
+    <div className="w-full min-h-screen overflow-hidden">
       {/* header */}
       <Header
         variant="center"
         title={collection?.title || ""}
         showBackButton
         showNotificationButton
-        className="fixed top-0 z-10"
+        className="fixed top-0 z-10 inset-x-0"
       />
       <CollectionDetailPageHeader
         sortBy={sortBy}
@@ -93,7 +93,7 @@ const CollectionPage = () => {
 
       {/* fotter */}
       <CollectionDetailPageFooter />
-      <NavigationBar items={navItems} className="fixed bottom-0 w-[375px]" />
+      <NavigationBar items={navItems} className="fixed bottom-0 inset-x-0" />
     </div>
   );
 };
