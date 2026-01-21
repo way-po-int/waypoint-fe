@@ -70,10 +70,10 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
     params: [{ name: "collectionId", placeholder: "Collection ID" }],
   },
   {
-    path: `/collection/${dynamicParams.id}`,
+    path: `/collection/${dynamicParams.collectionId}`,
     label: "Collection Detail",
     description: "컬렉션 상세 페이지",
-    params: [{ name: "id", placeholder: "Collection ID" }],
+    params: [{ name: "collectionId", placeholder: "Collection ID" }],
   },
 
   // ========================================
