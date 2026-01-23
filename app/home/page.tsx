@@ -19,7 +19,7 @@ import { Collection } from "@/types/collection";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type CollectionId = Collection["collectionId"];
+type CollectionId = Collection["collection_id"];
 
 const HomePage = () => {
   const router = useRouter();
@@ -85,7 +85,7 @@ const HomePage = () => {
     console.log("삭제 확정", deleteCollection);
 
     setCollections((prev) =>
-      prev.filter((c) => c.collectionId !== deleteCollection)
+      prev.filter((c) => c.collection_id !== deleteCollection)
     );
 
     closeDialog();
@@ -127,7 +127,7 @@ const HomePage = () => {
             <div className="flex-1 overflow-y-auto mt-6">
               {collections.map((collection) => (
                 <CollectionCard
-                  key={collection.collectionId}
+                  key={collection.collection_id}
                   collection={collection}
                   onCardClick={handleCollectionCard}
                   onEdit={handleEdit}
