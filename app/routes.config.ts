@@ -75,6 +75,12 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
     description: "컬렉션 상세 페이지",
     params: [{ name: "collectionId", placeholder: "Collection ID" }],
   },
+  {
+    path: `/collection/${dynamicParams.collectionId}/place/${dynamicParams.placeId}`,
+    label: "Place Detail",
+    description: "장소 상세 페이지",
+    params: [{ name: "collectionId", placeholder: "Collection ID" }, { name: "placeId", placeholder: "Place ID" }],
+  },
 
   // ========================================
   // 기타 페이지
@@ -128,7 +134,8 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
  * 새로운 동적 라우트를 추가할 경우 여기에 기본값도 함께 추가해주세요
  */
 export const defaultDynamicParams: Record<string, string> = {
-  collectionId: "1",
+  collectionId: "col-001",
+  placeId: "cp-001",
   id: "1",
   // 여기에 새로운 동적 파라미터의 기본값을 추가하세요
   // yourParamName: "defaultValue",
