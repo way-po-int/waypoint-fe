@@ -50,7 +50,6 @@ const PlaceDetailPage = () => {
 
   const handleEditMemo = () => {
     setIsEditingMemo(true);
-    setMemo(collectionPlace?.memo || "");
   };
 
   const handleSaveMemo = () => {
@@ -120,7 +119,7 @@ const PlaceDetailPage = () => {
               />
             ) : (
               <p className="text-sm min-h-[80px] whitespace-pre-wrap">
-                {collectionPlace?.memo || "메모가 없습니다"}
+                {memo || "메모가 없습니다"}
               </p>
             )}
           </div>
