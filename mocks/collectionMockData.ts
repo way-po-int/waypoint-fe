@@ -14,19 +14,19 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "54")!, // 성산일출봉
         picked_member: [
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
           {
-            collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+            collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
             nickname: userMockData[1].nickname,
             picture: userMockData[1].picture,
           },
         ],
         passed_member: [
           {
-            collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+            collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
             nickname: userMockData[2].nickname,
             picture: userMockData[2].picture,
           },
@@ -40,17 +40,17 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "55")!, // 협재 해수욕장
         picked_member: [
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
           {
-            collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+            collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
             nickname: userMockData[1].nickname,
             picture: userMockData[1].picture,
           },
           {
-            collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+            collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
             nickname: userMockData[2].nickname,
             picture: userMockData[2].picture,
           },
@@ -65,7 +65,7 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "58")!, // 카멜리아힐
         picked_member: [
           {
-            collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+            collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
             nickname: userMockData[1].nickname,
             picture: userMockData[1].picture,
           },
@@ -77,17 +77,17 @@ export const collectionMockData: Collection[] = [
     ],
     members: [
       {
-        collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+        collection_member_id: userMockData[0].user_id, // 1 - 여행러버
         nickname: userMockData[0].nickname,
         picture: userMockData[0].picture,
       },
       {
-        collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+        collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
         nickname: userMockData[1].nickname,
         picture: userMockData[1].picture,
       },
       {
-        collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+        collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
         nickname: userMockData[2].nickname,
         picture: userMockData[2].picture,
       },
@@ -104,12 +104,12 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "56")!, // 해동용궁사
         picked_member: [
           {
-            collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+            collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
             nickname: userMockData[2].nickname,
             picture: userMockData[2].picture,
           },
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -124,14 +124,14 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "59")!, // 감천문화마을
         picked_member: [
           {
-            collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+            collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
             nickname: userMockData[2].nickname,
             picture: userMockData[2].picture,
           },
         ],
         passed_member: [
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -145,12 +145,12 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "60")!, // 부산 해운대 해수욕장
         picked_member: [
           {
-            collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+            collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
             nickname: userMockData[2].nickname,
             picture: userMockData[2].picture,
           },
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -162,12 +162,12 @@ export const collectionMockData: Collection[] = [
     ],
     members: [
       {
-        collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+        collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
         nickname: userMockData[2].nickname,
         picture: userMockData[2].picture,
       },
       {
-        collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+        collection_member_id: userMockData[0].user_id, // 1 - 여행러버
         nickname: userMockData[0].nickname,
         picture: userMockData[0].picture,
       },
@@ -184,12 +184,12 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "57")!, // 안목해변
         picked_member: [
           {
-            collection_member_id: userMockData[3].user_id.toString(), // 4 - 강릉여행자
+            collection_member_id: userMockData[3].user_id, // 4 - 강릉여행자
             nickname: userMockData[3].nickname,
             picture: userMockData[3].picture,
           },
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -204,17 +204,17 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "61")!, // 정동진 해수욕장
         picked_member: [
           {
-            collection_member_id: userMockData[3].user_id.toString(), // 4 - 강릉여행자
+            collection_member_id: userMockData[3].user_id, // 4 - 강릉여행자
             nickname: userMockData[3].nickname,
             picture: userMockData[3].picture,
           },
           {
-            collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+            collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
             nickname: userMockData[1].nickname,
             picture: userMockData[1].picture,
           },
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -226,22 +226,22 @@ export const collectionMockData: Collection[] = [
     ],
     members: [
       {
-        collection_member_id: userMockData[3].user_id.toString(), // 4 - 강릉여행자
+        collection_member_id: userMockData[3].user_id, // 4 - 강릉여행자
         nickname: userMockData[3].nickname,
         picture: userMockData[3].picture,
       },
       {
-        collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+        collection_member_id: userMockData[0].user_id, // 1 - 여행러버
         nickname: userMockData[0].nickname,
         picture: userMockData[0].picture,
       },
       {
-        collection_member_id: userMockData[1].user_id.toString(), // 2 - 제주도러버
+        collection_member_id: userMockData[1].user_id, // 2 - 제주도러버
         nickname: userMockData[1].nickname,
         picture: userMockData[1].picture,
       },
       {
-        collection_member_id: userMockData[2].user_id.toString(), // 3 - 부산탐험가
+        collection_member_id: userMockData[2].user_id, // 3 - 부산탐험가
         nickname: userMockData[2].nickname,
         picture: userMockData[2].picture,
       },
@@ -258,7 +258,7 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "63")!, // 경복궁
         picked_member: [
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -273,7 +273,7 @@ export const collectionMockData: Collection[] = [
         place: placeMockData.find((p) => p.place_id === "64")!, // 남산타워
         picked_member: [
           {
-            collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+            collection_member_id: userMockData[0].user_id, // 1 - 여행러버
             nickname: userMockData[0].nickname,
             picture: userMockData[0].picture,
           },
@@ -285,7 +285,7 @@ export const collectionMockData: Collection[] = [
     ],
     members: [
       {
-        collection_member_id: userMockData[0].user_id.toString(), // 1 - 여행러버
+        collection_member_id: userMockData[0].user_id, // 1 - 여행러버
         nickname: userMockData[0].nickname,
         picture: userMockData[0].picture,
       },
