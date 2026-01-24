@@ -82,6 +82,7 @@ const CollectionPage = () => {
             <PlaceCard
               key={place.collection_place_id}
               collectionPlace={place}
+              collectionId={collectionId}
             />
           ))}
         </main>
