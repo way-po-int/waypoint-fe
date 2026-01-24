@@ -1,7 +1,10 @@
+"use client";
+
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 const ProjectsPage = () => {
   const navItems = [
@@ -38,7 +41,9 @@ const ProjectsPage = () => {
           <br />
           새로운 여행을 시작해보세요.
         </p>
-        <Button className="w-38.5 h-10">여행 계획하기</Button>
+        <Link href="/projects/create">
+          <Button className="w-38.5 h-10">여행 계획하기</Button>
+        </Link>
       </main>
       <NavigationBar
         items={navItems}
