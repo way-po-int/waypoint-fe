@@ -17,6 +17,7 @@ interface CollectionDetailSidebarProps {
 }
 
 const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
+  console.log(members);
 
   return (
     <DrawerContent>

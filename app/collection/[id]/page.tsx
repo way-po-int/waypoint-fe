@@ -15,7 +15,7 @@ const CollectionPage = () => {
   const collectionId = params.id as string;
   const [collection, setCollection] = useState<Collection | null>(
     collectionMockData.find(
-      (collection) => collection.collectionId === parseInt(collectionId)
+      (collection) => collection.collection_id === collectionId
     ) || null
   );
   const [sortBy, setSortBy] = useState<"latest" | "oldest" | string>("latest");
@@ -74,12 +74,15 @@ const CollectionPage = () => {
       <CollectionDetailPageHeader
         sortBy={sortBy}
         setSortBy={setSortBy}
-        members={collection?.members || []}
+        members={collection?.members.map((member) => member.nickname) || []}
       />
       {sortedPlaces.length !== 0 ? (
         <main className="flex flex-col gap-3 pt-[116px] pb-[160px] px-5 h-full overflow-y-auto">
           {sortedPlaces.map((place) => (
-            <PlaceCard key={place.placeName} place={place} />
+            <PlaceCard
+              key={place.collection_place_id}
+              collectionPlace={place}
+            />
           ))}
         </main>
       ) : (

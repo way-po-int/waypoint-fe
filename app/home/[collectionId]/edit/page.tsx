@@ -22,10 +22,10 @@ import { useEffect, useRef, useState } from "react";
 const CollectionEditPage = () => {
   const router = useRouter();
   const params = useParams<{ collectionId: string }>();
-  const collectionId = Number(params.collectionId);
+  const collectionId = params.collectionId;
 
   const targetCollection = collectionMockData.find(
-    (c) => c.collectionId === collectionId
+    (c) => c.collection_id === collectionId
   );
 
   // TODO: 추후 Collection(GET) API 연동

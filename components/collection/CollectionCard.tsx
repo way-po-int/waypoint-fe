@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-type CollectionId = Collection["collectionId"];
+type CollectionId = Collection["collection_id"];
 
 interface BaseProps {
   collection: Collection;
@@ -43,8 +43,7 @@ type CollectionCardProps = DefaultVariantProps | SelectVariantProps;
 
 const CollectionCard = (props: CollectionCardProps) => {
   const { collection } = props;
-  const { collectionId, title, destination, memberCount, thumbnailImageUrl } =
-    collection;
+  const { collection_id, title, member_count } = collection;
 
   // select variant 여부
   const isSelect = props.variant === "select";
@@ -55,9 +54,9 @@ const CollectionCard = (props: CollectionCardProps) => {
   const handleCard = () => {
     if (isSelect) {
       if (props.disableUnselect && props.selected) return;
-      props.onCardSelect(collectionId);
+      props.onCardSelect(collection_id);
     } else {
-      props.onCardClick(collectionId);
+      props.onCardClick(collection_id);
     }
   };
 
@@ -69,13 +68,13 @@ const CollectionCard = (props: CollectionCardProps) => {
   // 컬렉션 수정 핸들러
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    props.onEdit?.(collectionId);
+    props.onEdit?.(collection_id);
   };
 
   // 컬렉션 삭제 핸들러
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    props.onDelete?.(collectionId);
+    props.onDelete?.(collection_id);
   };
 
   return (
@@ -89,7 +88,7 @@ const CollectionCard = (props: CollectionCardProps) => {
         <AspectRatio ratio={2 / 1} className="relative">
           {/* 컬렉션 썸네일 */}
           <Image
-            src={thumbnailImageUrl}
+            src={"https://placehold.co/600x300/FFFFFF/FFFFFF.png"}
             alt={title}
             fill
             className="rounded-xl bg-white object-cover"
@@ -116,11 +115,10 @@ const CollectionCard = (props: CollectionCardProps) => {
                 {title}
               </span>
               <Dot className="w-4 h-4" />
-              <p className="shrink-0">{destination}</p>
             </div>
 
             {/* 인원수 */}
-            <p className="text-base text-gray-700">{memberCount}명</p>
+            <p className="text-base text-gray-700">{member_count}명</p>
           </div>
 
           {/* 수정/삭제 메뉴 버튼 (default variant) */}
