@@ -82,8 +82,8 @@ const PlaceDetailPage = () => {
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-bold text-gray-500">관광지</p>
                 <div className="flex flex-row justify-between items-center">
-                  <div className="flex flex-row gap-2 items-center">
-                    <MapPinIcon className="size-6" />
+                  <div className="flex flex-row gap-2 items-center min-w-0 flex-1">
+                    <MapPinIcon className="size-6 shrink-0" />
                     <p className="text-sm overflow-hidden text-ellipsis whitespace-nowrap">
                       {place?.address}
                     </p>
