@@ -2,19 +2,26 @@
 
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
+import ProjectCard from "@/components/projects/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { planMockData } from "@/mocks/planMockData";
+import { Plan } from "@/types/plan";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const ProjectsPage = () => {
+  const [plans, setPlans] = useState<Plan[]>(planMockData);
+  const router = useRouter();
   const navItems = [
     {
-      icon: <DiamondIcon isActive={true} />,
+      icon: <DiamondIcon isActive={false} />,
       label: "컬렉션",
       path: "/home",
     },
     {
-      icon: <DiamondIcon isActive={false} />,
+      icon: <DiamondIcon isActive={true} />,
       label: "프로젝트",
       path: "/projects",
     },
@@ -24,6 +31,37 @@ const ProjectsPage = () => {
       path: "/my",
     },
   ];
+
+  const handlePlanCreate = () => {
+    router.push("/projects/create");
+  };
+
+  if (plans.length > 0) {
+    return (
+      <div className="w-full min-h-screen">
+        <Header
+          showNotificationButton
+          variant="logo"
+          className="fixed top-0 z-10 inset-x-0"
+        />
+        <h2 className="text-lg font-semibold mt-21 ml-5">내 여행 계획</h2>
+        <main className="flex flex-col gap-3 mt-5 mx-5 h-full overflow-y-auto mb-40">
+          {plans.map((plan) => (
+            <ProjectCard key={plan.plan_id} plan={plan} />
+          ))}
+        </main>
+        <div className="p-4 bg-white fixed inset-x-0 bottom-20 w-full">
+          <Button className="w-full" onClick={handlePlanCreate}>
+            플랜 추가하기
+          </Button>
+        </div>
+        <NavigationBar
+          items={navItems}
+          className="fixed bottom-0 z-10 inset-x-0"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full min-h-screen">
