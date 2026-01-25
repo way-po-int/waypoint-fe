@@ -1,6 +1,6 @@
 /**
  * Development Page Routes Configuration
- * 
+ *
  * 이 파일은 개발용 페이지에서 사용할 라우트 목록을 관리합니다.
  * 새로운 페이지를 개발하신 경우 아래 가이드를 참고하여 라우트를 추가해주세요.
  */
@@ -10,9 +10,9 @@
 // ============================================================================
 
 export interface RouteInfo {
-  path: string;                                    // 라우트 경로 (예: "/home", "/login")
-  label: string;                                   // 화면에 표시될 라벨
-  description?: string;                            // 라우트에 대한 간단한 설명 (선택사항)
+  path: string; // 라우트 경로 (예: "/home", "/login")
+  label: string; // 화면에 표시될 라벨
+  description?: string; // 라우트에 대한 간단한 설명 (선택사항)
   params?: { name: string; placeholder: string }[]; // 동적 파라미터 정보 (선택사항)
 }
 
@@ -22,15 +22,17 @@ export interface RouteInfo {
 
 /**
  * getRoutes - 동적 파라미터를 포함한 라우트 목록을 반환합니다
- * 
+ *
  * @param dynamicParams - 동적 라우트에 사용될 파라미터 객체
  * @returns RouteInfo 배열
- * 
+ *
  * @example
  * // 기본 사용법
  * const routes = getRoutes({ collectionId: "1", id: "1" });
  */
-export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] => [
+export const getRoutes = (
+  dynamicParams: Record<string, string>
+): RouteInfo[] => [
   // ========================================
   // 인증 관련 페이지
   // ========================================
@@ -79,19 +81,37 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
     path: `/collection/${dynamicParams.collectionId}/place/${dynamicParams.placeId}`,
     label: "Place Detail",
     description: "장소 상세 페이지",
-    params: [{ name: "collectionId", placeholder: "Collection ID" }, { name: "placeId", placeholder: "Place ID" }],
+    params: [
+      { name: "collectionId", placeholder: "Collection ID" },
+      { name: "placeId", placeholder: "Place ID" },
+    ],
+  },
+
+  // ========================================
+  // 프로젝트(여행 플랜) 페이지
+  // ========================================
+  {
+    path: "/projects",
+    label: "Projects Page",
+    description: "프로젝트(여행 플랜) 목록 페이지",
+  },
+  {
+    path: "/projects/create",
+    label: "Create Project",
+    description: "프로젝트(여행 플랜) 생성 페이지",
+  },
+  {
+    path: `/projects/${dynamicParams.projectId}`,
+    label: "Project Detail",
+    description: "프로젝트(여행 플랜) 상세 페이지",
+    params: [{ name: "projectId", placeholder: "Project ID" }],
   },
 
   // ========================================
   // 기타 페이지
   // ========================================
   {
-    path: `/project`,
-    label: "Project Page",
-    description: "프로젝트 페이지",
-  },
-  {
-    path: `/my`,
+    path: "/my",
     label: "My Page",
     description: "마이 페이지",
   },
@@ -99,17 +119,17 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
   // ========================================
   // 👇 여기에 새로운 라우트를 추가하세요
   // ========================================
-  
+
   /**
    * 새 라우트 추가 예시:
-   * 
+   *
    * 1. 정적 라우트 (파라미터 없음):
    * {
    *   path: "/your-page",
    *   label: "Your Page",
    *   description: "페이지 설명",
    * },
-   * 
+   *
    * 2. 동적 라우트 (파라미터 있음):
    * {
    *   path: `/your-page/${dynamicParams.yourParamName}`,
@@ -117,7 +137,7 @@ export const getRoutes = (dynamicParams: Record<string, string>): RouteInfo[] =>
    *   description: "동적 페이지 설명",
    *   params: [{ name: "yourParamName", placeholder: "파라미터 설명" }],
    * },
-   * 
+   *
    * 주의사항:
    * - 동적 라우트를 추가할 경우, page.tsx의 dynamicParams 초기값도 함께 추가해주세요
    * - path는 실제 Next.js 라우트 경로와 일치해야 합니다
@@ -137,6 +157,7 @@ export const defaultDynamicParams: Record<string, string> = {
   collectionId: "col-001",
   placeId: "cp-001",
   id: "1",
+  projectId: "plan-001",
   // 여기에 새로운 동적 파라미터의 기본값을 추가하세요
   // yourParamName: "defaultValue",
 };
