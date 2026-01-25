@@ -1,6 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Button } from "../ui/button";
+import { MenuIcon } from "lucide-react";
 
 interface HeaderProps {
   // 헤더 레이아웃 타입
@@ -13,8 +16,11 @@ interface HeaderProps {
   // 우측 버튼
   showCloseButton?: boolean;
   showNotificationButton?: boolean;
+  showMoreInfoButton?: boolean;
   onClose?: () => void;
   onNotification?: () => void;
+  // Drawer 컨텐츠
+  drawerContent?: React.ReactNode;
   // 스타일
   showBackground?: boolean;
   className?: string;
@@ -26,9 +32,11 @@ const Header = ({
   showBackButton = false,
   showCloseButton = false,
   showNotificationButton = false,
+  showMoreInfoButton = false,
   onBack,
   onClose,
   onNotification,
+  drawerContent,
   showBackground = true,
   className = "",
 }: HeaderProps) => {
@@ -146,6 +154,17 @@ const Header = ({
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
+        )}
+
+        {showMoreInfoButton && (
+          <Drawer direction="right">
+            <DrawerTrigger asChild>
+              <Button variant="ghost" aria-label="더 정보">
+                <MenuIcon />
+              </Button>
+            </DrawerTrigger>
+            {drawerContent}
+          </Drawer>
         )}
       </div>
     </header>
