@@ -39,8 +39,12 @@ const PlaceDetailPage = () => {
   }, [collectionPlace?.memo]);
 
   const handleCopyPlaceAddress = async () => {
+    if (!place?.address || place.address.trim().length === 0) {
+      toast("장소 주소가 없습니다.");
+      return;
+    }
     try {
-      await navigator.clipboard.writeText(place?.address || "");
+      await navigator.clipboard.writeText(place.address);
       toast.success("장소 주소가 복사되었습니다");
     } catch (err) {
       console.error("클립보드 복사 실패:", err);
