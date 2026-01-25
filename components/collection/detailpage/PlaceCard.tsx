@@ -6,15 +6,21 @@ import {
   FlagTriangleRight,
   MapPinIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 const PlaceCard = ({
   collectionPlace,
+  collectionId,
 }: {
   collectionPlace: CollectionPlace;
+  collectionId: string;
 }) => {
   const { place, memo, like_count, dislike_count } = collectionPlace;
   return (
-    <div className="flex flex-col gap-2.5 bg-slate-200 p-2.5 rounded-xl">
+    <Link
+      href={`/collection/${collectionId}/place/${collectionPlace.collection_place_id}`}
+      className="flex flex-col gap-2.5 bg-slate-200 p-2.5 rounded-xl"
+    >
       <div className="flex justify-between items-center">
         <p className="text-base font-bold">{place.name}</p>
         <Button variant="ghost">
@@ -51,7 +57,7 @@ const PlaceCard = ({
           </Button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
