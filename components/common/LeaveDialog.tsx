@@ -12,7 +12,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const LeaveCollectionDialog = () => {
+interface LeaveDialogProps {
+  variant: "project" | "collection";
+}
+
+const LeaveDialog = ({ variant }: LeaveDialogProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -23,18 +27,25 @@ const LeaveCollectionDialog = () => {
             e.currentTarget.blur();
           }}
         >
-          이 컬렉션에서 나가기
+          {variant === "collection"
+            ? "이 컬렉션에서 나가기"
+            : "이 여행 계획에서 나가기"}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="gap-8">
         <AlertDialogHeader className="text-left">
           <AlertDialogTitle className="text-sm font-semibold text-gray-500">
-            컬렉션의 소유자는 나갈 수 없습니다.
+            {variant === "collection"
+              ? "컬렉션의 소유자는 나갈 수 없습니다."
+              : "프로젝트의 소유자는 나갈 수 없습니다."}
             <br />
-            여행멤버 관리에서 먼저 소유자를 변경해 주세요.
+            {variant === "collection"
+              ? "여행멤버 관리에서 먼저 소유자를 변경해 주세요."
+              : "프로젝트 멤버 관리에서 먼저 소유자를 변경해 주세요."}
           </AlertDialogTitle>
           <AlertDialogDescription className="sr-only">
-            컬렉션의 소유자는 나갈 수 없습니다. 여행멤버 관리에서 먼저 소유자를 변경해 주세요.
+            컬렉션의 소유자는 나갈 수 없습니다. 여행멤버 관리에서 먼저 소유자를
+            변경해 주세요.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-row justify-end">
@@ -45,4 +56,4 @@ const LeaveCollectionDialog = () => {
   );
 };
 
-export default LeaveCollectionDialog;
+export default LeaveDialog;
