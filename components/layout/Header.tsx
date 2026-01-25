@@ -160,7 +160,7 @@ const Header = ({
           <Drawer direction="right">
             <DrawerTrigger asChild>
               <Button variant="ghost" aria-label="더 정보">
-                <MenuIcon />
+                <MenuIcon className="size-6" />
               </Button>
             </DrawerTrigger>
             {drawerContent}
