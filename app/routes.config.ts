@@ -31,7 +31,7 @@ export interface RouteInfo {
  * const routes = getRoutes({ collectionId: "1", id: "1" });
  */
 export const getRoutes = (
-  dynamicParams: Record<string, string>
+  dynamicParams: Record<string, string>,
 ): RouteInfo[] => [
   // ========================================
   // 인증 관련 페이지
@@ -104,6 +104,12 @@ export const getRoutes = (
     path: `/projects/${dynamicParams.projectId}`,
     label: "Project Detail",
     description: "프로젝트(여행 플랜) 상세 페이지",
+    params: [{ name: "projectId", placeholder: "Project ID" }],
+  },
+  {
+    path: `/projects/${dynamicParams.projectId}/import-collection`,
+    label: "Project Import Collection",
+    description: "프로젝트(여행 플랜) 컬렉션 가져오기 페이지",
     params: [{ name: "projectId", placeholder: "Project ID" }],
   },
 
