@@ -21,17 +21,7 @@ import { CalendarIcon } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-const formatDateRange = (from: Date, to: Date) =>
-  `${from.toISOString().split("T")[0]} ~ ${to.toISOString().split("T")[0]}`;
-
-const parseDateRange = (s: string): DateRange => {
-  const [fromStr, toStr] = s.split(" ~ ").map((x) => x.trim());
-  return {
-    from: fromStr ? new Date(fromStr) : undefined,
-    to: toStr ? new Date(toStr) : undefined,
-  };
-};
+import { formatDateRange, parseDateRange } from "@/utils/date";
 
 const ProjectCreatePage = () => {
   const router = useRouter();
