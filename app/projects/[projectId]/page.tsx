@@ -10,17 +10,8 @@ import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ChevronRightIcon, RouteIcon } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-
-const calculateTravelDuration = (startDate: string, endDate: string) => {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const diffTime = end.getTime() - start.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  const nights = diffDays;
-  const days = diffDays + 1;
-  return `${nights}박 ${days}일 여행`;
-};
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { calculateTravelDuration } from "@/utils/date";
 
 const ProjectPage = () => {
   const params = useParams();
