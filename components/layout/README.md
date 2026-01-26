@@ -8,46 +8,40 @@
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `"left" \| "center" \| "logo"` | `"left"` | 헤더 레이아웃 타입 |
-| `title` | `string` | `""` | 헤더 타이틀 텍스트 |
-| `showBackButton` | `boolean` | `false` | 뒤로가기 버튼 표시 여부 |
-| `showCloseButton` | `boolean` | `false` | 닫기(X) 버튼 표시 여부 |
-| `showNotificationButton` | `boolean` | `false` | 알림 버튼 표시 여부 |
-| `onBack` | `() => void` | `undefined` | 뒤로가기 버튼 클릭 핸들러 |
-| `onClose` | `() => void` | `undefined` | 닫기 버튼 클릭 핸들러 |
-| `onNotification` | `() => void` | `undefined` | 알림 버튼 클릭 핸들러 |
-| `showBackground` | `boolean` | `true` | 배경색 표시 여부 (false 시 투명) |
-| `className` | `string` | `""` | 추가 CSS 클래스 |
+| Prop                     | Type                           | Default     | Description                                                                                                                                     |
+| ------------------------ | ------------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`                | `"left" \| "center" \| "logo"` | `"left"`    | 헤더 레이아웃 타입                                                                                                                              |
+| `title`                  | `string`                       | `""`        | 헤더 타이틀 텍스트                                                                                                                              |
+| `showBackButton`         | `boolean`                      | `false`     | 뒤로가기 버튼 표시 여부                                                                                                                         |
+| `showCloseButton`        | `boolean`                      | `false`     | 닫기(X) 버튼 표시 여부                                                                                                                          |
+| `showNotificationButton` | `boolean`                      | `false`     | 알림 버튼 표시 여부                                                                                                                             |
+| `showMoreInfoButton`     | `boolean`                      | `false`     | 메뉴(≡) 버튼 표시 여부. 클릭 시 Drawer가 우측에서 열림                                                                                          |
+| `onBack`                 | `() => void`                   | `undefined` | 뒤로가기 버튼 클릭 핸들러                                                                                                                       |
+| `onClose`                | `() => void`                   | `undefined` | 닫기 버튼 클릭 핸들러                                                                                                                           |
+| `onNotification`         | `() => void`                   | `undefined` | 알림 버튼 클릭 핸들러                                                                                                                           |
+| `drawerContent`          | `React.ReactNode`              | `undefined` | 메뉴 버튼 클릭 시 Drawer에 표시할 내용. `showMoreInfoButton`과 함께 사용. `DrawerContent`로 감싼 JSX를 전달하며, `DrawerTitle`도 함께 사용할 것 |
+| `showBackground`         | `boolean`                      | `true`      | 배경색 표시 여부 (false 시 투명)                                                                                                                |
+| `className`              | `string`                       | `""`        | 추가 CSS 클래스                                                                                                                                 |
 
 ### 사용 예시
 
 #### 1. 좌측 타이틀 + 우측 닫기 버튼
 
 ```tsx
-<Header 
-  variant="left" 
-  title="수동 입력" 
-  showCloseButton 
-/>
+<Header variant="left" title="수동 입력" showCloseButton />
 ```
 
 #### 2. 좌측 타이틀 + 우측 닫기 버튼 (다른 타이틀)
 
 ```tsx
-<Header 
-  variant="left" 
-  title="장소 검색" 
-  showCloseButton 
-/>
+<Header variant="left" title="장소 검색" showCloseButton />
 ```
 
 #### 3. 중앙 타이틀 + 좌측 뒤로가기 + 우측 알림
 
 ```tsx
-<Header 
-  variant="center" 
+<Header
+  variant="center"
   title="제주도 여행 리스트"
   showBackButton
   showNotificationButton
@@ -57,17 +51,14 @@
 #### 4. LOGO + 우측 알림
 
 ```tsx
-<Header 
-  variant="logo" 
-  showNotificationButton 
-/>
+<Header variant="logo" showNotificationButton />
 ```
 
 #### 5. 배경색 없는 버전
 
 ```tsx
-<Header 
-  variant="center" 
+<Header
+  variant="center"
   title="페이지 제목"
   showBackButton
   showBackground={false}
@@ -77,8 +68,8 @@
 #### 6. 커스텀 핸들러
 
 ```tsx
-<Header 
-  variant="left" 
+<Header
+  variant="left"
   title="컬렉션 수정"
   showCloseButton
   onClose={() => {
@@ -88,24 +79,48 @@
 />
 ```
 
+#### 7. 메뉴 버튼 + Drawer (추가 정보)
+
+`showMoreInfoButton`으로 우측에 메뉴(≡) 버튼을 띄우고, 클릭 시 우측에서 Drawer가 열립니다.  
+`drawerContent`에 `DrawerContent`로 감싼 JSX를 넘기면 해당 내용이 Drawer 안에 표시됩니다. **`DrawerTitle`도 반드시 함께 사용**해야 합니다.
+
+```tsx
+import { DrawerContent, DrawerTitle } from "@/components/ui/drawer";
+
+<Header
+  variant="center"
+  title="페이지 제목"
+  showBackButton
+  showMoreInfoButton
+  drawerContent={
+    <DrawerContent>
+      <DrawerTitle>더 보기</DrawerTitle>
+      <div className="p-4">
+        <p className="text-sm text-gray-600">추가 정보 메뉴 등</p>
+      </div>
+    </DrawerContent>
+  }
+/>;
+```
+
 ## NavigationBar
 
 하단 네비게이션 바 컴포넌트입니다. 각 페이지에서 필요한 네비게이션 아이템을 전달하여 사용할 수 있습니다.
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `NavItem[]` | - | 네비게이션 아이템 배열 (필수) |
-| `className` | `string` | `""` | 추가 CSS 클래스 |
+| Prop        | Type        | Default | Description                   |
+| ----------- | ----------- | ------- | ----------------------------- |
+| `items`     | `NavItem[]` | -       | 네비게이션 아이템 배열 (필수) |
+| `className` | `string`    | `""`    | 추가 CSS 클래스               |
 
 ### NavItem 인터페이스
 
 ```typescript
 interface NavItem {
-  icon: React.ReactNode;  // 아이콘 컴포넌트
-  label: string;          // 라벨 텍스트
-  path: string;           // 이동할 경로
+  icon: React.ReactNode; // 아이콘 컴포넌트
+  label: string; // 라벨 텍스트
+  path: string; // 이동할 경로
 }
 ```
 
@@ -142,7 +157,7 @@ const navItems = [
   },
 ];
 
-<NavigationBar items={navItems} />
+<NavigationBar items={navItems} />;
 ```
 
 #### 2. 커스텀 아이콘 사용
@@ -161,7 +176,7 @@ const navItems = [
   },
 ];
 
-<NavigationBar items={navItems} />
+<NavigationBar items={navItems} />;
 ```
 
 #### 3. 자동 활성화 상태 (현재 경로 기반)
@@ -170,12 +185,12 @@ const navItems = [
 // NavigationBar는 현재 pathname을 자동으로 감지하여
 // 해당하는 메뉴를 활성화 상태로 표시합니다
 const navItems = [
-  { icon: null, label: "컬렉션", path: "/home" },      // icon이 null이면 기본 DiamondIcon 사용
+  { icon: null, label: "컬렉션", path: "/home" }, // icon이 null이면 기본 DiamondIcon 사용
   { icon: null, label: "프로젝트", path: "/projects" },
   { icon: null, label: "마이", path: "/my" },
 ];
 
-<NavigationBar items={navItems} />
+<NavigationBar items={navItems} />;
 ```
 
 ## 전체 레이아웃 예시
@@ -187,22 +202,20 @@ import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 const MyPage = () => {
   const navItems = [
     { icon: <DiamondIcon isActive={true} />, label: "컬렉션", path: "/home" },
-    { icon: <DiamondIcon isActive={false} />, label: "프로젝트", path: "/projects" },
+    {
+      icon: <DiamondIcon isActive={false} />,
+      label: "프로젝트",
+      path: "/projects",
+    },
     { icon: <DiamondIcon isActive={false} />, label: "마이", path: "/my" },
   ];
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header 
-        variant="center" 
-        title="페이지 제목"
-        showBackButton
-      />
-      
-      <main className="flex-1 p-4">
-        {/* 페이지 컨텐츠 */}
-      </main>
-      
+      <Header variant="center" title="페이지 제목" showBackButton />
+
+      <main className="flex-1 p-4">{/* 페이지 컨텐츠 */}</main>
+
       <NavigationBar items={navItems} />
     </div>
   );

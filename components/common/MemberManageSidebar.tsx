@@ -8,17 +8,19 @@ import {
   DrawerHeader,
 } from "@/components/ui/drawer";
 import { X } from "lucide-react";
-import TravelMembersSection from "./TravelMembersSection";
-import TravelPlanStartSection from "./TravelPlanStartSection";
-import LeaveCollectionDialog from "./LeaveCollectionDialog";
+import TravelMembersSection from "../collection/detailpage/TravelMembersSection";
+import TravelPlanStartSection from "../collection/detailpage/TravelPlanStartSection";
+import LeaveDialog from "./LeaveDialog";
 
-interface CollectionDetailSidebarProps {
+interface MemberManageSidebarProps {
+  variant: "project" | "collection";
   members: string[];
 }
 
-const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
-  console.log(members);
-
+const MemberManageSidebar = ({
+  variant,
+  members,
+}: MemberManageSidebarProps) => {
   return (
     <DrawerContent>
       <DrawerHeader className="flex items-end w-full p-3">
@@ -32,10 +34,13 @@ const CollectionDetailSidebar = ({ members }: CollectionDetailSidebarProps) => {
         </DrawerDescription>
       </DrawerHeader>
       <TravelMembersSection members={members} />
-      <TravelPlanStartSection />
-      <LeaveCollectionDialog />
+      {variant === "collection" && <TravelPlanStartSection />}
+      {variant === "project" && (
+        <Button className="mt-8 mx-2">컬렉션 관리</Button>
+      )}
+      <LeaveDialog variant={variant} />
     </DrawerContent>
   );
 };
 
-export default CollectionDetailSidebar;
+export default MemberManageSidebar;

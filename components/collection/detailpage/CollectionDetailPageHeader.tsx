@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
-import CollectionDetailSidebar from "./CollectionDetailSidebar";
+import MemberManageSidebar from "../../common/MemberManageSidebar";
 
 interface CollectionDetailPageHeaderProps {
   sortBy: "latest" | "oldest" | string;
@@ -73,7 +73,7 @@ const CollectionDetailPageHeader = ({
               <MenuIcon className="size-6" />
             </Button>
           </DrawerTrigger>
-          <CollectionDetailSidebar members={members} />
+          <MemberManageSidebar variant="collection" members={members} />
         </Drawer>
       </div>
     </div>
