@@ -36,7 +36,7 @@ const ProjectCreatePage = () => {
   const [draftRange, setDraftRange] = useState<DateRange | undefined>(
     undefined
   );
-  const [numberOfPeople, setNumberOfPeople] = useState("");
+  const [numberOfPeople, setNumberOfPeople] = useState<number | "">("");
 
   useEffect(() => {
     if (dialogOpen) {
@@ -135,17 +135,26 @@ const ProjectCreatePage = () => {
               몇 명이서 여행하시나요?
             </Label>
             <Input
-              type="text"
+              type="number"
               id="numberOfPeople"
-              placeholder="2명"
+              placeholder="2"
               value={numberOfPeople}
-              onChange={(e) => setNumberOfPeople(e.target.value)}
+              onChange={(e) =>
+                setNumberOfPeople(
+                  e.target.value === "" ? "" : Number(e.target.value)
+                )
+              }
             />
           </div>
           <Button
             type="button"
             className="w-full h-11"
-            disabled={!title || !dateRange || !numberOfPeople}
+            disabled={
+              !title ||
+              !dateRange ||
+              numberOfPeople === "" ||
+              numberOfPeople <= 0
+            }
             onClick={handleCreateProject}
           >
             여행 플랜 만들기
