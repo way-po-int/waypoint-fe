@@ -3,7 +3,7 @@ import { AspectRatio } from "../ui/aspect-ratio";
 import { Card, CardContent } from "../ui/card";
 import { Collection } from "@/types/collection";
 import { Button } from "../ui/button";
-import { Dot, MoreHorizontalIcon, Pencil, Plus, Trash2 } from "lucide-react";
+import { MoreHorizontalIcon, Pencil, Plus, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -109,13 +109,10 @@ const CollectionCard = (props: CollectionCardProps) => {
         {/* 카드 하단 정보 영역 */}
         <div className="flex items-start justify-between mt-4">
           <div className="min-w-0">
-            {/* 제목 + 여행지 */}
-            <div className="flex items-center">
-              <span className="truncate text-base font-semibold text-gray-900">
-                {title}
-              </span>
-              <Dot className="w-4 h-4" />
-            </div>
+            {/* 제목 */}
+            <span className="truncate text-base font-semibold text-gray-900">
+              {title}
+            </span>
 
             {/* 인원수 */}
             <p className="text-base text-gray-700">{member_count}명</p>
