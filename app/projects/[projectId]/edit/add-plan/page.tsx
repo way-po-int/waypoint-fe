@@ -66,6 +66,9 @@ const AddPlanPage = () => {
     memo: "",
   });
 
+  // 플랜에 연결된 컬렉션이 존재하는지 확인
+  const isCollectionExists = collections.length > 0;
+
   // 자유시간 폼 모두 작성 완료 했는지 & 시작 시간 < 종료 시간 인지 확인
   const isBreakValid =
     breakForm.day.trim() !== "" &&
@@ -161,7 +164,10 @@ const AddPlanPage = () => {
         }
         onClick={tab === "place" ? handleAddNewPlace : handleAddBreak}
         showShadow
-        disabled={tab === "break" && !isBreakValid}
+        disabled={
+          (tab === "place" && !isCollectionExists) ||
+          (tab === "break" && !isBreakValid)
+        }
       />
     </div>
   );
