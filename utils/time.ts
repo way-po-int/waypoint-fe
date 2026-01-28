@@ -1,5 +1,6 @@
 /**
  * "HH:mm" 형식의 시간 문자열을 분(minute) 단위의 숫자로 변환
+ *  - 시(0~23), 분(0~59) 범위를 벗어나면 null
  *
  * @param time - "HH:mm" 형식의 시간 문자열 (예: "09:30")
  * @returns
@@ -9,8 +10,15 @@
 export const timeToMinutes = (time: string) => {
   if (!time) return null;
 
-  const [h, m] = time.split(":").map(Number);
-  if (Number.isNaN(h) || Number.isNaN(m)) return null;
+  const match = time.match(/^(\d{2}):(\d{2})$/);
+  if (!match) return null;
+
+  const h = Number(match[1]);
+  const m = Number(match[2]);
+
+  if (!Number.isInteger(h) || !Number.isInteger(m)) return null;
+  if (h < 0 || h > 23) return null;
+  if (m < 0 || m > 59) return null;
 
   return h * 60 + m;
 };
