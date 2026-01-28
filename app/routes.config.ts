@@ -112,6 +112,12 @@ export const getRoutes = (
     description: "프로젝트(여행 플랜) 컬렉션 가져오기 페이지",
     params: [{ name: "projectId", placeholder: "Project ID" }],
   },
+  {
+    path: `/projects/${dynamicParams.projectId}/edit/add-plan`,
+    label: "Project Add Plan",
+    description: "프로젝트(여행 플랜) 플랜 장소 및 자유시간 추가 페이지",
+    params: [{ name: "projectId", placeholder: "Project ID" }],
+  },
 
   // ========================================
   // 기타 페이지
