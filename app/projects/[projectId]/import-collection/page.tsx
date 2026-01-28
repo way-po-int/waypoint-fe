@@ -81,11 +81,12 @@ const ImportCollectionPage = () => {
 
       {/* 하단 고정 버튼 */}
       <BottomFixedButton
-        label="컬렉션 가져오기"
         onClick={handleImportCollection}
         showShadow
         disabled={isDisabled}
-      />
+      >
+        컬렉션 가져오기
+      </BottomFixedButton>
     </div>
   );
 };

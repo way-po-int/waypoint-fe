@@ -157,18 +157,17 @@ const AddPlanPage = () => {
 
       {/* 하단 고정 버튼 */}
       <BottomFixedButton
-        label={
-          tab === "place"
-            ? "새로운 장소를 플랜에 추가하기"
-            : "자유시간 추가하기"
-        }
         onClick={tab === "place" ? handleAddNewPlace : handleAddBreak}
         showShadow
         disabled={
           (tab === "place" && !isCollectionExists) ||
           (tab === "break" && !isBreakValid)
         }
-      />
+      >
+        {tab === "place"
+          ? "새로운 장소를 플랜에 추가하기"
+          : "자유시간 추가하기"}
+      </BottomFixedButton>
     </div>
   );
 };
