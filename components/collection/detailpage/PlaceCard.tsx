@@ -7,18 +7,18 @@ import {
   MapPinIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { ComponentProps } from "react";
 
-const PlaceCard = ({
-  collectionPlace,
-  collectionId,
-}: {
+interface PlaceCardProps {
   collectionPlace: CollectionPlace;
-  collectionId: string;
-}) => {
+  href: ComponentProps<typeof Link>["href"];
+}
+
+const PlaceCard = ({ collectionPlace, href }: PlaceCardProps) => {
   const { place, memo, like_count, dislike_count } = collectionPlace;
   return (
     <Link
-      href={`/collection/${collectionId}/place/${collectionPlace.collection_place_id}`}
+      href={href}
       className="flex flex-col gap-2.5 bg-slate-200 p-2.5 rounded-xl"
     >
       <div className="flex justify-between items-center">

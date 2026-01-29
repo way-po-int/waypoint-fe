@@ -15,8 +15,8 @@ const CollectionPage = () => {
   const collectionId = params.id as string;
   const [collection, setCollection] = useState<Collection | null>(
     collectionMockData.find(
-      (collection) => collection.collection_id === collectionId
-    ) || null
+      (collection) => collection.collection_id === collectionId,
+    ) || null,
   );
   const [sortBy, setSortBy] = useState<"latest" | "oldest" | string>("latest");
 
@@ -82,7 +82,7 @@ const CollectionPage = () => {
             <PlaceCard
               key={place.collection_place_id}
               collectionPlace={place}
-              collectionId={collectionId}
+              href={`/collection/${collectionId}/place/${place.collection_place_id}`}
             />
           ))}
         </main>
@@ -95,7 +95,7 @@ const CollectionPage = () => {
         </main>
       )}
 
-      {/* fotter */}
+      {/* footer */}
       <CollectionDetailPageFooter />
       <NavigationBar items={navItems} className="fixed bottom-0 inset-x-0" />
     </div>
