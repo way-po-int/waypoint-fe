@@ -3,12 +3,14 @@
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import DayWheelPicker from "./DayWheelPicker";
+import { useEffect, useRef } from "react";
 
 interface DayPickerDrawerProps {
   open: boolean;
@@ -27,11 +29,28 @@ const DayPickerDrawer = ({
   onChangeTempDay,
   onConfirm,
 }: DayPickerDrawerProps) => {
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    requestAnimationFrame(() => {
+      contentRef.current?.focus();
+    });
+  }, [open]);
+
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="p-5 [&>div:first-child]:hidden data-[vaul-drawer-direction=bottom]:rounded-t-none">
+      <DrawerContent
+        ref={contentRef}
+        tabIndex={-1}
+        className="p-5 [&>div:first-child]:hidden data-[vaul-drawer-direction=bottom]:rounded-t-none"
+      >
         <DrawerHeader className="p-0">
           <DrawerTitle className="sr-only">여행 날짜 선택</DrawerTitle>
+          <DrawerDescription className="sr-only">
+            여행 일차를 선택하세요.
+          </DrawerDescription>
         </DrawerHeader>
 
         <DayWheelPicker
