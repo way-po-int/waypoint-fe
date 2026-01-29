@@ -93,6 +93,11 @@ const PlanEditPage = () => {
     );
   };
 
+  // 헤더 뒤로가기 핸들러
+  const handleBack = () => {
+    router.replace(`/projects/${projectId}`);
+  };
+
   if (!targetPlan) return null;
 
   return (
@@ -104,6 +109,7 @@ const PlanEditPage = () => {
         showBackButton
         className="fixed top-0 z-15 inset-x-0 bg-white"
         showBackground={false}
+        onBack={handleBack}
       />
 
       {/* TODO: 추후 구글 지도 보여주기 */}
