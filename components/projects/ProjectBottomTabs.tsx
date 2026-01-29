@@ -31,7 +31,7 @@ const ProjectBottomTabs = ({
 
   return (
     <div
-      className={`w-full flex items-center justify-center gap-3 fixed bottom-25 z-10 inset-x-0 bg-white ${isPlanEditing ? "px-4" : "px-12.5"} ${className}`}
+      className={`w-full flex items-center justify-center gap-3 fixed bottom-25 z-10 inset-x-0 ${isPlanEditing ? "px-4" : "px-12.5"} ${className}`}
     >
       <Tabs
         value={value}
