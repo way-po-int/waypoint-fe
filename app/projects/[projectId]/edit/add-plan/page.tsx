@@ -141,7 +141,7 @@ const AddPlanPage = () => {
               <PlaceCard
                 key={p.collection_place_id}
                 collectionPlace={p}
-                href={`/projects/${projectId}/edit/${p.collection_place_id}/create-timeslot`}
+                href={`/projects/${projectId}/edit/add-plan/${p.collection_place_id}`}
               />
             ))}
           </div>
