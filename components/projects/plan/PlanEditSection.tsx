@@ -14,12 +14,17 @@ import {
 import { TimeSlot } from "@/types/block";
 import EditTimeSlotDrawer from "./EditTimeSlotDrawer";
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 interface PlanEditSectionProps {
   dayTimeSlots: TimeSlot[];
 }
 
 const PlanEditSection = ({ dayTimeSlots }: PlanEditSectionProps) => {
+  const router = useRouter();
+  const params = useParams<{ projectId: string }>();
+  const projectId = params.projectId;
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
@@ -54,7 +59,10 @@ const PlanEditSection = ({ dayTimeSlots }: PlanEditSectionProps) => {
   // 후보지 추가 핸들러
   const handleAddCandidate = () => {
     if (!selectedSlot) return;
-    // TODO: 후보지 추가 페이지 이동
+
+    router.push(
+      `/projects/${projectId}/edit/add-plan/add-candidate/${selectedSlot.time_slot_id}`,
+    );
     setDrawerOpen(false);
   };
 
