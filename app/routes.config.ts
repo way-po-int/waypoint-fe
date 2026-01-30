@@ -107,6 +107,12 @@ export const getRoutes = (
     params: [{ name: "projectId", placeholder: "Project ID" }],
   },
   {
+    path: `/projects/${dynamicParams.projectId}/edit`,
+    label: "Project Edit",
+    description: "프로젝트(여행 플랜) 플랜 편집 페이지",
+    params: [{ name: "projectId", placeholder: "Project ID" }],
+  },
+  {
     path: `/projects/${dynamicParams.projectId}/import-collection`,
     label: "Project Import Collection",
     description: "프로젝트(여행 플랜) 컬렉션 가져오기 페이지",
