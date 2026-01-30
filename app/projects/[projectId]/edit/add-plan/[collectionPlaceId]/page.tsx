@@ -22,26 +22,23 @@ const AddPlanPlacePage = () => {
   const params = useParams<{ projectId: string; collectionPlaceId: string }>();
   const { projectId, collectionPlaceId } = params;
 
-  const targetPlan = useMemo(
-    () => planMockData.find((p) => p.plan_id === projectId) ?? null,
-    [projectId],
-  );
-  const targetCollectionPlace = useMemo(() => {
-    if (!targetPlan) return null;
-    for (const collection of targetPlan.collections) {
-      const found = collection.places.find(
-        (cp) => cp.collection_place_id === collectionPlaceId,
-      );
-      if (found) return found;
-    }
-    return null;
-  }, [targetPlan, collectionPlaceId]);
-  const place = targetCollectionPlace?.place;
+  const { targetCollectionPlace, place, totalTripDays } = useMemo(() => {
+    const targetPlan =
+      planMockData.find((p) => p.plan_id === projectId) ?? null;
 
-  const totalTripDays = useMemo(() => {
-    if (!targetPlan) return 0;
-    return getTotalTripDays(targetPlan.start_date, targetPlan.end_date);
-  }, [targetPlan]);
+    const targetCollectionPlace =
+      targetPlan?.collections
+        .flatMap((c) => c.places)
+        .find((cp) => cp.collection_place_id === collectionPlaceId) ?? null;
+
+    const place = targetCollectionPlace?.place;
+
+    const totalTripDays = targetPlan
+      ? getTotalTripDays(targetPlan.start_date, targetPlan.end_date)
+      : 0;
+
+    return { targetCollectionPlace, place, totalTripDays };
+  }, [projectId, collectionPlaceId]);
 
   // 장소 플랜 폼 상태
   const [placeForm, setPlaceForm] = useState({
@@ -124,6 +121,7 @@ const AddPlanPlacePage = () => {
             src={"https://placehold.co/600x300/F0F0F0/F0F0F0.png"}
             alt={place?.name ?? "장소 이미지"}
             fill
+            priority
             className="rounded-md object-cover"
           />
         </AspectRatio>
