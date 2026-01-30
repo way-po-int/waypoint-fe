@@ -56,7 +56,12 @@ const PlanEditPage = () => {
     const slots = blockMockData[projectId] ?? [];
     return slots
       .filter((slot) => slot.day === selectedDay)
-      .sort((a, b) => a.start_time.localeCompare(b.start_time));
+      .sort((a, b) => {
+        const byStart = a.start_time.localeCompare(b.start_time);
+        if (byStart !== 0) return byStart;
+
+        return a.end_time.localeCompare(b.end_time);
+      });
   }, [projectId, selectedDay]);
 
   // 플랜에 연결된 컬렉션이 0개인지 여부
@@ -101,7 +106,7 @@ const PlanEditPage = () => {
   if (!targetPlan) return null;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-dvh flex-col">
       {/* 헤더: 뒤로가기 + 메뉴 버튼 */}
       <Header
         variant="center"
@@ -116,7 +121,7 @@ const PlanEditPage = () => {
       {isMapVisible && <div className="w-full h-57 bg-gray-300 mt-14" />}
 
       <main
-        className={`flex flex-col flex-1 p-4 gap-5 ${isMapVisible ? "" : "mt-14"}`}
+        className={`flex flex-col flex-1 min-h-0 p-4 gap-5 overflow-y-auto overscroll-contain pb-40 ${isMapVisible ? "" : "mt-14"}`}
       >
         <ProjectControlsBar
           title={targetPlan.title}
@@ -133,7 +138,7 @@ const PlanEditPage = () => {
 
         {/* 가져온 컬렉션이 없을 경우 */}
         {isCollectionEmpty ? (
-          <div className="flex flex-1 flex-col items-center justify-center -mt-20 gap-4">
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
             <p className="text-center flex items-center justify-center">
               추가된 컬렉션이 없습니다.
               <br />
@@ -147,24 +152,8 @@ const PlanEditPage = () => {
               플랜에 컬렉션 불러오기
             </Button>
           </div>
-        ) : // "여행 플랜" 탭 + 타임 슬롯이 없을 경우
-        tab === "plan" && !isMapAvailable ? (
-          <p className="text-center flex flex-1 items-center justify-center -mt-24">
-            계획된 일정이 없습니다.
-            <br />
-            장소를 추가하여 계획을 시작해보세요.
-          </p>
-        ) : /**
-         * TODO: "예산" 탭 + 예산 정보가 없을 경우 아래 내용 보여주기
-         *
-         * <p className="text-center flex flex-1 items-center justify-center -mt-24">
-         *   예산 정보가 없습니다.
-         *   <br />
-         *   예산을 추가해보세요.
-         * </p>
-         */
-        tab === "plan" ? (
-          <PlanEditSection />
+        ) : tab === "plan" ? (
+          <PlanEditSection dayTimeSlots={dayTimeSlots} />
         ) : (
           <BudgetEditSection />
         )}
