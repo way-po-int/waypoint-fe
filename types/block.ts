@@ -4,6 +4,7 @@ export interface TimeSlotBlock {
   block_id: string;
   name: string;
   selected: boolean;
+  place_id?: string;
 }
 
 export interface TimeSlot {

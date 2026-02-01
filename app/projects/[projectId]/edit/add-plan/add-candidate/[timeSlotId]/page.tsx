@@ -47,12 +47,12 @@ const AddCandidatePage = () => {
         (s) => s.time_slot_id === timeSlotId,
       ) ?? null;
 
-    const already = new Set((slot?.blocks ?? []).map((b) => b.name));
+    const already = new Set((slot?.blocks ?? []).map((b) => b.place_id));
 
     return {
       collections,
       selectedId,
-      candidatePlaces: places.filter((p) => !already.has(p.place.name)),
+      candidatePlaces: places.filter((p) => !already.has(p.place.place_id)),
     };
   }, [projectId, timeSlotId, selectedCollectionId]);
 

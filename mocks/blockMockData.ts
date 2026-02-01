@@ -13,6 +13,7 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       blocks: [
         {
           block_id: "ts-001-block-001",
+          place_id: "54",
           name: placeMockData.find((p) => p.place_id === "54")!.name, // 성산일출봉
           selected: true,
         },
@@ -28,6 +29,7 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       blocks: [
         {
           block_id: "ts-002-block-001",
+          place_id: "55",
           name: placeMockData.find((p) => p.place_id === "55")!.name, // 협재 해수욕장
           selected: true,
         },
@@ -43,16 +45,19 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       blocks: [
         {
           block_id: "ts-003-block-001",
+          place_id: "54",
           name: placeMockData.find((p) => p.place_id === "54")!.name, // 성산일출봉
           selected: true,
         },
         {
           block_id: "ts-003-block-002",
+          place_id: "55",
           name: placeMockData.find((p) => p.place_id === "55")!.name, // 협재 해수욕장
           selected: false,
         },
         {
           block_id: "ts-003-block-003",
+          place_id: "58",
           name: placeMockData.find((p) => p.place_id === "58")!.name, // 카멜리아힐
           selected: false,
         },
@@ -77,6 +82,7 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       blocks: [
         {
           block_id: "ts-005-block-001",
+          place_id: "54",
           name: placeMockData.find((p) => p.place_id === "54")!.name, // 성산일출봉
           selected: true,
         },
@@ -110,16 +116,19 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       blocks: [
         {
           block_id: "ts-008-block-001",
+          place_id: "54",
           name: placeMockData.find((p) => p.place_id === "54")!.name, // 성산일출봉
           selected: true,
         },
         {
           block_id: "ts-008-block-002",
+          place_id: "55",
           name: placeMockData.find((p) => p.place_id === "55")!.name, // 협재 해수욕장
           selected: false,
         },
         {
           block_id: "ts-008-block-003",
+          place_id: "58",
           name: placeMockData.find((p) => p.place_id === "58")!.name, // 카멜리아힐
           selected: false,
         },
