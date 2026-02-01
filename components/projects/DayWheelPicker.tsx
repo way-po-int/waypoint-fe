@@ -24,14 +24,19 @@ const DayWheelPicker = ({
   const scrollEndTimer = useRef<number | null>(null);
   const rafId = useRef<number | null>(null);
 
+  const availableDays = Math.max(0, totalDays);
+  const isDisabled = availableDays <= 0;
+
   const items = useMemo(
-    () => Array.from({ length: totalDays }, (_, i) => i + 1),
-    [totalDays],
+    () => Array.from({ length: availableDays }, (_, i) => i + 1),
+    [availableDays],
   );
 
   const padY = (HEIGHT - ITEM_HEIGHT) / 2;
 
   const wheelStyle = () => {
+    if (isDisabled) return;
+
     const el = containerRef.current;
     if (!el) return;
 
@@ -54,17 +59,21 @@ const DayWheelPicker = ({
   };
 
   const snapToNearest = () => {
+    if (isDisabled) return;
+
     const el = containerRef.current;
     if (!el) return;
 
     const nearestIndex = Math.round(el.scrollTop / ITEM_HEIGHT);
-    const next = clamp(nearestIndex + 1, 1, totalDays);
+    const next = clamp(nearestIndex + 1, 1, availableDays);
 
     el.scrollTo({ top: (next - 1) * ITEM_HEIGHT, behavior: "smooth" });
     if (next !== selectedDay) onChange(next);
   };
 
   const handleScroll = () => {
+    if (isDisabled) return;
+
     if (rafId.current) cancelAnimationFrame(rafId.current);
     rafId.current = requestAnimationFrame(wheelStyle);
 
@@ -74,17 +83,22 @@ const DayWheelPicker = ({
 
   // selectedDay 바뀌면 해당 위치로 스크롤
   useEffect(() => {
+    if (isDisabled) return;
+
     const el = containerRef.current;
     if (!el) return;
 
-    const index = clamp(selectedDay - 1, 0, totalDays - 1);
+    const index = clamp(selectedDay - 1, 0, availableDays - 1);
     el.scrollTo({ top: index * ITEM_HEIGHT, behavior: "smooth" });
-  }, [selectedDay, totalDays]);
+  }, [selectedDay, availableDays, isDisabled]);
 
   // 최초 1회 스타일 적용
   useEffect(() => {
+    if (isDisabled) return;
+
     wheelStyle();
-  }, [items.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length, isDisabled]);
 
   return (
     <div
@@ -120,6 +134,7 @@ const DayWheelPicker = ({
                 willChange: "transform, opacity",
               }}
               onClick={() => {
+                if (isDisabled) return;
                 onChange(d);
                 const el = containerRef.current;
                 if (!el) return;
