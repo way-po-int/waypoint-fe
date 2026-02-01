@@ -22,8 +22,6 @@ const MemoEditSection = ({
   onFinishEdit,
   onChangeDraft,
 }: MemoEditSectionProps) => {
-  const isCheckDisabled = draftMemo.trim().length === 0;
-
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex items-center justify-between gap-1">
@@ -32,7 +30,6 @@ const MemoEditSection = ({
           variant="ghost"
           className="p-0 has-[>svg]:px-0 h-fit"
           onClick={isEditing ? onFinishEdit : onStartEdit}
-          disabled={isEditing && isCheckDisabled}
           aria-label={isEditing ? "메모 편집 종료" : "메모 편집 시작"}
         >
           {isEditing ? (
