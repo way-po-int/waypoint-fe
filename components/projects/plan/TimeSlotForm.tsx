@@ -36,7 +36,7 @@ const TimeSlotForm = ({
           날짜
         </Label>
         <Input
-          type="text"
+          type="number"
           id="day"
           placeholder="Input Value"
           value={values.day}

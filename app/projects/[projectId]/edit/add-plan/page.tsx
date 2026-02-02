@@ -8,46 +8,33 @@ import AddPlanTabs, {
 } from "@/components/projects/plan/AddPlanTabs";
 import TimeSlotForm from "@/components/projects/plan/TimeSlotForm";
 import { Badge } from "@/components/ui/badge";
+import useQueryTab from "@/hooks/useTabQueryParam";
 import { planMockData } from "@/mocks/planMockData";
 import { Collection } from "@/types/collection";
+import { getTotalTripDays } from "@/utils/date";
 import { isEndAfterStart } from "@/utils/time";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 type CollectionId = Collection["collection_id"];
 
 const AddPlanPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
   const params = useParams<{ projectId: string }>();
-
   const projectId = params.projectId;
 
-  const tabParam = searchParams.get("tab");
-  const tab: AddPlanTabValue = tabParam === "break" ? "break" : "place";
-
-  const setTab = (next: AddPlanTabValue) => {
-    const sp = new URLSearchParams(searchParams.toString());
-
-    if (next === "place") {
-      sp.delete("tab");
-    } else {
-      sp.set("tab", "break");
-    }
-
-    const query = sp.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname);
-  };
+  const { tab, setTab } = useQueryTab<AddPlanTabValue>({
+    defaultValue: "place",
+    allowedValues: ["place", "break"],
+  });
 
   // TODO: 추후 플랜에 연결된 컬렉션 조회 API 연동
   const targetPlan = planMockData.find((p) => p.plan_id === projectId) ?? null;
   const collections = targetPlan?.collections ?? [];
+
+  const totalTripDays = targetPlan
+    ? getTotalTripDays(targetPlan.start_date, targetPlan.end_date)
+    : 0;
 
   const [selectedCollectionId, setSelectedCollectionId] =
     useState<CollectionId | null>(null);
@@ -69,9 +56,11 @@ const AddPlanPage = () => {
   // 플랜에 연결된 컬렉션이 존재하는지 확인
   const isCollectionExists = collections.length > 0;
 
-  // 자유시간 폼 모두 작성 완료 했는지 & 시작 시간 < 종료 시간 인지 확인
+  const dayNum = Number(breakForm.day);
   const isBreakValid =
     breakForm.day.trim() !== "" &&
+    dayNum >= 1 &&
+    dayNum <= totalTripDays &&
     breakForm.start_time.trim() !== "" &&
     breakForm.end_time.trim() !== "" &&
     isEndAfterStart(breakForm.start_time, breakForm.end_time);
@@ -79,7 +68,6 @@ const AddPlanPage = () => {
   // 새로운 장소 추가 핸들러
   const handleAddNewPlace = () => {
     if (!selectedId) return;
-
     // 새로운 장소 추가 페이지로 이동
     router.push(`/collection/${selectedId}/add-place`);
   };
@@ -87,10 +75,8 @@ const AddPlanPage = () => {
   // 자유시간 추가 핸들러
   const handleAddBreak = () => {
     if (!isBreakValid) return;
-
     // TODO: 추후 API 연동
     console.log("자유시간 추가:", breakForm);
-
     // 편집모드 페이지로 이동
     router.push(`/projects/${projectId}/edit`);
   };
@@ -141,7 +127,7 @@ const AddPlanPage = () => {
               <PlaceCard
                 key={p.collection_place_id}
                 collectionPlace={p}
-                href={`/projects/${projectId}/edit/${p.collection_place_id}/create-timeslot`}
+                href={`/projects/${projectId}/edit/add-plan/${p.collection_place_id}`}
               />
             ))}
           </div>

@@ -107,6 +107,12 @@ export const getRoutes = (
     params: [{ name: "projectId", placeholder: "Project ID" }],
   },
   {
+    path: `/projects/${dynamicParams.projectId}/edit`,
+    label: "Project Edit",
+    description: "프로젝트(여행 플랜) 플랜 편집 페이지",
+    params: [{ name: "projectId", placeholder: "Project ID" }],
+  },
+  {
     path: `/projects/${dynamicParams.projectId}/import-collection`,
     label: "Project Import Collection",
     description: "프로젝트(여행 플랜) 컬렉션 가져오기 페이지",
@@ -117,6 +123,24 @@ export const getRoutes = (
     label: "Project Add Plan",
     description: "프로젝트(여행 플랜) 플랜 장소 및 자유시간 추가 페이지",
     params: [{ name: "projectId", placeholder: "Project ID" }],
+  },
+  {
+    path: `/projects/${dynamicParams.projectId}/break/${dynamicParams.breakTimeSlotId}`,
+    label: "Project Break Detail",
+    description: "프로젝트(여행 플랜) 자유시간 상세 페이지",
+    params: [
+      { name: "projectId", placeholder: "Project ID" },
+      { name: "breakTimeSlotId", placeholder: "Break TimeSlot ID" },
+    ],
+  },
+  {
+    path: `/projects/${dynamicParams.projectId}/edit/add-plan/add-candidate/${dynamicParams.timeSlotId}`,
+    label: "Project Break Detail",
+    description: "프로젝트(여행 플랜) 플랜 장소 후보지 추가 페이지",
+    params: [
+      { name: "projectId", placeholder: "Project ID" },
+      { name: "timeSlotId", placeholder: "TimeSlot ID" },
+    ],
   },
 
   // ========================================
@@ -170,6 +194,8 @@ export const defaultDynamicParams: Record<string, string> = {
   placeId: "cp-001",
   id: "1",
   projectId: "plan-001",
+  timeSlotId: "ts-001",
+  breakTimeSlotId: "ts-004",
   // 여기에 새로운 동적 파라미터의 기본값을 추가하세요
   // yourParamName: "defaultValue",
 };
