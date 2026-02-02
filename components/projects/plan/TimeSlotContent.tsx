@@ -70,8 +70,6 @@ const TimeSlotContent = ({
           onReactionChange={(type) =>
             selectedBlock && onReactionChange(selectedBlock.block_id, type)
           }
-          onCommentClick={() => {
-          }}
           confirmedFromCandidateCount={blockCount > 1 ? blockCount : undefined}
         />
       )}

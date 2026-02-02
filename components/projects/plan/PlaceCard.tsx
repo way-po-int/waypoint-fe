@@ -15,7 +15,6 @@ interface PlaceCardProps {
   reactions: ReactionSummary;
   commentGroups: CommentGroup[];
   onReactionChange: (type: ReactionType) => void;
-  onCommentClick?: () => void;
   confirmedFromCandidateCount?: number;
   onConfirmedFooterClick?: () => void;
 }
@@ -28,7 +27,6 @@ const PlaceCard = ({
   reactions,
   commentGroups,
   onReactionChange,
-  onCommentClick,
   confirmedFromCandidateCount,
   onConfirmedFooterClick,
 }: PlaceCardProps) => {
@@ -80,7 +78,6 @@ const PlaceCard = ({
             count={reactions.commentCount}
             onClick={() => {
               setIsCommentOpen(true);
-              onCommentClick?.();
             }}
           />
         </footer>
