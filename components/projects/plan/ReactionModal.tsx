@@ -4,7 +4,8 @@ import { ReactionType } from "@/types/reaction";
 import { Angry, Laugh, Smile, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactionTab from "./ReactionTab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ReactionModalProps {
   open: boolean;
@@ -67,9 +68,11 @@ const initialReaction = (r?: ReactionType | null): ReactionType =>
 function ReactionModalBody({
   initialReaction: initial,
   onOpenChange,
+  onDirectInputChange,
 }: {
   initialReaction: ReactionType;
   onOpenChange: (open: boolean) => void;
+  onDirectInputChange: (open: boolean) => void;
 }) {
   const [currentReaction, setCurrentReaction] =
     useState<ReactionType>(initial);
@@ -82,6 +85,11 @@ function ReactionModalBody({
   });
   const reactionChips = reactionChipsByType[currentReaction];
   const activeChips = selectedChips[currentReaction];
+  const isDirectInputOpen = activeChips.includes("직접 입력");
+
+  useEffect(() => {
+    onDirectInputChange(isDirectInputOpen);
+  }, [isDirectInputOpen, onDirectInputChange]);
 
   const handleChipToggle = (chip: string) => {
     setSelectedChips((prev) => {
@@ -154,7 +162,11 @@ function ReactionModalBody({
         </div>
       </section>
 
-      <section className="flex h-[238px] flex-col gap-[6px] px-6 pb-4">
+      <section
+        className={`flex w-[375px] flex-col gap-[6px] px-6 pb-4 ${
+          isDirectInputOpen ? "h-[329px]" : "h-[238px]"
+        }`}
+      >
         <div className="flex flex-wrap gap-[6px]">
           {reactionChips.map((chip) => (
             <ReactionTab
@@ -170,20 +182,25 @@ function ReactionModalBody({
             />
           ))}
         </div>
+        {isDirectInputOpen && (
+          <Textarea
+            className="h-[80px] w-[335px] rounded-md border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-sm"
+          />
+        )}
       </section>
 
       <footer className="flex h-[56px] items-center justify-end gap-2 px-6 pb-6 pt-0">
         <Button
           variant="outline"
           size="sm"
-          className="h-[32px] w-[50px] gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-900"
+          className="h-[32px] w-[50px] gap-[6px] rounded-[var(--radius)] border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-900"
           onClick={() => onOpenChange(false)}
         >
           취소
         </Button>
         <Button
           size="sm"
-          className="h-[32px] w-[80px] gap-[6px] rounded-(--radius) bg-[#18181B] px-3 py-0 text-white hover:bg-[#18181B]"
+          className="h-[32px] w-[80px] gap-[6px] rounded-[var(--radius)] bg-[#18181B] px-3 py-0 text-white hover:bg-[#18181B]"
         >
           입력 완료
         </Button>
@@ -198,18 +215,22 @@ const ReactionModal = ({
   selectedReaction,
 }: ReactionModalProps) => {
   const initial = initialReaction(selectedReaction);
+  const [isDirectInputOpen, setIsDirectInputOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="h-[467.2744px] w-[375px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+        className={`w-[375px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] ${
+          isDirectInputOpen ? "h-[558.2744px]" : "h-[467.2744px]"
+        }`}
       >
         {open ? (
           <ReactionModalBody
             key={initial}
             initialReaction={initial}
             onOpenChange={onOpenChange}
+            onDirectInputChange={setIsDirectInputOpen}
           />
         ) : null}
       </DialogContent>
