@@ -1,7 +1,5 @@
 interface TimelineHeaderProps {
   startTime: string;
-  endTime: string;
-  hideEndTime?: boolean;
   markerVariant?: "first" | "middle" | "last";
   title?: string | null;
 }

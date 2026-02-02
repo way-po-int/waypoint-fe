@@ -10,7 +10,6 @@ import { useState } from "react";
 
 interface PlanTimeSlotProps {
   slot: TimeSlot;
-  hideEndTime?: boolean;
   placeMap: Record<string, Place>;
   onReactionChange: (blockId: string, type: ReactionType) => void;
   markerVariant?: "first" | "middle" | "last";
@@ -22,7 +21,6 @@ interface PlanTimeSlotProps {
 
 const PlanTimeSlot = ({
   slot,
-  hideEndTime,
   placeMap,
   onReactionChange,
   markerVariant,
@@ -113,8 +111,6 @@ const PlanTimeSlot = ({
     <div className="flex w-full flex-col">
       <TimelineHeader
         startTime={slot.start_time}
-        endTime={slot.end_time}
-        hideEndTime={hideEndTime}
         markerVariant={markerVariant}
         title={titleText}
       />

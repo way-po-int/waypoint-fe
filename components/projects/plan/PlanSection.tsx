@@ -71,10 +71,6 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
   return (
     <div className="flex flex-col">
       {dayTimeSlots.map((slot, index) => {
-        const nextSlot = dayTimeSlots[index + 1];
-        const hideEndTime =
-          (nextSlot && slot.end_time === nextSlot.start_time) ||
-          index === dayTimeSlots.length - 1;
         const isLast = index === dayTimeSlots.length - 1;
         const isMiddle = index > 0 && index < dayTimeSlots.length - 1;
         const markerVariant = index === 0 ? "first" : isLast ? "last" : isMiddle ? "middle" : undefined;
@@ -83,7 +79,6 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
           <PlanTimeSlot
             key={slot.time_slot_id}
             slot={slot}
-            hideEndTime={!!hideEndTime}
             placeMap={placeMap}
             onReactionChange={handleReactionSelect}
             markerVariant={markerVariant}
