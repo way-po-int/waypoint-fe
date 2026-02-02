@@ -168,19 +168,29 @@ function ReactionModalBody({
         }`}
       >
         <div className="flex flex-wrap gap-[6px]">
-          {reactionChips.map((chip) => (
-            <ReactionTab
-              key={chip}
-              label={chip}
-              active={activeChips.includes(chip)}
-              onClick={() => handleChipToggle(chip)}
-              icon={
-                chip === "직접 입력" ? (
-                  <Pencil className="size-4" strokeWidth={2.2} />
-                ) : undefined
-              }
-            />
-          ))}
+          {reactionChips.map((chip) => {
+            const tab = (
+              <ReactionTab
+                key={chip}
+                label={chip}
+                active={activeChips.includes(chip)}
+                onClick={() => handleChipToggle(chip)}
+                icon={
+                  chip === "직접 입력" ? (
+                    <Pencil className="size-4" strokeWidth={2.2} />
+                  ) : undefined
+                }
+              />
+            );
+
+            return chip === "직접 입력" ? (
+              <div key={chip} className="w-full">
+                {tab}
+              </div>
+            ) : (
+              tab
+            );
+          })}
         </div>
         {isDirectInputOpen && (
           <Textarea
