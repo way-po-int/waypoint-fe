@@ -2,17 +2,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ReactionGroup from "./ReactionGroup";
 import ReactionItem from "./ReactionItem";
+import CommentModal from "./CommentModal";
+import ReactionDrawer from "./ReactionDrawer";
+import { commentMockData } from "@/mocks/commentMockData";
+import { ReactionType } from "@/types/reaction";
 import { Angry, Laugh, MessageCircle, Smile, CircleUserRound } from "lucide-react";
+import { useState } from "react";
 
 interface Candidate {
   id: string;
   title: string;
   address?: string;
   authorLabel?: string;
+  blockId?: string;
   reactions?: {
     prefer: number;
     available: number;
     unavailable: number;
+    myReaction?: ReactionType | null;
   };
   commentCount?: number;
 }
@@ -22,12 +29,38 @@ interface PlanCandidatesListProps {
 }
 
 const CandidateCard = ({ candidate }: { candidate: Candidate }) => {
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [isReactionOpen, setIsReactionOpen] = useState(false);
+  const [selectedReaction, setSelectedReaction] =
+    useState<ReactionType | null>(null);
+
+  const commentGroups = candidate.blockId
+    ? commentMockData[candidate.blockId] ?? []
+    : [];
+  const computedReactions = commentGroups.reduce(
+    (acc, group) => {
+      acc[group.mood] += 1;
+      acc.commentCount += 1;
+      if (group.isMe) acc.myReaction = group.mood;
+      return acc;
+    },
+    {
+      prefer: 0,
+      available: 0,
+      unavailable: 0,
+      commentCount: 0,
+      myReaction: null as ReactionType | null,
+    },
+  );
+
   const reactions = candidate.reactions ?? {
-    prefer: 3,
-    available: 3,
-    unavailable: 3,
+    prefer: computedReactions.prefer,
+    available: computedReactions.available,
+    unavailable: computedReactions.unavailable,
+    myReaction: computedReactions.myReaction,
   };
-  const commentCount = candidate.commentCount ?? 9;
+  const commentCount =
+    candidate.commentCount ?? computedReactions.commentCount;
   return (
     <Card className="h-[176px] w-full gap-0 rounded-lg border border-[#E2E8F0] bg-white p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
       <CardHeader className="flex h-[72px] w-full flex-row items-center justify-between gap-3 px-6 py-6">
@@ -51,30 +84,52 @@ const CandidateCard = ({ candidate }: { candidate: Candidate }) => {
           <ReactionItem
             label="선호"
             count={reactions.prefer}
-            active={false}
+            active={reactions.myReaction === "prefer"}
             icon={<Laugh className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {}}
+            onClick={() => {
+              setSelectedReaction("prefer");
+              setIsReactionOpen(true);
+            }}
           />
           <ReactionItem
             label="가능"
             count={reactions.available}
-            active={false}
+            active={reactions.myReaction === "available"}
             icon={<Smile className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {}}
+            onClick={() => {
+              setSelectedReaction("available");
+              setIsReactionOpen(true);
+            }}
           />
           <ReactionItem
             label="불가능"
             count={reactions.unavailable}
-            active={false}
+            active={reactions.myReaction === "unavailable"}
             icon={<Angry className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {}}
+            onClick={() => {
+              setSelectedReaction("unavailable");
+              setIsReactionOpen(true);
+            }}
           />
         </ReactionGroup>
-        <div className="flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700">
+        <div
+          className="flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700"
+          onClick={() => setIsCommentOpen(true)}
+        >
           <MessageCircle className="size-5" strokeWidth={2.4} />
           <span className="text-base font-semibold">{commentCount}</span>
         </div>
       </div>
+      <CommentModal
+        open={isCommentOpen}
+        onOpenChange={setIsCommentOpen}
+        groups={commentGroups}
+      />
+      <ReactionDrawer
+        open={isReactionOpen}
+        onOpenChange={setIsReactionOpen}
+        selectedReaction={selectedReaction}
+      />
     </Card>
   );
 };
