@@ -127,7 +127,7 @@ const CandidateCard = ({
         )}
       </CardContent>
       <div className="flex h-[60px] w-full items-center justify-between px-4 py-[14px]">
-        <ReactionGroup>
+        <ReactionGroup onClick={(event) => event.stopPropagation()}>
           <ReactionItem
             label="선호"
             count={adjustedReactions.prefer}
@@ -161,7 +161,10 @@ const CandidateCard = ({
         </ReactionGroup>
         <div
           className="flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700"
-          onClick={() => setIsCommentOpen(true)}
+          onClick={(event) => {
+            event.stopPropagation();
+            setIsCommentOpen(true);
+          }}
         >
           <MessageCircle className="size-5" strokeWidth={2.4} />
           <span className="text-base font-semibold">{commentCount}</span>
