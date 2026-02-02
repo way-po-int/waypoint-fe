@@ -51,6 +51,14 @@ const CandidateCard = ({
   const [isReactionOpen, setIsReactionOpen] = useState(false);
   const [selectedReaction, setSelectedReaction] =
     useState<ReactionType | null>(null);
+  const [overrideMyReaction, setOverrideMyReaction] =
+    useState<ReactionType | null>(null);
+  const [overrideChips, setOverrideChips] = useState<string[] | undefined>(
+    undefined,
+  );
+  const [overrideDirectInput, setOverrideDirectInput] = useState<
+    string | undefined
+  >(undefined);
 
   const commentGroups = candidate.blockId
     ? commentMockData[candidate.blockId] ?? []
@@ -77,6 +85,20 @@ const CandidateCard = ({
     unavailable: computedReactions.unavailable,
     myReaction: computedReactions.myReaction,
   };
+  const effectiveMyReaction =
+    overrideMyReaction ?? reactions.myReaction ?? null;
+
+  const adjustedReactions = { ...reactions };
+  const baseMyReaction = reactions.myReaction ?? null;
+  if (overrideMyReaction && overrideMyReaction !== baseMyReaction) {
+    if (baseMyReaction) {
+      adjustedReactions[baseMyReaction] = Math.max(
+        0,
+        adjustedReactions[baseMyReaction] - 1,
+      );
+    }
+    adjustedReactions[overrideMyReaction] += 1;
+  }
   const commentCount =
     candidate.commentCount ?? computedReactions.commentCount;
   return (
@@ -108,8 +130,8 @@ const CandidateCard = ({
         <ReactionGroup>
           <ReactionItem
             label="선호"
-            count={reactions.prefer}
-            active={reactions.myReaction === "prefer"}
+            count={adjustedReactions.prefer}
+            active={effectiveMyReaction === "prefer"}
             icon={<Laugh className="size-6 text-slate-300" strokeWidth={2.4} />}
             onClick={() => {
               setSelectedReaction("prefer");
@@ -118,8 +140,8 @@ const CandidateCard = ({
           />
           <ReactionItem
             label="가능"
-            count={reactions.available}
-            active={reactions.myReaction === "available"}
+            count={adjustedReactions.available}
+            active={effectiveMyReaction === "available"}
             icon={<Smile className="size-6 text-slate-300" strokeWidth={2.4} />}
             onClick={() => {
               setSelectedReaction("available");
@@ -128,8 +150,8 @@ const CandidateCard = ({
           />
           <ReactionItem
             label="불가능"
-            count={reactions.unavailable}
-            active={reactions.myReaction === "unavailable"}
+            count={adjustedReactions.unavailable}
+            active={effectiveMyReaction === "unavailable"}
             icon={<Angry className="size-6 text-slate-300" strokeWidth={2.4} />}
             onClick={() => {
               setSelectedReaction("unavailable");
@@ -154,6 +176,13 @@ const CandidateCard = ({
         open={isReactionOpen}
         onOpenChange={setIsReactionOpen}
         selectedReaction={selectedReaction}
+        initialChips={overrideChips}
+        initialDirectInput={overrideDirectInput}
+        onSubmit={({ reaction, chips, directInput }) => {
+          setOverrideMyReaction(reaction);
+          setOverrideChips(chips);
+          setOverrideDirectInput(directInput);
+        }}
       />
     </Card>
   );

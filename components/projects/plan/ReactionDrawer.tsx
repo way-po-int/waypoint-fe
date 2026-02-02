@@ -11,6 +11,13 @@ interface ReactionDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedReaction?: ReactionType | null;
+  initialChips?: string[];
+  initialDirectInput?: string;
+  onSubmit?: (payload: {
+    reaction: ReactionType;
+    chips: string[];
+    directInput?: string;
+  }) => void;
 }
 
 const reactionOptions: Array<{
@@ -69,20 +76,33 @@ function ReactionModalBody({
   initialReaction: initial,
   onOpenChange,
   onDirectInputChange,
+  initialChips,
+  initialDirectInput,
+  onSubmit,
 }: {
   initialReaction: ReactionType;
   onOpenChange: (open: boolean) => void;
   onDirectInputChange: (open: boolean) => void;
+  initialChips?: string[];
+  initialDirectInput?: string;
+  onSubmit?: (payload: {
+    reaction: ReactionType;
+    chips: string[];
+    directInput?: string;
+  }) => void;
 }) {
   const [currentReaction, setCurrentReaction] =
     useState<ReactionType>(initial);
   const [selectedChips, setSelectedChips] = useState<
     Record<ReactionType, string[]>
-  >({
-    prefer: [],
-    available: [],
-    unavailable: [],
-  });
+  >(() => ({
+    prefer: initial === "prefer" ? initialChips ?? [] : [],
+    available: initial === "available" ? initialChips ?? [] : [],
+    unavailable: initial === "unavailable" ? initialChips ?? [] : [],
+  }));
+  const [directInput, setDirectInput] = useState(
+    initialDirectInput ?? "",
+  );
   const reactionChips = reactionChipsByType[currentReaction];
   const activeChips = selectedChips[currentReaction];
   const isDirectInputOpen = activeChips.includes("직접 입력");
@@ -133,6 +153,7 @@ function ReactionModalBody({
                     available: [],
                     unavailable: [],
                   });
+                  setDirectInput("");
                 };
 
                 return (
@@ -194,6 +215,8 @@ function ReactionModalBody({
         </div>
         {isDirectInputOpen && (
           <Textarea
+            value={directInput}
+            onChange={(event) => setDirectInput(event.target.value)}
             className="h-[80px] w-[335px] rounded-md border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-sm"
           />
         )}
@@ -211,6 +234,14 @@ function ReactionModalBody({
         <Button
           size="sm"
           className="h-[32px] w-[80px] gap-[6px] rounded-(--radius) bg-[#18181B] px-3 py-0 text-white hover:bg-[#18181B]"
+          onClick={() => {
+            onSubmit?.({
+              reaction: currentReaction,
+              chips: activeChips,
+              directInput: directInput || undefined,
+            });
+            onOpenChange(false);
+          }}
         >
           입력 완료
         </Button>
@@ -223,6 +254,9 @@ const ReactionDrawer = ({
   open,
   onOpenChange,
   selectedReaction,
+  initialChips,
+  initialDirectInput,
+  onSubmit,
 }: ReactionDrawerProps) => {
   const initial = initialReaction(selectedReaction);
   const [isDirectInputOpen, setIsDirectInputOpen] = useState(false);
@@ -242,6 +276,9 @@ const ReactionDrawer = ({
             initialReaction={initial}
             onOpenChange={onOpenChange}
             onDirectInputChange={setIsDirectInputOpen}
+            initialChips={initialChips}
+            initialDirectInput={initialDirectInput}
+            onSubmit={onSubmit}
           />
         ) : null}
       </DrawerContent>

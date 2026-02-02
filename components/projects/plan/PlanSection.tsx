@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { placeMockData } from "@/mocks/placeMockData";
+import { commentMockData } from "@/mocks/commentMockData";
 import { TimeSlot } from "@/types/block";
 import { ReactionType } from "@/types/reaction";
 import PlanTimeSlot from "./PlanTimeSlot";
@@ -15,6 +16,16 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedReaction, setSelectedReaction] =
     useState<ReactionType | null>(null);
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const [myReactionOverrides, setMyReactionOverrides] = useState<
+    Record<string, { reaction: ReactionType; chips: string[]; directInput?: string }>
+  >({});
+  const [initialChips, setInitialChips] = useState<string[] | undefined>(
+    undefined,
+  );
+  const [initialDirectInput, setInitialDirectInput] = useState<
+    string | undefined
+  >(undefined);
 
   const placeMap = useMemo(
     () =>
@@ -28,8 +39,22 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
     [],
   );
 
-  const handleReactionSelect = (_blockId: string, next: ReactionType) => {
+  const handleReactionSelect = (blockId: string, next: ReactionType) => {
     setSelectedReaction(next);
+    setSelectedBlockId(blockId);
+
+    const override = myReactionOverrides[blockId];
+    if (override) {
+      setInitialChips(override.chips);
+      setInitialDirectInput(override.directInput);
+    } else {
+      const meComment = (commentMockData[blockId] ?? []).find(
+        (group) => group.isMe,
+      );
+      setInitialChips(meComment?.chips ?? []);
+      setInitialDirectInput(meComment?.directInput);
+    }
+
     setIsModalOpen(true);
   };
 
@@ -52,6 +77,7 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
             placeMap={placeMap}
             onReactionChange={handleReactionSelect}
             markerVariant={markerVariant}
+            myReactionOverrides={myReactionOverrides}
           />
         );
       })}
@@ -60,6 +86,15 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         selectedReaction={selectedReaction}
+        onSubmit={({ reaction, chips, directInput }) => {
+          if (!selectedBlockId) return;
+          setMyReactionOverrides((prev) => ({
+            ...prev,
+            [selectedBlockId]: { reaction, chips, directInput },
+          }));
+        }}
+        initialChips={initialChips}
+        initialDirectInput={initialDirectInput}
       />
     </div>
   );

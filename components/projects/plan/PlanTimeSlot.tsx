@@ -14,6 +14,10 @@ interface PlanTimeSlotProps {
   placeMap: Record<string, Place>;
   onReactionChange: (blockId: string, type: ReactionType) => void;
   markerVariant?: "first" | "middle" | "last";
+  myReactionOverrides?: Record<
+    string,
+    { reaction: ReactionType; chips: string[]; directInput?: string }
+  >;
 }
 
 const PlanTimeSlot = ({
@@ -22,6 +26,7 @@ const PlanTimeSlot = ({
   placeMap,
   onReactionChange,
   markerVariant,
+  myReactionOverrides,
 }: PlanTimeSlotProps) => {
   const [confirmedBlockId, setConfirmedBlockId] = useState<string | null>(null);
   const [isCandidateDrawerOpen, setIsCandidateDrawerOpen] = useState(false);
@@ -59,7 +64,7 @@ const PlanTimeSlot = ({
   const commentGroups = selectedBlock?.block_id
     ? commentMockData[selectedBlock.block_id] ?? []
     : [];
-  const reactionWithCommentCount = commentGroups.reduce(
+  const baseCounts = commentGroups.reduce(
     (acc, group) => {
       acc[group.mood] += 1;
       return acc;
@@ -68,10 +73,29 @@ const PlanTimeSlot = ({
       prefer: 0,
       available: 0,
       unavailable: 0,
-      commentCount: commentGroups.length,
-      myReaction: commentGroups.find((group) => group.isMe)?.mood ?? null,
     },
   );
+  const baseMyReaction = commentGroups.find((group) => group.isMe)?.mood ?? null;
+  const overrideMyReaction =
+    (selectedBlock?.block_id &&
+      myReactionOverrides?.[selectedBlock.block_id]?.reaction) ??
+    null;
+
+  const reactionWithCommentCount = {
+    ...baseCounts,
+    commentCount: commentGroups.length,
+    myReaction: overrideMyReaction ?? baseMyReaction,
+  };
+
+  if (overrideMyReaction && overrideMyReaction !== baseMyReaction) {
+    if (baseMyReaction) {
+      reactionWithCommentCount[baseMyReaction] = Math.max(
+        0,
+        reactionWithCommentCount[baseMyReaction] - 1,
+      );
+    }
+    reactionWithCommentCount[overrideMyReaction] += 1;
+  }
 
   const placeTitle = place?.address ?? "";
   const candidatesTitle = `${blockCount}개의 후보지가 있어요!`;
