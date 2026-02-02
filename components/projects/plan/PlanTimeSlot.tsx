@@ -116,13 +116,14 @@ const PlanTimeSlot = ({
       />
 
       <div className="flex gap-[16px]">
-        <div className="flex w-[7px] flex-col items-center">
+        {/* 커넥터 컬럼: self-stretch로 콘텐츠(PlanCandidatesList 등) 높이에 맞춰 세로선이 끝까지 이어지도록 함 */}
+        <div className="flex w-[7px] flex-col items-center self-stretch">
           {showConnectorLine && (
-            <div className="w-px flex-1 bg-[#D9D9D9]" />
+            <div className="w-px min-h-full flex-1 bg-[#D9D9D9]" />
           )}
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <TimeSlotContent
             slot={slot}
             selectedBlock={selectedBlock}
