@@ -45,14 +45,24 @@ const PlanSection = ({ dayTimeSlots }: PlanSectionProps) => {
 
     const override = myReactionOverrides[blockId];
     if (override) {
-      setInitialChips(override.chips);
-      setInitialDirectInput(override.directInput);
+      if (override.reaction === next) {
+        setInitialChips(override.chips);
+        setInitialDirectInput(override.directInput);
+      } else {
+        setInitialChips([]);
+        setInitialDirectInput(undefined);
+      }
     } else {
       const meComment = (commentMockData[blockId] ?? []).find(
         (group) => group.isMe,
       );
-      setInitialChips(meComment?.chips ?? []);
-      setInitialDirectInput(meComment?.directInput);
+      if (meComment?.mood === next) {
+        setInitialChips(meComment.chips ?? []);
+        setInitialDirectInput(meComment.directInput);
+      } else {
+        setInitialChips([]);
+        setInitialDirectInput(undefined);
+      }
     }
 
     setIsModalOpen(true);

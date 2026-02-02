@@ -95,17 +95,31 @@ function ReactionModalBody({
     useState<ReactionType>(initial);
   const [selectedChips, setSelectedChips] = useState<
     Record<ReactionType, string[]>
+  >(() => {
+    const baseChips = initialChips ?? [];
+    const shouldOpenDirectInput = Boolean(initialDirectInput);
+    const chipsWithDirectInput =
+      shouldOpenDirectInput && !baseChips.includes("직접 입력")
+        ? [...baseChips, "직접 입력"]
+        : baseChips;
+
+    return {
+      prefer: initial === "prefer" ? chipsWithDirectInput : [],
+      available: initial === "available" ? chipsWithDirectInput : [],
+      unavailable: initial === "unavailable" ? chipsWithDirectInput : [],
+    };
+  });
+  const [directInputByReaction, setDirectInputByReaction] = useState<
+    Record<ReactionType, string>
   >(() => ({
-    prefer: initial === "prefer" ? initialChips ?? [] : [],
-    available: initial === "available" ? initialChips ?? [] : [],
-    unavailable: initial === "unavailable" ? initialChips ?? [] : [],
+    prefer: initial === "prefer" ? initialDirectInput ?? "" : "",
+    available: initial === "available" ? initialDirectInput ?? "" : "",
+    unavailable: initial === "unavailable" ? initialDirectInput ?? "" : "",
   }));
-  const [directInput, setDirectInput] = useState(
-    initialDirectInput ?? "",
-  );
   const reactionChips = reactionChipsByType[currentReaction];
   const activeChips = selectedChips[currentReaction];
   const isDirectInputOpen = activeChips.includes("직접 입력");
+  const directInput = directInputByReaction[currentReaction];
 
   useEffect(() => {
     onDirectInputChange(isDirectInputOpen);
@@ -148,12 +162,6 @@ function ReactionModalBody({
 
                 const handleReactionChange = () => {
                   setCurrentReaction(type);
-                  setSelectedChips({
-                    prefer: [],
-                    available: [],
-                    unavailable: [],
-                  });
-                  setDirectInput("");
                 };
 
                 return (
@@ -216,7 +224,12 @@ function ReactionModalBody({
         {isDirectInputOpen && (
           <Textarea
             value={directInput}
-            onChange={(event) => setDirectInput(event.target.value)}
+            onChange={(event) =>
+              setDirectInputByReaction((prev) => ({
+                ...prev,
+                [currentReaction]: event.target.value,
+              }))
+            }
             className="h-[80px] w-[335px] rounded-md border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-2 text-sm"
           />
         )}
