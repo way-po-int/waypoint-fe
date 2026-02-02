@@ -160,7 +160,8 @@ const CandidateCard = ({
             }}
           />
         </ReactionGroup>
-        <div
+        <button
+          type="button"
           className={`flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700 ${
             hasComments ? "cursor-pointer" : "opacity-50"
           }`}
@@ -169,10 +170,12 @@ const CandidateCard = ({
             if (!hasComments) return;
             setIsCommentOpen(true);
           }}
+          disabled={!hasComments}
+          aria-disabled={!hasComments}
         >
           <MessageCircle className="size-5" strokeWidth={2.4} />
           <span className="text-base font-semibold">{commentCount}</span>
-        </div>
+        </button>
       </div>
       <CommentModal
         open={isCommentOpen}
