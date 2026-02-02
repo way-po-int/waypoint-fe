@@ -6,10 +6,16 @@ interface ReactionGroupProps {
 }
 
 const ReactionGroup = ({ children, onClick }: ReactionGroupProps) => {
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    onClick?.(event);
+  };
+
   return (
     <div
       className="flex h-[32px] w-[168px] items-center gap-0"
-      onClick={onClick}
+      onClick={handleClick}
+      data-prevent-card-navigation="true"
     >
       {children}
     </div>
