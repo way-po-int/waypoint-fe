@@ -110,13 +110,16 @@ const ProjectPage = () => {
         className="fixed top-0 z-15 inset-x-0 bg-white"
       />
 
-      {/* TODO: 추후 구글 지도 보여주기 */}
-      {isMapVisible && <div className="w-full h-57 bg-gray-300 mt-14" />}
-
       <main
-        className={`flex flex-col flex-1 min-h-0 p-4 gap-5 overflow-y-auto overscroll-contain pb-40 ${isMapVisible ? "" : "mt-14"}`}
+        className="flex flex-col flex-1 min-h-0 overflow-y-auto overscroll-contain pb-40 mt-14"
       >
-        <ProjectControlsBar
+        {/* TODO: 추후 구글 지도 보여주기 - main 안에 두어 지도·컨텐츠가 함께 스크롤되도록 함 */}
+        {isMapVisible && (
+          <div className="w-full h-57 shrink-0 bg-gray-300" />
+        )}
+
+        <div className="flex flex-col flex-1 min-h-0 p-4 gap-5">
+          <ProjectControlsBar
           title={targetPlan.title}
           startDate={targetPlan.start_date}
           endDate={targetPlan.end_date}
@@ -148,6 +151,7 @@ const ProjectPage = () => {
         ) : (
           <BudgetSection />
         )}
+        </div>
       </main>
 
       {/* 여행 플랜 + 예산 탭 */}
