@@ -5,7 +5,7 @@ import ReactionItem from "./ReactionItem";
 
 interface ReactionButtonsProps {
   reactions: ReactionSummary;
-  onChange: (type: ReactionType) => void;
+  onSelect: (type: ReactionType) => void;
 }
 
 const reactionMeta: Record<ReactionType, { label: string; Icon: typeof Smile }> = {
@@ -14,7 +14,7 @@ const reactionMeta: Record<ReactionType, { label: string; Icon: typeof Smile }> 
   unavailable: { label: "불가능", Icon: Angry },
 };
 
-const ReactionButtons = ({ reactions, onChange }: ReactionButtonsProps) => {
+const ReactionButtons = ({ reactions, onSelect }: ReactionButtonsProps) => {
   return (
     <ReactionGroup>
       {(Object.keys(reactionMeta) as ReactionType[]).map((type) => {
@@ -33,7 +33,7 @@ const ReactionButtons = ({ reactions, onChange }: ReactionButtonsProps) => {
                 strokeWidth={2.4}
               />
             }
-            onClick={() => onChange(type)}
+            onClick={() => onSelect(type)}
           />
         );
       })}
