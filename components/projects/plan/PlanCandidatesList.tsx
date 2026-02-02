@@ -33,6 +33,7 @@ interface Candidate {
 
 interface PlanCandidatesListProps {
   candidates: Candidate[];
+  onConfirm?: (candidateId: string) => void;
 }
 
 const CandidateCard = ({
@@ -81,8 +82,8 @@ const CandidateCard = ({
   return (
     <Card
       className={`h-[176px] w-full gap-0 rounded-lg border bg-white p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] ${
-        isSelectable && isSelected ? "border-[#1E293B]" : "border-[#E2E8F0]"
-      }`}
+        isSelectable ? "cursor-pointer" : ""
+      } ${isSelectable && isSelected ? "border-[#1E293B]" : "border-[#E2E8F0]"}`}
       onClick={() => {
         if (isSelectable) onSelect();
       }}
@@ -158,7 +159,7 @@ const CandidateCard = ({
   );
 };
 
-const PlanCandidatesList = ({ candidates }: PlanCandidatesListProps) => {
+const PlanCandidatesList = ({ candidates, onConfirm }: PlanCandidatesListProps) => {
   const [isSelecting, setIsSelecting] = useState(false);
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(
     null,
@@ -193,6 +194,11 @@ const PlanCandidatesList = ({ candidates }: PlanCandidatesListProps) => {
           <Button
             variant="outline"
             size="sm"
+            disabled={!selectedCandidateId}
+            onClick={() => {
+              if (!selectedCandidateId) return;
+              onConfirm?.(selectedCandidateId);
+            }}
             className="h-[32px] flex-1 gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-sm font-medium leading-5 text-center text-[#0F172B] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
           >
             해당 장소로 확정하기
