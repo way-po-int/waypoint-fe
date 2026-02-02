@@ -6,7 +6,8 @@ import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { collectionMockData } from "@/mocks/collectionMockData";
+import { blockMockData } from "@/mocks/blockMockData";
+import { placeMockData } from "@/mocks/placeMockData";
 import {
   CheckIcon,
   CopyIcon,
@@ -14,30 +15,54 @@ import {
   PencilIcon,
   TimerIcon,
 } from "lucide-react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const PlaceDetailPage = () => {
-  const params = useParams();
-  const collectionId = params.id as string;
-  const placeId = params.placeId as string;
-  const [isEditingMemo, setIsEditingMemo] = useState(false);
-  const [memo, setMemo] = useState("");
+  const params = useParams<{ projectId?: string; placeId?: string }>();
+  const projectId = params.projectId;
+  const placeId = params.placeId;
 
-  const collection = collectionMockData.find(
-    (c) => c.collection_id === collectionId
+  const place = useMemo(
+    () => placeMockData.find((item) => item.place_id === placeId) ?? null,
+    [placeId]
   );
-  const collectionPlace =
-    collection?.places.find((cp) => cp.collection_place_id === placeId) ?? null;
-  const place = collectionPlace?.place ?? null;
 
-  // 메모 초기값 설정
-  useEffect(() => {
-    if (collectionPlace?.memo) {
-      setMemo(collectionPlace.memo);
-    }
-  }, [collectionPlace?.memo]);
+  const initialMemo = useMemo(() => {
+    if (!projectId || !placeId) return "";
+    const slots = blockMockData[projectId] ?? [];
+    const matchedSlot = slots.find((slot) =>
+      slot.blocks?.some((block) => block.place_id === placeId)
+    );
+    return matchedSlot?.memo ?? "";
+  }, [projectId, placeId]);
+
+  return (
+    <PlaceDetailContent
+      key={`${projectId}-${placeId}`}
+      place={place}
+      initialMemo={initialMemo}
+      projectId={projectId}
+      placeId={placeId}
+    />
+  );
+};
+
+type PlaceDetailContentProps = {
+  place: (typeof placeMockData)[number] | null;
+  initialMemo: string;
+  projectId: string | undefined;
+  placeId: string | undefined;
+};
+
+const PlaceDetailContent = ({
+  place,
+  initialMemo,
+}: PlaceDetailContentProps) => {
+  const [isEditingMemo, setIsEditingMemo] = useState(false);
+  const [memo, setMemo] = useState(initialMemo);
 
   const handleCopyPlaceAddress = async () => {
     if (!place?.address || place.address.trim().length === 0) {
@@ -66,13 +91,30 @@ const PlaceDetailPage = () => {
   return (
     <div className="w-full min-h-screen">
       <Header
+        variant="center"
         showBackButton
         showNotificationButton
+        title={place?.name ?? ""}
         className="fixed top-0 z-10 inset-x-0"
       />
       <main className="flex flex-col gap-6 mt-17 mx-5">
         {/* 사진 */}
-        <div className="bg-gray-300 w-full h-50" />
+        <div className="relative w-full h-50 overflow-hidden rounded-[12px] bg-gray-200">
+          {place?.photos?.[0] ? (
+            <Image
+              src={place.photos[0]}
+              alt={place.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 600px"
+              className="object-cover"
+              unoptimized
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-sm text-gray-400">
+              이미지가 없습니다
+            </div>
+          )}
+        </div>
         {/* 정보 + 메모 */}
         <div className="flex flex-col gap-8">
           {/* 정보 */}
@@ -81,7 +123,9 @@ const PlaceDetailPage = () => {
             <div className="flex flex-col gap-3.5">
               <Divider />
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-bold text-gray-500">관광지</p>
+                <p className="text-sm font-bold text-gray-500">
+                  {place?.category ?? "카테고리 없음"}
+                </p>
                 <div className="flex flex-row justify-between items-center">
                   <div className="flex flex-row gap-2 items-center min-w-0 flex-1">
                     <MapPinIcon className="size-6 shrink-0" />
@@ -95,7 +139,7 @@ const PlaceDetailPage = () => {
                 </div>
                 <div className="flex flex-row items-center gap-2">
                   <TimerIcon className="size-6" />
-                  <p className="text-sm">연중 무휴</p>
+                  <p className="text-sm">영업 정보 없음</p>
                 </div>
               </div>
               <Divider />
