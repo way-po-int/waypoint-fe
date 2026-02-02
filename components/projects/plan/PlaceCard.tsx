@@ -4,8 +4,9 @@ import CommentModal from "./CommentModal";
 import { CommentGroup } from "@/types/comment";
 import { ReactionSummary, ReactionType } from "@/types/reaction";
 import { CircleUserRound } from "lucide-react";
-import { useState } from "react";
+import { KeyboardEvent, MouseEvent, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface PlaceCardProps {
   title: string;
@@ -17,6 +18,7 @@ interface PlaceCardProps {
   onReactionChange: (type: ReactionType) => void;
   confirmedFromCandidateCount?: number;
   onConfirmedFooterClick?: () => void;
+  href?: string;
 }
 
 const PlaceCard = ({
@@ -29,15 +31,49 @@ const PlaceCard = ({
   onReactionChange,
   confirmedFromCandidateCount,
   onConfirmedFooterClick,
+  href,
 }: PlaceCardProps) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const router = useRouter();
   const hasConfirmedFooter =
     confirmedFromCandidateCount !== undefined && confirmedFromCandidateCount > 0;
   const hasComments = reactions.commentCount > 0;
+  const cardClassName = href
+    ? "relative z-10 flex h-[327px] w-full cursor-pointer flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+    : "relative z-10 flex h-[327px] w-full flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]";
+
+  const shouldIgnoreNavigation = (target: EventTarget | null) => {
+    if (!target || !(target instanceof HTMLElement)) return false;
+    return Boolean(
+      target.closest(
+        "button, a, input, textarea, select, [role='button'], [data-prevent-card-navigation='true']",
+      ),
+    );
+  };
+
+  const handleNavigate = (event: MouseEvent<HTMLDivElement>) => {
+    if (!href) return;
+    if (shouldIgnoreNavigation(event.target)) return;
+    router.push(href);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!href) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (shouldIgnoreNavigation(event.target)) return;
+    event.preventDefault();
+    router.push(href);
+  };
 
   return (
     <div className="flex w-full flex-col">
-      <div className="relative z-10 flex h-[327px] w-full flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+      <div
+        className={cardClassName}
+        role={href ? "link" : undefined}
+        tabIndex={href ? 0 : undefined}
+        onClick={handleNavigate}
+        onKeyDown={handleKeyDown}
+      >
         <header className="flex h-[56px] w-full items-center justify-between p-1">
           <p className="h-[24px] max-w-[105px] truncate text-base font-semibold leading-5 text-[#020618]">
             {title}
