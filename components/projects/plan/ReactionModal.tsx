@@ -163,7 +163,7 @@ function ReactionModalBody({
       </section>
 
       <section
-        className={`flex w-[375px] flex-col gap-[6px] px-6 pb-4 ${
+        className={`flex w-[375px] flex-col gap-[6px] px-6 pb-4 transition-[height] duration-200 ease-out ${
           isDirectInputOpen ? "h-[329px]" : "h-[238px]"
         }`}
       >
@@ -193,14 +193,14 @@ function ReactionModalBody({
         <Button
           variant="outline"
           size="sm"
-          className="h-[32px] w-[50px] gap-[6px] rounded-[var(--radius)] border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-900"
+          className="h-[32px] w-[50px] gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-900"
           onClick={() => onOpenChange(false)}
         >
           취소
         </Button>
         <Button
           size="sm"
-          className="h-[32px] w-[80px] gap-[6px] rounded-[var(--radius)] bg-[#18181B] px-3 py-0 text-white hover:bg-[#18181B]"
+          className="h-[32px] w-[80px] gap-[6px] rounded-(--radius) bg-[#18181B] px-3 py-0 text-white hover:bg-[#18181B]"
         >
           입력 완료
         </Button>
@@ -221,7 +221,7 @@ const ReactionModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className={`w-[375px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] ${
+        className={`w-[375px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] transition-[height] duration-200 ease-out will-change-[height] ${
           isDirectInputOpen ? "h-[558.2744px]" : "h-[467.2744px]"
         }`}
       >
