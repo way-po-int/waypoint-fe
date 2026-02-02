@@ -101,7 +101,7 @@ const Header = ({
 
       {/* 중앙 타이틀 (center variant) */}
       {variant === "center" && title && (
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold">
+        <h1 className="absolute left-1/2 -translate-x-1/2 font-sans text-lg font-semibold leading-4 tracking-normal text-center">
           {title}
         </h1>
       )}
