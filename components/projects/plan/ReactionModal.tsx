@@ -73,7 +73,26 @@ function ReactionModalBody({
 }) {
   const [currentReaction, setCurrentReaction] =
     useState<ReactionType>(initial);
+  const [selectedChips, setSelectedChips] = useState<
+    Record<ReactionType, string[]>
+  >({
+    prefer: [],
+    available: [],
+    unavailable: [],
+  });
   const reactionChips = reactionChipsByType[currentReaction];
+  const activeChips = selectedChips[currentReaction];
+
+  const handleChipToggle = (chip: string) => {
+    setSelectedChips((prev) => {
+      const current = prev[currentReaction];
+      const exists = current.includes(chip);
+      const next = exists
+        ? current.filter((item) => item !== chip)
+        : [...current, chip];
+      return { ...prev, [currentReaction]: next };
+    });
+  };
 
   return (
     <>
@@ -92,30 +111,40 @@ function ReactionModalBody({
         <div className="flex h-[38.2744px] w-[327px] flex-col gap-[14px] border-b border-[#D9D9D9]">
           <div className="flex h-[24px] w-[327px] items-center justify-between">
             <div className="flex h-[24px] w-[327px] items-center justify-between">
-                {reactionOptions.map(({ type, label, Icon }) => {
-                  const active = currentReaction === type;
-                  const activeColor =
-                    type === "unavailable" ? "text-[#EF4444]" : "text-[#1E293B]";
-                  const inactiveText = "text-slate-400";
-                  const inactiveIcon = "text-slate-300";
-                  return (
-                    <button
-                      type="button"
-                      key={type}
-                      aria-pressed={active}
-                      onClick={() => setCurrentReaction(type)}
+              {reactionOptions.map(({ type, label, Icon }) => {
+                const active = currentReaction === type;
+                const activeColor =
+                  type === "unavailable" ? "text-[#EF4444]" : "text-[#1E293B]";
+                const inactiveText = "text-slate-400";
+                const inactiveIcon = "text-slate-300";
+
+                const handleReactionChange = () => {
+                  setCurrentReaction(type);
+                  setSelectedChips({
+                    prefer: [],
+                    available: [],
+                    unavailable: [],
+                  });
+                };
+
+                return (
+                  <button
+                    type="button"
+                    key={type}
+                    aria-pressed={active}
+                    onClick={handleReactionChange}
+                    className={cn(
+                      "flex h-[24px] w-[93px] items-center gap-[4px] text-sm font-bold leading-5 text-[#1E293B]",
+                      active ? activeColor : inactiveText,
+                    )}
+                  >
+                    <Icon
                       className={cn(
-                        "flex h-[24px] w-[93px] items-center gap-[4px] text-sm font-bold leading-5 text-[#1E293B]",
-                        active ? activeColor : inactiveText,
+                        "size-6",
+                        active ? activeColor : inactiveIcon,
                       )}
-                    >
-                      <Icon
-                        className={cn(
-                          "size-6",
-                          active ? activeColor : inactiveIcon,
-                        )}
-                        strokeWidth={2.4}
-                      />
+                      strokeWidth={2.4}
+                    />
                     <span>{label}</span>
                   </button>
                 );
@@ -125,12 +154,14 @@ function ReactionModalBody({
         </div>
       </section>
 
-        <section className="flex h-[238px] flex-col gap-[6px] px-6 pb-4">
-          <div className="flex flex-wrap gap-[6px]">
-            {reactionChips.map((chip) => (
-              <ReactionTab
+      <section className="flex h-[238px] flex-col gap-[6px] px-6 pb-4">
+        <div className="flex flex-wrap gap-[6px]">
+          {reactionChips.map((chip) => (
+            <ReactionTab
               key={chip}
               label={chip}
+              active={activeChips.includes(chip)}
+              onClick={() => handleChipToggle(chip)}
               icon={
                 chip === "직접 입력" ? (
                   <Pencil className="size-4" strokeWidth={2.2} />
