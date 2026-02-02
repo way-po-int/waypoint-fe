@@ -118,7 +118,7 @@ const ProjectPage = () => {
           <div className="w-full h-57 shrink-0 bg-gray-300" />
         )}
 
-        <div className="flex flex-col flex-1 min-h-0 p-4 gap-5">
+        <div className="flex flex-col p-4 gap-5">
           <ProjectControlsBar
           title={targetPlan.title}
           startDate={targetPlan.start_date}
