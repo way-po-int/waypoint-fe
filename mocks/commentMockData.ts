@@ -28,7 +28,7 @@ export const commentMockData: Record<string, CommentGroup[]> = {
   "ts-002-block-001": [
     {
       id: "c-4",
-      name: "한소연",
+      name: "공보경",
       mood: "prefer",
       isMe: true,
       chips: ["꼭 가보고 싶어요", "사진 찍기 좋아요"],
