@@ -81,6 +81,7 @@ const PlaceCard = ({
               if (!hasComments) return;
               setIsCommentOpen(true);
             }}
+            className={hasComments ? undefined : "opacity-50"}
           />
         </footer>
         <CommentModal
