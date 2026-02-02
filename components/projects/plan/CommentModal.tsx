@@ -3,6 +3,7 @@ import { CommentGroup } from "@/types/comment";
 import { Laugh, Smile, Angry, X } from "lucide-react";
 import { useState } from "react";
 import ReactionDrawer from "./ReactionDrawer";
+import { ReactionType } from "@/types/reaction";
 
 interface CommentModalProps {
   open: boolean;
@@ -18,6 +19,12 @@ const moodIconMap = {
 
 const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
   const [isReactionOpen, setIsReactionOpen] = useState(false);
+  const [selectedReaction, setSelectedReaction] =
+    useState<ReactionType | null>(null);
+  const [selectedChips, setSelectedChips] = useState<string[]>([]);
+  const [selectedDirectInput, setSelectedDirectInput] = useState<
+    string | undefined
+  >(undefined);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -64,6 +71,9 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
                       <button
                         type="button"
                         onClick={() => {
+                          setSelectedReaction(group.mood);
+                          setSelectedChips(group.chips ?? []);
+                          setSelectedDirectInput(group.directInput);
                           setIsReactionOpen(true);
                           onOpenChange(false);
                         }}
@@ -98,6 +108,9 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
       <ReactionDrawer
         open={isReactionOpen}
         onOpenChange={setIsReactionOpen}
+        selectedReaction={selectedReaction}
+        initialChips={selectedChips}
+        initialDirectInput={selectedDirectInput}
       />
     </Dialog>
   );
