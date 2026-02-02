@@ -101,6 +101,7 @@ const CandidateCard = ({
   }
   const commentCount =
     candidate.commentCount ?? computedReactions.commentCount;
+  const hasComments = commentCount > 0;
   return (
     <Card
       className={`h-[176px] w-full gap-0 rounded-lg border bg-white p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] ${
@@ -160,9 +161,12 @@ const CandidateCard = ({
           />
         </ReactionGroup>
         <div
-          className="flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700"
+          className={`flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700 ${
+            hasComments ? "cursor-pointer" : "opacity-50"
+          }`}
           onClick={(event) => {
             event.stopPropagation();
+            if (!hasComments) return;
             setIsCommentOpen(true);
           }}
         >

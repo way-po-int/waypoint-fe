@@ -33,6 +33,7 @@ const PlaceCard = ({
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const hasConfirmedFooter =
     confirmedFromCandidateCount !== undefined && confirmedFromCandidateCount > 0;
+  const hasComments = reactions.commentCount > 0;
 
   return (
     <div className="flex w-full flex-col">
@@ -77,6 +78,7 @@ const PlaceCard = ({
           <CommentButton
             count={reactions.commentCount}
             onClick={() => {
+              if (!hasComments) return;
               setIsCommentOpen(true);
             }}
           />
