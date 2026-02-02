@@ -17,6 +17,7 @@ interface PlaceCardProps {
   onReactionChange: (type: ReactionType) => void;
   onCommentClick?: () => void;
   confirmedFromCandidateCount?: number;
+  onConfirmedFooterClick?: () => void;
 }
 
 const PlaceCard = ({
@@ -29,6 +30,7 @@ const PlaceCard = ({
   onReactionChange,
   onCommentClick,
   confirmedFromCandidateCount,
+  onConfirmedFooterClick,
 }: PlaceCardProps) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const hasConfirmedFooter =
@@ -90,12 +92,16 @@ const PlaceCard = ({
       </div>
 
       {hasConfirmedFooter && (
-        <div className="-mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E5E7EB] pt-5 pb-[14px]">
+        <button
+          type="button"
+          onClick={onConfirmedFooterClick}
+          className="-mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E5E7EB] pt-5 pb-[14px]"
+        >
           <span className="text-sm font-medium text-[#9CA3AF]">
             총 {confirmedFromCandidateCount}개의 후보지 중 이 장소로
             확정되었어요.
           </span>
-        </div>
+        </button>
       )}
     </div>
   );
