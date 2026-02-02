@@ -30,7 +30,7 @@ const PlaceCard = ({
 }: PlaceCardProps) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   return (
-    <div className="flex h-[327px] flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+    <div className="flex h-[327px] w-full flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
       <header className="flex h-[56px] w-full items-center justify-between p-1">
         <p className="h-[24px] max-w-[105px] truncate text-base font-semibold leading-5 text-[#020618]">
           {title}
