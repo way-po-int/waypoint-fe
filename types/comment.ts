@@ -6,4 +6,5 @@ export interface CommentGroup {
   mood: CommentMood;
   chips: string[];
   directInput?: string;
+  isMe?: boolean;
 }
