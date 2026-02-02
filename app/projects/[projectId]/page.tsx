@@ -144,7 +144,7 @@ const ProjectPage = () => {
          * </p>
          */
         tab === "plan" ? (
-          <PlanSection />
+          <PlanSection dayTimeSlots={dayTimeSlots} />
         ) : (
           <BudgetSection />
         )}
