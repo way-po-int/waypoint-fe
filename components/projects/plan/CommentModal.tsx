@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { CommentGroup } from "@/types/comment";
 import { Laugh, Smile, Angry, X } from "lucide-react";
 import { useState } from "react";
-import ReactionModal from "./ReactionModal";
+import ReactionDrawer from "./ReactionDrawer";
 
 interface CommentModalProps {
   open: boolean;
@@ -95,7 +95,7 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
           </div>
         </main>
       </DialogContent>
-      <ReactionModal
+      <ReactionDrawer
         open={isReactionOpen}
         onOpenChange={setIsReactionOpen}
       />

@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { ReactionType } from "@/types/reaction";
 import { Angry, Laugh, Smile, Pencil } from "lucide-react";
@@ -7,7 +7,7 @@ import ReactionTab from "./ReactionTab";
 import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 
-interface ReactionModalProps {
+interface ReactionDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedReaction?: ReactionType | null;
@@ -105,9 +105,9 @@ function ReactionModalBody({
   return (
     <>
       <header className="flex h-[107px] flex-col gap-[4px] px-6 pb-[11px] pt-6">
-        <DialogTitle className="h-[28px] w-[327px] text-xl font-semibold leading-7 text-[#18181B]">
+        <DrawerTitle className="h-[28px] w-[327px] text-xl font-semibold leading-7 text-[#18181B]">
           장소에 대한 의견을 적어주세요
-        </DialogTitle>
+        </DrawerTitle>
         <p className="h-[40px] w-[175px] text-sm font-normal leading-5 text-[#62748E]">
           의견을 함께 남기면 팀원들의
           <br />
@@ -189,7 +189,7 @@ function ReactionModalBody({
         )}
       </section>
 
-      <footer className="flex h-[56px] items-center justify-end gap-2 px-6 pb-6 pt-0">
+      <footer className="flex h-[56px] w-[375px] items-center justify-end gap-2 px-6 pb-6 pt-0">
         <Button
           variant="outline"
           size="sm"
@@ -209,22 +209,23 @@ function ReactionModalBody({
   );
 }
 
-const ReactionModal = ({
+const ReactionDrawer = ({
   open,
   onOpenChange,
   selectedReaction,
-}: ReactionModalProps) => {
+}: ReactionDrawerProps) => {
   const initial = initialReaction(selectedReaction);
   const [isDirectInputOpen, setIsDirectInputOpen] = useState(false);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        showCloseButton={false}
-        className={`w-[375px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] transition-[height] duration-200 ease-out will-change-[height] ${
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent
+        showHandle={false}
+        className={`w-full items-center gap-[4px] rounded-t-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] transition-[height] duration-200 ease-out will-change-[height] ${
           isDirectInputOpen ? "h-[558.2744px]" : "h-[467.2744px]"
         }`}
       >
+        <DrawerTitle className="sr-only">장소에 대한 의견</DrawerTitle>
         {open ? (
           <ReactionModalBody
             key={initial}
@@ -233,9 +234,9 @@ const ReactionModal = ({
             onDirectInputChange={setIsDirectInputOpen}
           />
         ) : null}
-      </DialogContent>
-    </Dialog>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
-export default ReactionModal;
+export default ReactionDrawer;
