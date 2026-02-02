@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Drawer, DrawerTrigger } from "../ui/drawer";
 import { Button } from "../ui/button";
-import { MenuIcon } from "lucide-react";
+import { ArrowLeft, MenuIcon } from "lucide-react";
 
 interface HeaderProps {
   // 헤더 레이아웃 타입
@@ -83,16 +83,7 @@ const Header = ({
             className="flex h-10 w-10 items-center justify-center"
             aria-label="뒤로가기"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
+            <ArrowLeft className="size-6" strokeWidth={2} />
           </button>
         )}
 
