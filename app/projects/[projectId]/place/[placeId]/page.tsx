@@ -2,11 +2,13 @@
 
 import Divider from "@/components/common/Divider";
 import SourceSection from "@/components/common/SourceSection";
+import TeamOpinionSection from "@/components/common/TeamOpinionSection";
 import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { blockMockData } from "@/mocks/blockMockData";
+import { commentMockData } from "@/mocks/commentMockData";
 import { placeMockData } from "@/mocks/placeMockData";
 import {
   CheckIcon,
@@ -39,13 +41,55 @@ const PlaceDetailPage = () => {
     return matchedSlot?.memo ?? "";
   }, [projectId, placeId]);
 
+  const { opinions, message } = useMemo(() => {
+    const defaultMessage =
+      "불가 의견이 반영되었어요.\n다른 장소로 대체해보는 것은 어떨까요?";
+    if (!projectId || !placeId) {
+      return {
+        opinions: [
+          { label: "선호해요", value: 0 },
+          { label: "가능해요", value: 0 },
+          { label: "불가능해요", value: 0 },
+        ],
+        message: defaultMessage,
+      };
+    }
+
+    const slots = blockMockData[projectId] ?? [];
+    const matchedBlock =
+      slots
+        .flatMap((slot) => slot.blocks ?? [])
+        .find((block) => block.place_id === placeId) ?? null;
+    const blockId = matchedBlock?.block_id;
+    const groups = blockId ? commentMockData[blockId] ?? [] : [];
+    const counts = groups.reduce(
+      (acc, group) => {
+        acc[group.mood] += 1;
+        return acc;
+      },
+      { prefer: 0, available: 0, unavailable: 0 }
+    );
+    const total = counts.prefer + counts.available + counts.unavailable;
+    const toPercent = (value: number) =>
+      total === 0 ? 0 : Math.round((value / total) * 100);
+
+    return {
+      opinions: [
+        { label: "선호해요", value: toPercent(counts.prefer) },
+        { label: "가능해요", value: toPercent(counts.available) },
+        { label: "불가능해요", value: toPercent(counts.unavailable) },
+      ],
+      message: defaultMessage,
+    };
+  }, [projectId, placeId]);
+
   return (
     <PlaceDetailContent
       key={`${projectId}-${placeId}`}
       place={place}
       initialMemo={initialMemo}
-      projectId={projectId}
-      placeId={placeId}
+      opinions={opinions}
+      message={message}
     />
   );
 };
@@ -53,13 +97,15 @@ const PlaceDetailPage = () => {
 type PlaceDetailContentProps = {
   place: (typeof placeMockData)[number] | null;
   initialMemo: string;
-  projectId: string | undefined;
-  placeId: string | undefined;
+  opinions: { label: string; value: number }[];
+  message: string;
 };
 
 const PlaceDetailContent = ({
   place,
   initialMemo,
+  opinions,
+  message,
 }: PlaceDetailContentProps) => {
   const [isEditingMemo, setIsEditingMemo] = useState(false);
   const [memo, setMemo] = useState(initialMemo);
@@ -179,6 +225,10 @@ const PlaceDetailContent = ({
           <div className="w-full h-57 bg-gray-300 rounded-[12px]" />
           {/* 출처 */}
           <SourceSection source={place?.google_maps_uri} />
+          <TeamOpinionSection
+            opinions={opinions}
+            message={message}
+          />
         </div>
       </main>
     </div>
