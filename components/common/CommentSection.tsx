@@ -61,6 +61,8 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
               )}
             </div>
 
+            {!isLast && <div className="h-px w-full bg-[#E2E8F0]" />}
+
             {group.chips.length > 0 && (
               <div className="flex flex-wrap gap-[10px]">
                 {group.chips.map((chip) => (
@@ -79,8 +81,6 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
                 {group.directInput}
               </div>
             )}
-
-            {!isLast && <div className="h-px w-full bg-[#E2E8F0]" />}
           </div>
         );
       })}
