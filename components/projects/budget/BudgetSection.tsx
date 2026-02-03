@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { placeMockData } from "@/mocks/placeMockData";
 import { TimeSlot } from "@/types/block";
+import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
 
 interface BudgetSectionProps {
   dayTimeSlots: TimeSlot[];
@@ -28,6 +29,8 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
   const totalBudget = 100000000;
   const perPersonBudget = 100000;
   const spentAmount = 10000000;
+  const [isCandidateOpen, setIsCandidateOpen] = useState(false);
+  const [candidateNames, setCandidateNames] = useState<string[]>([]);
 
   const remainingBudget = Math.max(totalBudget - spentAmount, 0);
 
@@ -72,6 +75,11 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
               label: "입장료",
               amount: getAmountByPlaceId(selectedBlock.place_id),
               totalCandidates: slot.blocks.length,
+              candidates: slot.blocks.map((block) => ({
+                id: block.block_id,
+                title:
+                  placeMap[block.place_id ?? ""]?.name ?? block.name,
+              })),
             };
           }
 
@@ -152,6 +160,12 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
                     <button
                       type="button"
                       className="relative z-0 -mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E2E8F0] pt-5 pb-[14px]"
+                      onClick={() => {
+                        setCandidateNames(
+                          item.candidates.map((candidate) => candidate.title),
+                        );
+                        setIsCandidateOpen(true);
+                      }}
                     >
                       <span className="text-sm font-medium text-[#94A3B8]">
                         총 {item.totalCandidates}개의 후보지 중 이 장소로
@@ -199,6 +213,12 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
           })}
         </div>
       </section>
+
+      <CandidateListDrawer
+        open={isCandidateOpen}
+        onOpenChange={setIsCandidateOpen}
+        candidates={candidateNames}
+      />
     </div>
   );
 };
