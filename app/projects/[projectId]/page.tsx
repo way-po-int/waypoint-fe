@@ -79,7 +79,12 @@ const ProjectPage = () => {
 
   // 보기 모드 → 편집 모드 핸들러
   const handleEditToggle = () => {
-    router.push(`/projects/${projectId}/edit`);
+    const query = new URLSearchParams();
+    if (tab === "budget") query.set("tab", "budget");
+    const suffix = query.toString();
+    router.push(
+      suffix ? `/projects/${projectId}/edit?${suffix}` : `/projects/${projectId}/edit`,
+    );
   };
 
   // 헤더 뒤로가기 핸들러
