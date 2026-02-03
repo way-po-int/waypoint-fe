@@ -6,26 +6,15 @@ import { placeMockData } from "@/mocks/placeMockData";
 import { planMockData } from "@/mocks/planMockData";
 import { TimeSlot } from "@/types/block";
 import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
+import { BudgetSummary } from "./BudgetSummary";
+import { ConfirmedExpenseCard } from "./ConfirmedExpenseCard";
+import { CandidatesExpenseCard } from "./CandidatesExpenseCard";
+import { ExpenseDivider } from "./ExpenseDivider";
+import { placeAmountMap, formatCurrency } from "./utils";
 
 interface BudgetSectionProps {
   dayTimeSlots: TimeSlot[];
 }
-
-const placeAmountMap: Record<string, number> = {
-  "53": 7000,
-  "54": 20000,
-  "55": 15000,
-  "56": 12000,
-  "57": 10000,
-  "58": 18000,
-  "59": 8000,
-  "60": 12000,
-  "61": 9000,
-  "62": 20000,
-  "63": 15000,
-  "64": 17000,
-  "65": 8000,
-};
 
 const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
   const params = useParams<{ projectId?: string }>();
@@ -41,9 +30,6 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
   }, [projectId]);
 
   const totalBudget = memberCount * perPersonBudget;
-
-  const formatCurrency = (value: number) =>
-    `${value.toLocaleString("ko-KR")}원`;
 
   const placeMap = useMemo(
     () =>
@@ -122,25 +108,10 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
   return (
     <div className="flex flex-col">
       <section className="flex w-full flex-col gap-4">
-        <div className="flex w-full items-center justify-between gap-4">
-          <div className="flex h-[50px] flex-1 flex-col gap-[6px]">
-            <p className="text-sm font-semibold leading-5 text-[#64748B]">
-              우리의 여행예산
-            </p>
-            <p className="text-base font-bold leading-6 text-[#020618]">
-              {formatCurrency(totalBudget)}
-            </p>
-          </div>
-
-          <div className="flex h-[50px] flex-1 flex-col gap-[6px]">
-            <p className="text-sm font-semibold leading-5 text-[#64748B]">
-              1인당 비용
-            </p>
-            <p className="text-base font-bold leading-6 text-[#020618]">
-              {formatCurrency(perPersonBudget)}
-            </p>
-          </div>
-        </div>
+        <BudgetSummary
+          totalBudget={totalBudget}
+          perPersonBudget={perPersonBudget}
+        />
 
         <div className="flex h-[60px] w-full items-center justify-center gap-1 rounded-lg bg-[#F1F5F9] px-2 py-[5px] text-center">
           <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
@@ -160,91 +131,32 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
             if (item.type === "confirmed") {
               return (
                 <div key={item.id} className="flex flex-col">
-                  <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
-                    <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
-                      <p className="text-base font-semibold leading-6 text-[#020618]">
-                        {item.title}
-                      </p>
-                    </div>
-                    <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
-                      <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                        {item.label}
-                      </p>
-                      <p className="text-base font-semibold leading-6 text-[#374151]">
-                        {formatCurrency(item.amount)}
-                      </p>
-                    </div>
-                  </div>
+                  <ConfirmedExpenseCard
+                    title={item.title}
+                    label={item.label}
+                    amount={item.amount}
+                    totalCandidates={item.totalCandidates}
+                    onCandidateClick={() => {
+                      setCandidateNames(
+                        item.candidates.map((candidate) => candidate.title),
+                      );
+                      setIsCandidateOpen(true);
+                    }}
+                  />
 
-                  {item.totalCandidates > 1 && (
-                    <button
-                      type="button"
-                      className="relative z-0 -mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E2E8F0] pt-5 pb-[14px]"
-                      onClick={() => {
-                        setCandidateNames(
-                          item.candidates.map((candidate) => candidate.title),
-                        );
-                        setIsCandidateOpen(true);
-                      }}
-                    >
-                      <span className="text-sm font-medium text-[#94A3B8]">
-                        총 {item.totalCandidates}개의 후보지 중 이 장소로
-                        확정되었어요.
-                      </span>
-                    </button>
-                  )}
-
-                  {!isLast && (
-                    <div className="flex justify-center">
-                      <div className="flex flex-col items-center">
-                        <div className="h-[10px] w-px bg-[#94A3B8]" />
-                        <div className="h-[10px] w-px bg-[#94A3B8]" />
-                      </div>
-                    </div>
-                  )}
+                  {!isLast && <ExpenseDivider />}
                 </div>
               );
             }
 
             return (
               <div key={item.id} className="flex flex-col">
-                <div className="flex flex-col gap-3 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] p-3 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
-                  <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                    {item.title}
-                  </p>
+                <CandidatesExpenseCard
+                  title={item.title}
+                  candidates={item.candidates}
+                />
 
-                  <div className="flex flex-col gap-4">
-                    {item.candidates.map((candidate) => (
-                      <div
-                        key={candidate.id}
-                        className="rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-                      >
-                        <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
-                          <p className="text-base font-semibold leading-6 text-[#020618]">
-                            {candidate.title}
-                          </p>
-                        </div>
-                        <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
-                          <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                            {candidate.label}
-                          </p>
-                          <p className="text-base font-semibold leading-6 text-[#374151]">
-                            {formatCurrency(candidate.amount)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {!isLast && (
-                  <div className="flex justify-center">
-                    <div className="flex flex-col items-center">
-                      <div className="h-[10px] w-px bg-[#94A3B8]" />
-                      <div className="h-[10px] w-px bg-[#94A3B8]" />
-                    </div>
-                  </div>
-                )}
+                {!isLast && <ExpenseDivider />}
               </div>
             );
           })}
