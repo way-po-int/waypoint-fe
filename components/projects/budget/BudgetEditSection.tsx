@@ -513,12 +513,16 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                       label: item.label,
                       amount: parseInt(item.amount.replace(/,/g, ""), 10) || 0,
                     }));
-                  if (validItems.length > 0) {
-                    setPlaceBudgetItems((prev) => ({
+                  setPlaceBudgetItems((prev) => {
+                    if (validItems.length === 0) {
+                      const { [selectedPlaceId]: _removed, ...rest } = prev;
+                      return rest;
+                    }
+                    return {
                       ...prev,
                       [selectedPlaceId]: validItems,
-                    }));
-                  }
+                    };
+                  });
                 }
                 setPlaceExpenseItems([{ id: "1", label: "", amount: "" }]);
                 setSelectedPlaceTitle("");
