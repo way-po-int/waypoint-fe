@@ -43,7 +43,7 @@ const PlaceCard = ({
     : "relative z-10 flex h-[327px] w-full flex-col rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-4 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]";
 
   const shouldIgnoreNavigation = (target: EventTarget | null) => {
-    if (!target || !(target instanceof HTMLElement)) return false;
+    if (!target || !(target instanceof Element)) return false;
     return Boolean(
       target.closest(
         "button, a, input, textarea, select, [role='button'], [data-prevent-card-navigation='true']",
