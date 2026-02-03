@@ -6,12 +6,16 @@ import TeamOpinionSection from "@/components/common/TeamOpinionSection";
 import CommentSection from "@/components/common/CommentSection";
 import Header from "@/components/layout/Header";
 import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
+import ProjectBottomTabs, {
+  ProjectBottomTabValue,
+} from "@/components/projects/ProjectBottomTabs";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { blockMockData } from "@/mocks/blockMockData";
 import { commentMockData } from "@/mocks/commentMockData";
 import { placeMockData } from "@/mocks/placeMockData";
+import useQueryTab from "@/hooks/useTabQueryParam";
 import {
   CheckIcon,
   CopyIcon,
@@ -20,7 +24,7 @@ import {
   TimerIcon,
 } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -43,9 +47,20 @@ const navItems = [
   ];
 
 const PlaceDetailPage = () => {
+  const router = useRouter();
   const params = useParams<{ projectId?: string; placeId?: string }>();
   const projectId = params.projectId;
   const placeId = params.placeId;
+
+  const { tab } = useQueryTab<ProjectBottomTabValue>({
+    defaultValue: "plan",
+    allowedValues: ["plan", "budget"],
+  });
+
+  const handleTabChange = (value: ProjectBottomTabValue) => {
+    if (!projectId) return;
+    router.push(`/projects/${projectId}?tab=${value}`);
+  };
 
   const place = useMemo(
     () => placeMockData.find((item) => item.place_id === placeId) ?? null,
@@ -113,6 +128,8 @@ const PlaceDetailPage = () => {
       initialOpinions={opinions}
       initialMessage={message}
       initialCommentGroups={commentGroups}
+      tab={tab}
+      onTabChange={handleTabChange}
     />
   );
 };
@@ -123,11 +140,15 @@ type PlaceDetailContentProps = {
   initialOpinions: { label: string; value: number }[];
   initialMessage: string;
   initialCommentGroups: typeof commentMockData[string];
+  tab: ProjectBottomTabValue;
+  onTabChange: (value: ProjectBottomTabValue) => void;
 };
 
 const PlaceDetailContent = ({
   place,
   initialMemo,
+  tab,
+  onTabChange,
   initialCommentGroups,
 }: PlaceDetailContentProps) => {
   const [isEditingMemo, setIsEditingMemo] = useState(false);
@@ -196,7 +217,7 @@ const PlaceDetailContent = ({
         title={place?.name ?? ""}
         className="fixed top-0 z-10 inset-x-0"
       />
-      <main className="flex flex-col gap-6 mt-17 mx-5 pb-28">
+      <main className="flex flex-col gap-6 mt-17 mx-5 pb-40">
         {/* 사진 */}
         <div className="relative w-full h-50 overflow-hidden rounded-[12px] bg-gray-200">
           {place?.photos?.[0] ? (
@@ -295,6 +316,7 @@ const PlaceDetailContent = ({
           </div>
         </div>
       </main>
+      <ProjectBottomTabs value={tab} onValueChange={onTabChange} />
       <NavigationBar items={navItems} className="fixed bottom-0 inset-x-0" />
     </div>
   );
