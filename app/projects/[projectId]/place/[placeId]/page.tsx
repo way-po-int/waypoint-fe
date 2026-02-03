@@ -3,6 +3,7 @@
 import Divider from "@/components/common/Divider";
 import SourceSection from "@/components/common/SourceSection";
 import TeamOpinionSection from "@/components/common/TeamOpinionSection";
+import CommentSection from "@/components/common/CommentSection";
 import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -41,7 +42,7 @@ const PlaceDetailPage = () => {
     return matchedSlot?.memo ?? "";
   }, [projectId, placeId]);
 
-  const { opinions, message } = useMemo(() => {
+  const { opinions, message, commentGroups } = useMemo(() => {
     const defaultMessage =
       "불가 의견이 반영되었어요.\n다른 장소로 대체해보는 것은 어떨까요?";
     if (!projectId || !placeId) {
@@ -52,6 +53,7 @@ const PlaceDetailPage = () => {
           { label: "불가능해요", value: 0 },
         ],
         message: "",
+        commentGroups: [],
       };
     }
 
@@ -80,6 +82,7 @@ const PlaceDetailPage = () => {
         { label: "불가능해요", value: toPercent(counts.unavailable) },
       ],
       message: counts.unavailable > 0 ? defaultMessage : "",
+      commentGroups: groups,
     };
   }, [projectId, placeId]);
 
@@ -90,6 +93,7 @@ const PlaceDetailPage = () => {
       initialMemo={initialMemo}
       opinions={opinions}
       message={message}
+      commentGroups={commentGroups}
     />
   );
 };
@@ -99,6 +103,7 @@ type PlaceDetailContentProps = {
   initialMemo: string;
   opinions: { label: string; value: number }[];
   message: string;
+  commentGroups: typeof commentMockData[string];
 };
 
 const PlaceDetailContent = ({
@@ -106,6 +111,7 @@ const PlaceDetailContent = ({
   initialMemo,
   opinions,
   message,
+  commentGroups,
 }: PlaceDetailContentProps) => {
   const [isEditingMemo, setIsEditingMemo] = useState(false);
   const [memo, setMemo] = useState(initialMemo);
@@ -229,6 +235,14 @@ const PlaceDetailContent = ({
             opinions={opinions}
             message={message}
           />
+          <div className="flex flex-col gap-5">
+            <Label className="font-bold">코멘트</Label>
+            {commentGroups.length > 0 ? (
+              <CommentSection groups={commentGroups} />
+            ) : (
+              <p className="text-sm text-slate-400">코멘트가 없습니다</p>
+            )}
+          </div>
         </div>
       </main>
     </div>
