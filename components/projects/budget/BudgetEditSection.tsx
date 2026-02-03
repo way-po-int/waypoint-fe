@@ -13,6 +13,12 @@ interface BudgetEditSectionProps {
   dayTimeSlots: TimeSlot[];
 }
 
+interface AdditionalExpense {
+  id: string;
+  label: string;
+  amount: number;
+}
+
 const placeAmountMap: Record<string, number> = {
   "53": 7000,
   "54": 20000,
@@ -46,6 +52,12 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   );
   const [expenseNameInput, setExpenseNameInput] = useState("");
   const [expenseAmountInput, setExpenseAmountInput] = useState("");
+  const [additionalExpenses, setAdditionalExpenses] = useState<
+    Record<string, AdditionalExpense[]>
+  >({});
+  const [currentExpenseItemId, setCurrentExpenseItemId] = useState<
+    string | null
+  >(null);
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -186,6 +198,23 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     </button>
                   )}
 
+                  {/* 추가 지출 카드들 */}
+                  {additionalExpenses[item.id]?.map((expense) => (
+                    <div
+                      key={expense.id}
+                      className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                    >
+                      <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
+                        <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                          {expense.label}
+                        </p>
+                        <p className="text-base font-semibold leading-6 text-[#374151]">
+                          {formatCurrency(expense.amount)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+
                   <div className="flex justify-center">
                     <div className="flex flex-col items-center">
                       <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -193,7 +222,10 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         <Button
                           variant="ghost"
                           className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
-                          onClick={() => setIsExpenseDrawerOpen(true)}
+                          onClick={() => {
+                            setCurrentExpenseItemId(item.id);
+                            setIsExpenseDrawerOpen(true);
+                          }}
                         >
                           <Plus className="h-3 w-3 text-white" />
                         </Button>
@@ -239,6 +271,23 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   </div>
                 </div>
 
+                {/* 추가 지출 카드들 */}
+                {additionalExpenses[item.id]?.map((expense) => (
+                  <div
+                    key={expense.id}
+                    className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                  >
+                    <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
+                      <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                        {expense.label}
+                      </p>
+                      <p className="text-base font-semibold leading-6 text-[#374151]">
+                        {formatCurrency(expense.amount)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
                 <div className="flex justify-center">
                   <div className="flex flex-col items-center">
                     <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -246,7 +295,10 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                       <Button
                         variant="ghost"
                         className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
-                        onClick={() => setIsExpenseDrawerOpen(true)}
+                        onClick={() => {
+                          setCurrentExpenseItemId(item.id);
+                          setIsExpenseDrawerOpen(true);
+                        }}
                       >
                         <Plus className="h-3 w-3 text-white" />
                       </Button>
@@ -411,6 +463,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               onClick={() => {
                 setExpenseNameInput("");
                 setExpenseAmountInput("");
+                setCurrentExpenseItemId(null);
                 setIsExpenseDrawerOpen(false);
               }}
             >
@@ -422,8 +475,23 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               size="default"
               className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
               onClick={() => {
+                if (currentExpenseItemId && expenseNameInput && expenseAmountInput) {
+                  const newExpense: AdditionalExpense = {
+                    id: `expense-${Date.now()}`,
+                    label: expenseNameInput,
+                    amount: parseInt(expenseAmountInput.replace(/,/g, ""), 10) || 0,
+                  };
+                  setAdditionalExpenses((prev) => ({
+                    ...prev,
+                    [currentExpenseItemId]: [
+                      ...(prev[currentExpenseItemId] || []),
+                      newExpense,
+                    ],
+                  }));
+                }
                 setExpenseNameInput("");
                 setExpenseAmountInput("");
+                setCurrentExpenseItemId(null);
                 setIsExpenseDrawerOpen(false);
               }}
             >
