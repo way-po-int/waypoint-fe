@@ -35,6 +35,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
   const [isBudgetDrawerOpen, setIsBudgetDrawerOpen] = useState(false);
+  const [isExpenseDrawerOpen, setIsExpenseDrawerOpen] = useState(false);
   const [isTotalEditing, setIsTotalEditing] = useState(false);
   const [isPerPersonEditing, setIsPerPersonEditing] = useState(false);
   const [totalBudgetInput, setTotalBudgetInput] = useState(
@@ -43,6 +44,8 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [perPersonBudgetInput, setPerPersonBudgetInput] = useState(
     perPersonBudget.toLocaleString("ko-KR"),
   );
+  const [expenseNameInput, setExpenseNameInput] = useState("");
+  const [expenseAmountInput, setExpenseAmountInput] = useState("");
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -190,6 +193,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         <Button
                           variant="ghost"
                           className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                          onClick={() => setIsExpenseDrawerOpen(true)}
                         >
                           <Plus className="h-3 w-3 text-white" />
                         </Button>
@@ -242,6 +246,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                       <Button
                         variant="ghost"
                         className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                        onClick={() => setIsExpenseDrawerOpen(true)}
                       >
                         <Plus className="h-3 w-3 text-white" />
                       </Button>
@@ -356,6 +361,69 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               size="default"
               className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
               onClick={() => setIsBudgetDrawerOpen(false)}
+            >
+              저장
+            </Button>
+          </div>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer open={isExpenseDrawerOpen} onOpenChange={setIsExpenseDrawerOpen}>
+        <DrawerContent
+          showHandle={false}
+          className="flex min-h-[280px] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
+        >
+          <DrawerTitle className="sr-only">추가 지출 입력</DrawerTitle>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium leading-5 text-[#111827]">
+                지출 항목
+              </p>
+              <Input
+                value={expenseNameInput}
+                onChange={(event) => setExpenseNameInput(event.target.value)}
+                placeholder="Input Value"
+                className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium leading-5 text-[#111827]">
+                금액
+              </p>
+              <Input
+                value={expenseAmountInput}
+                onChange={(event) => setExpenseAmountInput(event.target.value)}
+                placeholder="Input Value"
+                className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
+              />
+            </div>
+          </div>
+
+          <div className="mt-auto flex h-10 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] border-[#E4E4E7] px-[17px] py-[9.5px] text-sm font-medium leading-5 text-[#09090B]"
+              onClick={() => {
+                setExpenseNameInput("");
+                setExpenseAmountInput("");
+                setIsExpenseDrawerOpen(false);
+              }}
+            >
+              취소
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+              onClick={() => {
+                setExpenseNameInput("");
+                setExpenseAmountInput("");
+                setIsExpenseDrawerOpen(false);
+              }}
             >
               저장
             </Button>
