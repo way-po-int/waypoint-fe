@@ -81,7 +81,7 @@ const TimeSlotContent = ({
           confirmedFromCandidateCount={blockCount > 1 ? blockCount : undefined}
         />
       )}
-      {confirmedBlockId && (
+      {blockCount > 1 && (
         <CandidateListDrawer
           open={isCandidateDrawerOpen}
           onOpenChange={setIsCandidateDrawerOpen}

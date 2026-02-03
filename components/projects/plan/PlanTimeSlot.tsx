@@ -51,8 +51,9 @@ const PlanTimeSlot = ({
       address: place?.address,
     };
   });
+  const confirmedCandidateId = confirmedBlockId ?? selectedBlock?.block_id ?? null;
   const otherCandidateNames = blocks
-    .filter((block) => block.block_id !== confirmedBlockId)
+    .filter((block) => block.block_id !== confirmedCandidateId)
     .map((block) => block.name);
 
   const place = selectedBlock?.place_id
