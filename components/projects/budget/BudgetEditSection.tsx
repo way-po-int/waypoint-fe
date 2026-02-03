@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import { placeMockData } from "@/mocks/placeMockData";
 import { TimeSlot } from "@/types/block";
 import { Button } from "@/components/ui/button";
 import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
 
 interface BudgetEditSectionProps {
   dayTimeSlots: TimeSlot[];
@@ -30,11 +31,9 @@ const placeAmountMap: Record<string, number> = {
 const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const totalBudget = 100000000;
   const perPersonBudget = 100000;
-  // const spentAmount = 10000000;
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
-
-  // const remainingBudget = Math.max(totalBudget - spentAmount, 0);
+  const [isBudgetDrawerOpen, setIsBudgetDrawerOpen] = useState(false);
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -128,6 +127,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           variant="default"
           size="lg"
           className="h-[44px] w-full rounded-[6px] bg-[#18181B] px-8 py-[11.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+          onClick={() => setIsBudgetDrawerOpen(true)}
         >
           우리의 여행예산 편집하기
         </Button>
@@ -254,6 +254,70 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
         onOpenChange={setIsCandidateOpen}
         candidates={candidateNames}
       />
+
+      <Drawer open={isBudgetDrawerOpen} onOpenChange={setIsBudgetDrawerOpen}>
+        <DrawerContent
+          showHandle={false}
+          className="flex min-h-[280px] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex h-16 items-center justify-between gap-7">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium leading-5 text-[#111827]">
+                  여행 총 예산
+                </p>
+                <p className="text-lg font-semibold leading-6 text-[#111827]">
+                  {formatCurrency(totalBudget)}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+              >
+                <Pencil className="h-6 w-6 text-white" />
+              </button>
+            </div>
+
+            <div className="flex h-16 items-center justify-between gap-7">
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium leading-5 text-[#111827]">
+                  1인당 비용
+                </p>
+                <p className="text-lg font-semibold leading-6 text-[#111827]">
+                  {formatCurrency(perPersonBudget)}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+              >
+                <Pencil className="h-6 w-6 text-white" />
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-auto flex h-10 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] border-[#E4E4E7] px-[17px] py-[9.5px] text-sm font-medium leading-5 text-[#09090B]"
+              onClick={() => setIsBudgetDrawerOpen(false)}
+            >
+              취소
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+              onClick={() => setIsBudgetDrawerOpen(false)}
+            >
+              저장
+            </Button>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };
