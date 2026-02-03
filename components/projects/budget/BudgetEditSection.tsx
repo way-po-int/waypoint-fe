@@ -89,6 +89,9 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [editingExpenseAmountInput, setEditingExpenseAmountInput] =
     useState("");
 
+  const createClientId = (prefix: string) =>
+    `.${prefix}-${crypto.randomUUID()}`;
+
   const resetExpenseDraft = () => {
     setExpenseNameInput("");
     setExpenseAmountInput("");
@@ -413,7 +416,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
             onSave={() => {
               if (currentExpenseItemId && expenseNameInput && expenseAmountInput) {
                 const newExpense: AdditionalExpense = {
-                  id: `expense-${Date.now()}`,
+                  id: createClientId("expense"),
                   label: expenseNameInput,
                   amount: parseInt(expenseAmountInput.replace(/,/g, ""), 10) || 0,
                 };
@@ -486,7 +489,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     onClick={() => {
                       setPlaceExpenseItems((prev) => [
                         ...prev,
-                        { id: `item-${Date.now()}`, label: "", amount: "" },
+                        { id: createClientId("place-item"), label: "", amount: "" },
                       ]);
                     }}
                   >
