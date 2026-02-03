@@ -13,7 +13,12 @@ import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { BudgetSummary } from "./BudgetSummary";
 import { ConfirmedExpenseCard } from "./ConfirmedExpenseCard";
 import { CandidatesExpenseCard } from "./CandidatesExpenseCard";
-import { placeAmountMap, formatCurrency, sanitizeNumber } from "./utils";
+import {
+  placeAmountMap,
+  formatCurrency,
+  sanitizeNumber,
+  extractNumbers,
+} from "./utils";
 
 interface BudgetEditSectionProps {
   dayTimeSlots: TimeSlot[];
@@ -395,7 +400,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     <Input
                       value={totalBudgetInput}
                       onChange={(event) => {
-                        const nextValue = event.target.value.replace(/[^\d]/g, "");
+                        const nextValue = extractNumbers(event.target.value);
                         const totalVal = sanitizeNumber(nextValue);
                         const nextPerPerson =
                           memberCount > 0 ? Math.floor(totalVal / memberCount) : 0;
@@ -404,7 +409,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         setPerPersonBudgetValue(nextPerPerson);
                         setPerPersonBudgetInput(nextPerPerson.toLocaleString("ko-KR"));
                       }}
-                      placeholder="Input Value"
+                      placeholder="숫자만 입력하세요"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   ) : (
@@ -437,7 +442,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     <Input
                       value={perPersonBudgetInput}
                       onChange={(event) => {
-                        const nextValue = event.target.value.replace(/[^\d]/g, "");
+                        const nextValue = extractNumbers(event.target.value);
                         const perPersonVal = sanitizeNumber(nextValue);
                         const nextTotal = perPersonVal * memberCount;
                         setPerPersonBudgetInput(nextValue);
@@ -445,7 +450,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         setTotalBudgetValue(nextTotal);
                         setTotalBudgetInput(nextTotal.toLocaleString("ko-KR"));
                       }}
-                      placeholder="Input Value"
+                      placeholder="숫자만 입력하세요"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   ) : (
@@ -517,8 +522,10 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               </p>
               <Input
                 value={expenseAmountInput}
-                onChange={(event) => setExpenseAmountInput(event.target.value)}
-                placeholder="Input Value"
+                onChange={(event) =>
+                  setExpenseAmountInput(extractNumbers(event.target.value))
+                }
+                placeholder="숫자만 입력하세요"
                 className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
               />
             </div>
@@ -618,10 +625,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                       value={item.amount}
                       onChange={(event) => {
                         const newItems = [...placeExpenseItems];
-                        newItems[idx] = { ...newItems[idx], amount: event.target.value };
+                        newItems[idx] = {
+                          ...newItems[idx],
+                          amount: extractNumbers(event.target.value),
+                        };
                         setPlaceExpenseItems(newItems);
                       }}
-                      placeholder="Input Value"
+                      placeholder="숫자만 입력하세요"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   </div>
@@ -710,9 +720,11 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     <Input
                       value={editingExpenseAmountInput}
                       onChange={(event) =>
-                        setEditingExpenseAmountInput(event.target.value)
+                        setEditingExpenseAmountInput(
+                          extractNumbers(event.target.value)
+                        )
                       }
-                      placeholder="금액을 입력하세요"
+                      placeholder="숫자만 입력하세요"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   ) : (
