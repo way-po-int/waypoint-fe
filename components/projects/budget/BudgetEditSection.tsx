@@ -261,7 +261,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           className="flex min-h-[280px] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
         >
           <div className="flex flex-col gap-4">
-            <div className="flex h-16 items-center justify-between gap-7">
+            <div className="flex h-16 items-end justify-between gap-7">
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium leading-5 text-[#111827]">
                   여행 총 예산
@@ -278,7 +278,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               </button>
             </div>
 
-            <div className="flex h-16 items-center justify-between gap-7">
+            <div className="flex h-16 items-end justify-between gap-7">
               <div className="flex flex-col gap-2">
                 <p className="text-sm font-medium leading-5 text-[#111827]">
                   1인당 비용
