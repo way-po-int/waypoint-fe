@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Pencil, Plus } from "lucide-react";
+import { Check, Pencil, Plus } from "lucide-react";
 import { placeMockData } from "@/mocks/placeMockData";
 import { TimeSlot } from "@/types/block";
 import { Button } from "@/components/ui/button";
 import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 
 interface BudgetEditSectionProps {
   dayTimeSlots: TimeSlot[];
@@ -34,6 +34,8 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
   const [isBudgetDrawerOpen, setIsBudgetDrawerOpen] = useState(false);
+  const [isTotalEditing, setIsTotalEditing] = useState(false);
+  const [isPerPersonEditing, setIsPerPersonEditing] = useState(false);
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -260,6 +262,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           showHandle={false}
           className="flex min-h-[280px] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
         >
+          <DrawerTitle className="sr-only">여행 예산 편집</DrawerTitle>
           <div className="flex flex-col gap-4">
             <div className="flex h-16 items-end justify-between gap-7">
               <div className="flex flex-col gap-2">
@@ -273,8 +276,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               <button
                 type="button"
                 className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+                onClick={() => setIsTotalEditing((prev) => !prev)}
               >
-                <Pencil className="h-6 w-6 text-white" />
+                {isTotalEditing ? (
+                  <Check className="h-6 w-6 text-white" />
+                ) : (
+                  <Pencil className="h-6 w-6 text-white" />
+                )}
               </button>
             </div>
 
@@ -290,8 +298,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               <button
                 type="button"
                 className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+                onClick={() => setIsPerPersonEditing((prev) => !prev)}
               >
-                <Pencil className="h-6 w-6 text-white" />
+                {isPerPersonEditing ? (
+                  <Check className="h-6 w-6 text-white" />
+                ) : (
+                  <Pencil className="h-6 w-6 text-white" />
+                )}
               </button>
             </div>
           </div>
