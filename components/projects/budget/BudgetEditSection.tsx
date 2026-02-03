@@ -174,20 +174,18 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     </button>
                   )}
 
-                  {!isLast && (
-                    <div className="flex justify-center">
-                      <div className="flex flex-col items-center">
-                        <div className="h-[10px] w-px bg-[#94A3B8]" />
-                        <Button
-                          variant="ghost"
-                          className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
-                        >
-                          <Plus className="h-3 w-3 text-white" />
-                        </Button>
-                        <div className="h-[10px] w-px bg-[#94A3B8]" />
-                      </div>
+                  <div className="flex justify-center">
+                    <div className="flex flex-col items-center">
+                      <div className="h-[10px] w-px bg-[#94A3B8]" />
+                      <Button
+                        variant="ghost"
+                        className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                      >
+                        <Plus className="h-3 w-3 text-white" />
+                      </Button>
+                      {!isLast && <div className="h-[10px] w-px bg-[#94A3B8]" />}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             }
@@ -223,20 +221,18 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   </div>
                 </div>
 
-                {!isLast && (
-                  <div className="flex justify-center">
-                    <div className="flex flex-col items-center">
-                      <div className="h-[10px] w-px bg-[#94A3B8]" />
-                      <Button
-                        variant="ghost"
-                        className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
-                      >
-                        <Plus className="h-3 w-3 text-white" />
-                      </Button>
-                      <div className="h-[10px] w-px bg-[#94A3B8]" />
-                    </div>
+                <div className="flex justify-center">
+                  <div className="flex flex-col items-center">
+                    <div className="h-[10px] w-px bg-[#94A3B8]" />
+                    <Button
+                      variant="ghost"
+                      className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                    >
+                      <Plus className="h-3 w-3 text-white" />
+                    </Button>
+                    {!isLast && <div className="h-[10px] w-px bg-[#94A3B8]" />}
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
