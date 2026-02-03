@@ -5,6 +5,7 @@ import SourceSection from "@/components/common/SourceSection";
 import TeamOpinionSection from "@/components/common/TeamOpinionSection";
 import CommentSection from "@/components/common/CommentSection";
 import Header from "@/components/layout/Header";
+import NavigationBar, { DiamondIcon } from "@/components/layout/NavigationBar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +23,24 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+
+const navItems = [
+    {
+      icon: <DiamondIcon isActive={false} />,
+      label: "컬렉션",
+      path: "/home",
+    },
+    {
+      icon: <DiamondIcon isActive={true} />,
+      label: "프로젝트",
+      path: "/projects",
+    },
+    {
+      icon: <DiamondIcon isActive={false} />,
+      label: "마이",
+      path: "/my",
+    },
+  ];
 
 const PlaceDetailPage = () => {
   const params = useParams<{ projectId?: string; placeId?: string }>();
@@ -149,7 +168,7 @@ const PlaceDetailContent = ({
         title={place?.name ?? ""}
         className="fixed top-0 z-10 inset-x-0"
       />
-      <main className="flex flex-col gap-6 mt-17 mx-5">
+      <main className="flex flex-col gap-6 mt-17 mx-5 pb-28">
         {/* 사진 */}
         <div className="relative w-full h-50 overflow-hidden rounded-[12px] bg-gray-200">
           {place?.photos?.[0] ? (
@@ -245,6 +264,7 @@ const PlaceDetailContent = ({
           </div>
         </div>
       </main>
+      <NavigationBar items={navItems} className="fixed bottom-0 inset-x-0" />
     </div>
   );
 };
