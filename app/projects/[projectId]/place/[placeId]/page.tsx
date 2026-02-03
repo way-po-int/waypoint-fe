@@ -51,7 +51,7 @@ const PlaceDetailPage = () => {
           { label: "가능해요", value: 0 },
           { label: "불가능해요", value: 0 },
         ],
-        message: defaultMessage,
+        message: "",
       };
     }
 
@@ -79,7 +79,7 @@ const PlaceDetailPage = () => {
         { label: "가능해요", value: toPercent(counts.available) },
         { label: "불가능해요", value: toPercent(counts.unavailable) },
       ],
-      message: defaultMessage,
+      message: counts.unavailable > 0 ? defaultMessage : "",
     };
   }, [projectId, placeId]);
 

@@ -10,7 +10,7 @@ interface OpinionRow {
 
 interface TeamOpinionSectionProps {
   opinions: OpinionRow[];
-  message: string;
+  message?: string | null;
   title?: string;
   className?: string;
 }
@@ -48,18 +48,20 @@ const TeamOpinionSection = ({
         })}
       </div>
 
-      <div className="rounded-lg border border-[#F87171] bg-[#FEF2F2] px-[10px] py-[9px]">
-        <p
-          className="m-0 overflow-hidden font-['Inter'] text-[14px] font-normal leading-[140%] tracking-[0px] text-[#71717A] whitespace-pre-line"
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-          }}
-        >
-          {message}
-        </p>
-      </div>
+      {message ? (
+        <div className="rounded-lg border border-[#F87171] bg-[#FEF2F2] px-[10px] py-[9px]">
+          <p
+            className="m-0 overflow-hidden font-['Inter'] text-[14px] font-normal leading-[140%] tracking-[0px] text-[#71717A] whitespace-pre-line"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {message}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };
