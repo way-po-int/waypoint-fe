@@ -2,7 +2,7 @@
 
 import { CommentGroup } from "@/types/comment";
 import { Angry, Laugh, Smile } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactionDrawer from "@/components/projects/plan/ReactionDrawer";
 import { ReactionType } from "@/types/reaction";
 
@@ -17,6 +17,7 @@ const moodIconMap = {
 };
 
 const CommentSection = ({ groups }: CommentSectionProps) => {
+  const [localGroups, setLocalGroups] = useState<CommentGroup[]>(groups);
   const [isReactionOpen, setIsReactionOpen] = useState(false);
   const [selectedReaction, setSelectedReaction] =
     useState<ReactionType | null>(null);
@@ -24,10 +25,15 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
   const [selectedDirectInput, setSelectedDirectInput] = useState<
     string | undefined
   >(undefined);
+  const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLocalGroups(groups);
+  }, [groups]);
 
   return (
     <div className="flex flex-col gap-6">
-      {groups.map((group, index) => {
+      {localGroups.map((group, index) => {
         const Icon = moodIconMap[group.mood];
         const isLast = index === groups.length - 1;
 
@@ -53,6 +59,7 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
                     setSelectedReaction(group.mood);
                     setSelectedChips(group.chips ?? []);
                     setSelectedDirectInput(group.directInput);
+                    setEditingGroupId(group.id);
                     setIsReactionOpen(true);
                   }}
                 >
@@ -91,6 +98,22 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
         selectedReaction={selectedReaction}
         initialChips={selectedChips}
         initialDirectInput={selectedDirectInput}
+        onSubmit={({ reaction, chips, directInput }) => {
+          if (!editingGroupId) return;
+          setLocalGroups((prev) =>
+            prev.map((group) =>
+              group.id === editingGroupId
+                ? {
+                    ...group,
+                    mood: reaction,
+                    chips,
+                    directInput,
+                  }
+                : group
+            )
+          );
+          setIsReactionOpen(false);
+        }}
       />
     </div>
   );
