@@ -131,8 +131,8 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
           {expenseItems.map((item) => {
             if (item.type === "confirmed") {
               return (
-                <div key={item.id} className="flex flex-col gap-3">
-                  <div className="rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                <div key={item.id} className="flex flex-col">
+                  <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
                     <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
                       <p className="text-base font-semibold leading-6 text-[#020618]">
                         {item.title}
@@ -151,7 +151,7 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
                   {item.totalCandidates > 1 && (
                     <button
                       type="button"
-                      className="-mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E2E8F0] pt-5 pb-[14px]"
+                      className="relative z-0 -mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E2E8F0] pt-5 pb-[14px]"
                     >
                       <span className="text-sm font-medium text-[#94A3B8]">
                         총 {item.totalCandidates}개의 후보지 중 이 장소로
