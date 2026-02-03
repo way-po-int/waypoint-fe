@@ -198,23 +198,6 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     </button>
                   )}
 
-                  {/* 추가 지출 카드들 */}
-                  {additionalExpenses[item.id]?.map((expense) => (
-                    <div
-                      key={expense.id}
-                      className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-                    >
-                      <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
-                        <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                          {expense.label}
-                        </p>
-                        <p className="text-base font-semibold leading-6 text-[#374151]">
-                          {formatCurrency(expense.amount)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-
                   <div className="flex justify-center">
                     <div className="flex flex-col items-center">
                       <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -233,9 +216,51 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                           추가 지출
                         </span>
                       </div>
-                      {!isLast && <div className="h-[10px] w-px bg-[#94A3B8]" />}
+                      {(!isLast || (additionalExpenses[item.id]?.length ?? 0) > 0) && (
+                        <div className="h-[10px] w-px bg-[#94A3B8]" />
+                      )}
                     </div>
                   </div>
+
+                  {additionalExpenses[item.id]?.map((expense, expenseIndex) => (
+                    <div key={expense.id} className="flex flex-col">
+                      <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                        <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
+                          <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                            {expense.label}
+                          </p>
+                          <p className="text-base font-semibold leading-6 text-[#374151]">
+                            {formatCurrency(expense.amount)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex justify-center">
+                        <div className="flex flex-col items-center">
+                          <div className="h-[10px] w-px bg-[#94A3B8]" />
+                          <div className="relative">
+                            <Button
+                              variant="ghost"
+                              className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                              onClick={() => {
+                                setCurrentExpenseItemId(item.id);
+                                setIsExpenseDrawerOpen(true);
+                              }}
+                            >
+                              <Plus className="h-3 w-3 text-white" />
+                            </Button>
+                            <span className="absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap text-sm font-medium leading-5 text-[#94A3B8]">
+                              추가 지출
+                            </span>
+                          </div>
+                          {(!isLast ||
+                            expenseIndex <
+                              (additionalExpenses[item.id]?.length ?? 0) - 1) && (
+                            <div className="h-[10px] w-px bg-[#94A3B8]" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               );
             }
@@ -271,23 +296,6 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   </div>
                 </div>
 
-                {/* 추가 지출 카드들 */}
-                {additionalExpenses[item.id]?.map((expense) => (
-                  <div
-                    key={expense.id}
-                    className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-                  >
-                    <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
-                      <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                        {expense.label}
-                      </p>
-                      <p className="text-base font-semibold leading-6 text-[#374151]">
-                        {formatCurrency(expense.amount)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-
                 <div className="flex justify-center">
                   <div className="flex flex-col items-center">
                     <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -306,9 +314,51 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         추가 지출
                       </span>
                     </div>
-                    {!isLast && <div className="h-[10px] w-px bg-[#94A3B8]" />}
+                    {(!isLast || (additionalExpenses[item.id]?.length ?? 0) > 0) && (
+                      <div className="h-[10px] w-px bg-[#94A3B8]" />
+                    )}
                   </div>
                 </div>
+
+                {additionalExpenses[item.id]?.map((expense, expenseIndex) => (
+                  <div key={expense.id} className="flex flex-col">
+                    <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                      <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
+                        <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                          {expense.label}
+                        </p>
+                        <p className="text-base font-semibold leading-6 text-[#374151]">
+                          {formatCurrency(expense.amount)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-center">
+                      <div className="flex flex-col items-center">
+                        <div className="h-[10px] w-px bg-[#94A3B8]" />
+                        <div className="relative">
+                          <Button
+                            variant="ghost"
+                            className="h-7 w-7 rounded-[20px] bg-[#94A3B8] p-0 hover:bg-[#94A3B8]/80"
+                            onClick={() => {
+                              setCurrentExpenseItemId(item.id);
+                              setIsExpenseDrawerOpen(true);
+                            }}
+                          >
+                            <Plus className="h-3 w-3 text-white" />
+                          </Button>
+                          <span className="absolute left-full top-1/2 ml-2 -translate-y-1/2 whitespace-nowrap text-sm font-medium leading-5 text-[#94A3B8]">
+                            추가 지출
+                          </span>
+                        </div>
+                        {(!isLast ||
+                          expenseIndex <
+                            (additionalExpenses[item.id]?.length ?? 0) - 1) && (
+                          <div className="h-[10px] w-px bg-[#94A3B8]" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             );
           })}
