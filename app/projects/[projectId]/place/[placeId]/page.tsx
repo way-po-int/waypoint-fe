@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const navItems = [
@@ -110,9 +110,9 @@ const PlaceDetailPage = () => {
       key={`${projectId}-${placeId}`}
       place={place}
       initialMemo={initialMemo}
-      opinions={opinions}
-      message={message}
-      commentGroups={commentGroups}
+      initialOpinions={opinions}
+      initialMessage={message}
+      initialCommentGroups={commentGroups}
     />
   );
 };
@@ -120,20 +120,48 @@ const PlaceDetailPage = () => {
 type PlaceDetailContentProps = {
   place: (typeof placeMockData)[number] | null;
   initialMemo: string;
-  opinions: { label: string; value: number }[];
-  message: string;
-  commentGroups: typeof commentMockData[string];
+  initialOpinions: { label: string; value: number }[];
+  initialMessage: string;
+  initialCommentGroups: typeof commentMockData[string];
 };
 
 const PlaceDetailContent = ({
   place,
   initialMemo,
-  opinions,
-  message,
-  commentGroups,
+  initialCommentGroups,
 }: PlaceDetailContentProps) => {
   const [isEditingMemo, setIsEditingMemo] = useState(false);
   const [memo, setMemo] = useState(initialMemo);
+  const [commentGroups, setCommentGroups] =
+    useState<typeof commentMockData[string]>(initialCommentGroups);
+
+  useEffect(() => {
+    setCommentGroups(initialCommentGroups);
+  }, [initialCommentGroups]);
+
+  const { opinions, message } = useMemo(() => {
+    const defaultMessage =
+      "불가 의견이 반영되었어요.\n다른 장소로 대체해보는 것은 어떨까요?";
+    const counts = commentGroups.reduce(
+      (acc, group) => {
+        acc[group.mood] += 1;
+        return acc;
+      },
+      { prefer: 0, available: 0, unavailable: 0 }
+    );
+    const total = counts.prefer + counts.available + counts.unavailable;
+    const toPercent = (value: number) =>
+      total === 0 ? 0 : Math.round((value / total) * 100);
+
+    return {
+      opinions: [
+        { label: "선호해요", value: toPercent(counts.prefer) },
+        { label: "가능해요", value: toPercent(counts.available) },
+        { label: "불가능해요", value: toPercent(counts.unavailable) },
+      ],
+      message: counts.unavailable > 0 ? defaultMessage : "",
+    };
+  }, [commentGroups]);
 
   const handleCopyPlaceAddress = async () => {
     if (!place?.address || place.address.trim().length === 0) {
@@ -257,7 +285,10 @@ const PlaceDetailContent = ({
           <div className="flex flex-col gap-5">
             <Label className="font-bold">코멘트</Label>
             {commentGroups.length > 0 ? (
-              <CommentSection groups={commentGroups} />
+              <CommentSection
+                groups={commentGroups}
+                onChange={setCommentGroups}
+              />
             ) : (
               <p className="text-sm text-slate-400">코멘트가 없습니다</p>
             )}

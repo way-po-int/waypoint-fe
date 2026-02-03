@@ -8,6 +8,7 @@ import { ReactionType } from "@/types/reaction";
 
 interface CommentSectionProps {
   groups: CommentGroup[];
+  onChange?: (groups: CommentGroup[]) => void;
 }
 
 const moodIconMap = {
@@ -16,7 +17,7 @@ const moodIconMap = {
   unavailable: Angry,
 };
 
-const CommentSection = ({ groups }: CommentSectionProps) => {
+const CommentSection = ({ groups, onChange }: CommentSectionProps) => {
   const [localGroups, setLocalGroups] = useState<CommentGroup[]>(groups);
   const [isReactionOpen, setIsReactionOpen] = useState(false);
   const [selectedReaction, setSelectedReaction] =
@@ -30,6 +31,10 @@ const CommentSection = ({ groups }: CommentSectionProps) => {
   useEffect(() => {
     setLocalGroups(groups);
   }, [groups]);
+
+  useEffect(() => {
+    onChange?.(localGroups);
+  }, [localGroups, onChange]);
 
   return (
     <div className="flex flex-col gap-6">
