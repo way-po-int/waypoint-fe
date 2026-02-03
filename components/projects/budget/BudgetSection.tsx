@@ -135,8 +135,9 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
       </section>
 
       <section className="-mx-4 -mb-40 mt-4 min-h-screen bg-[#F8FAFC] px-4 py-5 pb-44">
-        <div className="flex flex-col gap-5">
-          {expenseItems.map((item) => {
+        <div className="flex flex-col">
+          {expenseItems.map((item, index) => {
+            const isLast = index === expenseItems.length - 1;
             if (item.type === "confirmed") {
               return (
                 <div key={item.id} className="flex flex-col">
@@ -173,41 +174,58 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
                       </span>
                     </button>
                   )}
+
+                  {!isLast && (
+                    <div className="flex justify-center">
+                      <div className="flex flex-col items-center">
+                        <div className="h-[10px] w-px bg-[#94A3B8]" />
+                        <div className="h-[10px] w-px bg-[#94A3B8]" />
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             }
 
             return (
-              <div
-                key={item.id}
-                className="flex flex-col gap-3 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] p-3 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-              >
-                <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                  {item.title}
-                </p>
+              <div key={item.id} className="flex flex-col">
+                <div className="flex flex-col gap-3 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] p-3 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                  <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                    {item.title}
+                  </p>
 
-                <div className="flex flex-col gap-4">
-                  {item.candidates.map((candidate) => (
-                    <div
-                      key={candidate.id}
-                      className="rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
-                    >
-                      <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
-                        <p className="text-base font-semibold leading-6 text-[#020618]">
-                          {candidate.title}
-                        </p>
+                  <div className="flex flex-col gap-4">
+                    {item.candidates.map((candidate) => (
+                      <div
+                        key={candidate.id}
+                        className="rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                      >
+                        <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
+                          <p className="text-base font-semibold leading-6 text-[#020618]">
+                            {candidate.title}
+                          </p>
+                        </div>
+                        <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
+                          <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                            {candidate.label}
+                          </p>
+                          <p className="text-base font-semibold leading-6 text-[#374151]">
+                            {formatCurrency(candidate.amount)}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
-                        <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                          {candidate.label}
-                        </p>
-                        <p className="text-base font-semibold leading-6 text-[#374151]">
-                          {formatCurrency(candidate.amount)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
+
+                {!isLast && (
+                  <div className="flex justify-center">
+                    <div className="flex flex-col items-center">
+                      <div className="h-[10px] w-px bg-[#94A3B8]" />
+                      <div className="h-[10px] w-px bg-[#94A3B8]" />
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
