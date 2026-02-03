@@ -155,7 +155,7 @@ const PlanEditPage = () => {
         ) : tab === "plan" ? (
           <PlanEditSection dayTimeSlots={dayTimeSlots} />
         ) : (
-          <BudgetEditSection />
+          <BudgetEditSection dayTimeSlots={dayTimeSlots} />
         )}
       </main>
 
