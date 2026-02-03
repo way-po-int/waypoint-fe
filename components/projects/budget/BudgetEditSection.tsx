@@ -58,6 +58,11 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [currentExpenseItemId, setCurrentExpenseItemId] = useState<
     string | null
   >(null);
+  const [isPlaceBudgetDrawerOpen, setIsPlaceBudgetDrawerOpen] = useState(false);
+  const [selectedPlaceTitle, setSelectedPlaceTitle] = useState("");
+  const [placeExpenseItems, setPlaceExpenseItems] = useState<
+    { id: string; label: string; amount: string }[]
+  >([{ id: "1", label: "", amount: "" }]);
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -164,7 +169,17 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
             if (item.type === "confirmed") {
               return (
                 <div key={item.id} className="flex flex-col">
-                  <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                  <button
+                    type="button"
+                    className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white text-left shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                    onClick={() => {
+                      setSelectedPlaceTitle(item.title);
+                      setPlaceExpenseItems([
+                        { id: "1", label: item.label, amount: String(item.amount) },
+                      ]);
+                      setIsPlaceBudgetDrawerOpen(true);
+                    }}
+                  >
                     <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
                       <p className="text-base font-semibold leading-6 text-[#020618]">
                         {item.title}
@@ -178,7 +193,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         {formatCurrency(item.amount)}
                       </p>
                     </div>
-                  </div>
+                  </button>
 
                   {item.totalCandidates > 1 && (
                     <button
@@ -543,6 +558,109 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                 setExpenseAmountInput("");
                 setCurrentExpenseItemId(null);
                 setIsExpenseDrawerOpen(false);
+              }}
+            >
+              저장
+            </Button>
+          </div>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer
+        open={isPlaceBudgetDrawerOpen}
+        onOpenChange={setIsPlaceBudgetDrawerOpen}
+      >
+        <DrawerContent
+          showHandle={false}
+          className={`flex flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)] ${
+            placeExpenseItems.length >= 4 ? "max-h-[80vh]" : ""
+          }`}
+        >
+          <DrawerTitle className="mb-4 text-lg font-bold leading-6 text-[#111827]">
+            {selectedPlaceTitle}
+          </DrawerTitle>
+          <div
+            className={`flex flex-col gap-4 ${
+              placeExpenseItems.length >= 4 ? "flex-1 overflow-y-auto" : ""
+            }`}
+          >
+              {placeExpenseItems.map((item, idx) => (
+                <div key={item.id} className="flex flex-col gap-4">
+                  {idx > 0 && (
+                    <div className="w-full border-t border-[#E2E8F0]" />
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <p className="text-sm font-medium leading-5 text-[#111827]">
+                      예산 항목
+                    </p>
+                    <Input
+                      value={item.label}
+                      onChange={(event) => {
+                        const newItems = [...placeExpenseItems];
+                        newItems[idx] = { ...newItems[idx], label: event.target.value };
+                        setPlaceExpenseItems(newItems);
+                      }}
+                      placeholder="Input Value"
+                      className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <p className="text-sm font-medium leading-5 text-[#111827]">
+                      금액
+                    </p>
+                    <Input
+                      value={item.amount}
+                      onChange={(event) => {
+                        const newItems = [...placeExpenseItems];
+                        newItems[idx] = { ...newItems[idx], amount: event.target.value };
+                        setPlaceExpenseItems(newItems);
+                      }}
+                      placeholder="Input Value"
+                      className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
+                    />
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="h-10 w-full rounded-[6px] bg-[#F4F4F5] p-3 text-[#374151] hover:bg-[#E4E4E7]"
+                    onClick={() => {
+                      setPlaceExpenseItems((prev) => [
+                        ...prev,
+                        { id: `item-${Date.now()}`, label: "", amount: "" },
+                      ]);
+                    }}
+                  >
+                    <Plus className="h-5 w-5" />
+                  </Button>
+                </div>
+              ))}
+          </div>
+
+          <div className="mt-4 flex h-10 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] border-[#E4E4E7] px-[17px] py-[9.5px] text-sm font-medium leading-5 text-[#09090B]"
+              onClick={() => {
+                setPlaceExpenseItems([{ id: "1", label: "", amount: "" }]);
+                setSelectedPlaceTitle("");
+                setIsPlaceBudgetDrawerOpen(false);
+              }}
+            >
+              취소
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+              onClick={() => {
+                setPlaceExpenseItems([{ id: "1", label: "", amount: "" }]);
+                setSelectedPlaceTitle("");
+                setIsPlaceBudgetDrawerOpen(false);
               }}
             >
               저장
