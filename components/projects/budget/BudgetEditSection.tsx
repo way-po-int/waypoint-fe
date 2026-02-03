@@ -89,6 +89,12 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [editingExpenseAmountInput, setEditingExpenseAmountInput] =
     useState("");
 
+  const resetExpenseDraft = () => {
+    setExpenseNameInput("");
+    setExpenseAmountInput("");
+    setCurrentExpenseItemId(null);
+  };
+
   const placeMap = useMemo(
     () =>
       placeMockData.reduce<Record<string, (typeof placeMockData)[number]>>(
@@ -211,6 +217,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
                   <AddExpenseButton
                     onClick={() => {
+                      resetExpenseDraft();
                       setCurrentExpenseItemId(item.id);
                       setIsExpenseDrawerOpen(true);
                     }}
@@ -238,6 +245,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                       />
                       <AddExpenseButton
                         onClick={() => {
+                          resetExpenseDraft();
                           setCurrentExpenseItemId(item.id);
                           setIsExpenseDrawerOpen(true);
                         }}
@@ -262,6 +270,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
                 <AddExpenseButton
                   onClick={() => {
+                    resetExpenseDraft();
                     setCurrentExpenseItemId(item.id);
                     setIsExpenseDrawerOpen(true);
                   }}
@@ -289,6 +298,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     />
                     <AddExpenseButton
                       onClick={() => {
+                        resetExpenseDraft();
                         setCurrentExpenseItemId(item.id);
                         setIsExpenseDrawerOpen(true);
                       }}
@@ -362,7 +372,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
         </DrawerContent>
       </Drawer>
 
-      <Drawer open={isExpenseDrawerOpen} onOpenChange={setIsExpenseDrawerOpen}>
+      <Drawer
+        open={isExpenseDrawerOpen}
+        onOpenChange={(open) => {
+          setIsExpenseDrawerOpen(open);
+          if (!open) resetExpenseDraft();
+        }}
+      >
         <DrawerContent
           showHandle={false}
           className="flex min-h-[280px] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
@@ -385,9 +401,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
           <DrawerActions
             onCancel={() => {
-              setExpenseNameInput("");
-              setExpenseAmountInput("");
-              setCurrentExpenseItemId(null);
+              resetExpenseDraft();
               setIsExpenseDrawerOpen(false);
             }}
             onSave={() => {
@@ -405,9 +419,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   ],
                 }));
               }
-              setExpenseNameInput("");
-              setExpenseAmountInput("");
-              setCurrentExpenseItemId(null);
+              resetExpenseDraft();
               setIsExpenseDrawerOpen(false);
             }}
           />
