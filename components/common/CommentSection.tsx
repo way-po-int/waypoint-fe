@@ -40,7 +40,7 @@ const CommentSection = ({ groups, onChange }: CommentSectionProps) => {
     <div className="flex flex-col gap-6">
       {localGroups.map((group, index) => {
         const Icon = moodIconMap[group.mood];
-        const isLast = index === groups.length - 1;
+        const isLast = index === localGroups.length - 1;
 
         return (
           <div key={group.id} className="flex flex-col gap-4">
