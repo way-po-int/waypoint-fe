@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 import { Check, Pencil, Plus } from "lucide-react";
 import { placeMockData } from "@/mocks/placeMockData";
+import { planMockData } from "@/mocks/planMockData";
 import { TimeSlot } from "@/types/block";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,19 +38,31 @@ const placeAmountMap: Record<string, number> = {
 };
 
 const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
-  const totalBudget = 100000000;
-  const perPersonBudget = 100000;
+  const params = useParams<{ projectId?: string }>();
+  const projectId = params.projectId;
+  const memberCount = useMemo(() => {
+    if (!projectId) return 1;
+    return planMockData.find((plan) => plan.plan_id === projectId)
+      ?.member_count ?? 1;
+  }, [projectId]);
+  const initialPerPersonBudget = 100000;
+  const [perPersonBudgetValue, setPerPersonBudgetValue] = useState(
+    initialPerPersonBudget,
+  );
+  const [totalBudgetValue, setTotalBudgetValue] = useState(
+    () => memberCount * initialPerPersonBudget,
+  );
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
   const [isBudgetDrawerOpen, setIsBudgetDrawerOpen] = useState(false);
   const [isExpenseDrawerOpen, setIsExpenseDrawerOpen] = useState(false);
   const [isTotalEditing, setIsTotalEditing] = useState(false);
   const [isPerPersonEditing, setIsPerPersonEditing] = useState(false);
-  const [totalBudgetInput, setTotalBudgetInput] = useState(
-    totalBudget.toLocaleString("ko-KR"),
+  const [totalBudgetInput, setTotalBudgetInput] = useState(() =>
+    (memberCount * initialPerPersonBudget).toLocaleString("ko-KR"),
   );
-  const [perPersonBudgetInput, setPerPersonBudgetInput] = useState(
-    perPersonBudget.toLocaleString("ko-KR"),
+  const [perPersonBudgetInput, setPerPersonBudgetInput] = useState(() =>
+    initialPerPersonBudget.toLocaleString("ko-KR"),
   );
   const [expenseNameInput, setExpenseNameInput] = useState("");
   const [expenseAmountInput, setExpenseAmountInput] = useState("");
@@ -81,6 +95,11 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
+
+  const sanitizeNumber = (value: string) => {
+    const numeric = value.replace(/[^\d]/g, "");
+    return numeric ? Number(numeric) : 0;
+  };
 
   const placeMap = useMemo(
     () =>
@@ -152,7 +171,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               우리의 여행예산
             </p>
             <p className="text-base font-bold leading-6 text-[#020618]">
-              {formatCurrency(totalBudget)}
+              {formatCurrency(totalBudgetValue)}
             </p>
           </div>
 
@@ -161,7 +180,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               1인당 비용
             </p>
             <p className="text-base font-bold leading-6 text-[#020618]">
-              {formatCurrency(perPersonBudget)}
+              {formatCurrency(perPersonBudgetValue)}
             </p>
           </div>
         </div>
@@ -479,15 +498,22 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   {isTotalEditing ? (
                     <Input
                       value={totalBudgetInput}
-                      onChange={(event) =>
-                        setTotalBudgetInput(event.target.value)
-                      }
+                      onChange={(event) => {
+                        const nextValue = event.target.value.replace(/[^\d]/g, "");
+                        const totalVal = sanitizeNumber(nextValue);
+                        const nextPerPerson =
+                          memberCount > 0 ? Math.floor(totalVal / memberCount) : 0;
+                        setTotalBudgetInput(nextValue);
+                        setTotalBudgetValue(totalVal);
+                        setPerPersonBudgetValue(nextPerPerson);
+                        setPerPersonBudgetInput(nextPerPerson.toLocaleString("ko-KR"));
+                      }}
                       placeholder="Input Value"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   ) : (
                     <p className="text-lg font-semibold leading-6 text-[#111827]">
-                      {formatCurrency(totalBudget)}
+                      {formatCurrency(totalBudgetValue)}
                     </p>
                   )}
                 </div>
@@ -514,15 +540,21 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                   {isPerPersonEditing ? (
                     <Input
                       value={perPersonBudgetInput}
-                      onChange={(event) =>
-                        setPerPersonBudgetInput(event.target.value)
-                      }
+                      onChange={(event) => {
+                        const nextValue = event.target.value.replace(/[^\d]/g, "");
+                        const perPersonVal = sanitizeNumber(nextValue);
+                        const nextTotal = perPersonVal * memberCount;
+                        setPerPersonBudgetInput(nextValue);
+                        setPerPersonBudgetValue(perPersonVal);
+                        setTotalBudgetValue(nextTotal);
+                        setTotalBudgetInput(nextTotal.toLocaleString("ko-KR"));
+                      }}
                       placeholder="Input Value"
                       className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
                     />
                   ) : (
                     <p className="text-lg font-semibold leading-6 text-[#111827]">
-                      {formatCurrency(perPersonBudget)}
+                      {formatCurrency(perPersonBudgetValue)}
                     </p>
                   )}
                 </div>

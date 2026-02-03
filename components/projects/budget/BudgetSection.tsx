@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 import { placeMockData } from "@/mocks/placeMockData";
+import { planMockData } from "@/mocks/planMockData";
 import { TimeSlot } from "@/types/block";
 import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
 
@@ -26,13 +28,19 @@ const placeAmountMap: Record<string, number> = {
 };
 
 const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
-  const totalBudget = 100000000;
+  const params = useParams<{ projectId?: string }>();
+  const projectId = params.projectId;
   const perPersonBudget = 100000;
-  const spentAmount = 10000000;
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
 
-  const remainingBudget = Math.max(totalBudget - spentAmount, 0);
+  const memberCount = useMemo(() => {
+    if (!projectId) return 1;
+    return planMockData.find((plan) => plan.plan_id === projectId)
+      ?.member_count ?? 1;
+  }, [projectId]);
+
+  const totalBudget = memberCount * perPersonBudget;
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -99,6 +107,17 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
     },
     [dayTimeSlots, placeMap],
   );
+
+  const spentAmount = useMemo(
+    () =>
+      expenseItems.reduce(
+        (acc, item) => (item.type === "confirmed" ? acc + item.amount : acc),
+        0,
+      ),
+    [expenseItems],
+  );
+
+  const remainingBudget = Math.max(totalBudget - spentAmount, 0);
 
   return (
     <div className="flex flex-col">
