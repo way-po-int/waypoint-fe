@@ -149,10 +149,15 @@ const BudgetSection = ({ dayTimeSlots }: BudgetSectionProps) => {
                   </div>
 
                   {item.totalCandidates > 1 && (
-                    <div className="rounded-b-2xl bg-[#E2E8F0] px-5 py-4 text-center text-sm font-medium text-[#94A3B8]">
-                      총 {item.totalCandidates}개의 후보지 중 이 장소로
-                      확정되었어요.
-                    </div>
+                    <button
+                      type="button"
+                      className="-mt-[10px] flex h-[50px] w-full items-center justify-center gap-[10px] rounded-b-lg bg-[#E2E8F0] pt-5 pb-[14px]"
+                    >
+                      <span className="text-sm font-medium text-[#94A3B8]">
+                        총 {item.totalCandidates}개의 후보지 중 이 장소로
+                        확정되었어요.
+                      </span>
+                    </button>
                   )}
                 </div>
               );
