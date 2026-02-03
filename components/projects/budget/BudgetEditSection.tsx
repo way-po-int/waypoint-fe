@@ -60,9 +60,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   >(null);
   const [isPlaceBudgetDrawerOpen, setIsPlaceBudgetDrawerOpen] = useState(false);
   const [selectedPlaceTitle, setSelectedPlaceTitle] = useState("");
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
   const [placeExpenseItems, setPlaceExpenseItems] = useState<
     { id: string; label: string; amount: string }[]
   >([{ id: "1", label: "", amount: "" }]);
+  const [placeBudgetItems, setPlaceBudgetItems] = useState<
+    Record<string, { id: string; label: string; amount: number }[]>
+  >({});
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -173,10 +177,22 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     type="button"
                     className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white text-left shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
                     onClick={() => {
+                      setSelectedPlaceId(item.id);
                       setSelectedPlaceTitle(item.title);
-                      setPlaceExpenseItems([
-                        { id: "1", label: item.label, amount: String(item.amount) },
-                      ]);
+                      const existingItems = placeBudgetItems[item.id];
+                      if (existingItems && existingItems.length > 0) {
+                        setPlaceExpenseItems(
+                          existingItems.map((e) => ({
+                            id: e.id,
+                            label: e.label,
+                            amount: String(e.amount),
+                          }))
+                        );
+                      } else {
+                        setPlaceExpenseItems([
+                          { id: "1", label: item.label, amount: String(item.amount) },
+                        ]);
+                      }
                       setIsPlaceBudgetDrawerOpen(true);
                     }}
                   >
@@ -185,14 +201,36 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                         {item.title}
                       </p>
                     </div>
-                    <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
-                      <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                        {item.label}
-                      </p>
-                      <p className="text-base font-semibold leading-6 text-[#374151]">
-                        {formatCurrency(item.amount)}
-                      </p>
-                    </div>
+                    {(placeBudgetItems[item.id]?.length ?? 0) > 0 ? (
+                      placeBudgetItems[item.id].map((budgetItem, budgetIdx) => (
+                        <div
+                          key={budgetItem.id}
+                          className={`flex h-[46px] w-full items-center justify-between px-4 ${
+                            budgetIdx === 0 ? "pt-2" : ""
+                          } ${
+                            budgetIdx === placeBudgetItems[item.id].length - 1
+                              ? "pb-[14px]"
+                              : ""
+                          }`}
+                        >
+                          <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                            {budgetItem.label}
+                          </p>
+                          <p className="text-base font-semibold leading-6 text-[#374151]">
+                            {formatCurrency(budgetItem.amount)}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
+                        <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                          {item.label}
+                        </p>
+                        <p className="text-base font-semibold leading-6 text-[#374151]">
+                          {formatCurrency(item.amount)}
+                        </p>
+                      </div>
+                    )}
                   </button>
 
                   {item.totalCandidates > 1 && (
@@ -647,6 +685,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               onClick={() => {
                 setPlaceExpenseItems([{ id: "1", label: "", amount: "" }]);
                 setSelectedPlaceTitle("");
+                setSelectedPlaceId(null);
                 setIsPlaceBudgetDrawerOpen(false);
               }}
             >
@@ -658,8 +697,24 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               size="default"
               className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
               onClick={() => {
+                if (selectedPlaceId) {
+                  const validItems = placeExpenseItems
+                    .filter((item) => item.label && item.amount)
+                    .map((item) => ({
+                      id: item.id,
+                      label: item.label,
+                      amount: parseInt(item.amount.replace(/,/g, ""), 10) || 0,
+                    }));
+                  if (validItems.length > 0) {
+                    setPlaceBudgetItems((prev) => ({
+                      ...prev,
+                      [selectedPlaceId]: validItems,
+                    }));
+                  }
+                }
                 setPlaceExpenseItems([{ id: "1", label: "", amount: "" }]);
                 setSelectedPlaceTitle("");
+                setSelectedPlaceId(null);
                 setIsPlaceBudgetDrawerOpen(false);
               }}
             >
