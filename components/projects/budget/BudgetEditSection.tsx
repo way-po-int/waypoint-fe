@@ -30,11 +30,11 @@ const placeAmountMap: Record<string, number> = {
 const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const totalBudget = 100000000;
   const perPersonBudget = 100000;
-  const spentAmount = 10000000;
+  // const spentAmount = 10000000;
   const [isCandidateOpen, setIsCandidateOpen] = useState(false);
   const [candidateNames, setCandidateNames] = useState<string[]>([]);
 
-  const remainingBudget = Math.max(totalBudget - spentAmount, 0);
+  // const remainingBudget = Math.max(totalBudget - spentAmount, 0);
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -123,15 +123,14 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           </div>
         </div>
 
-        <div className="flex h-[60px] w-full items-center justify-center gap-1 rounded-lg bg-[#F1F5F9] px-2 py-[5px] text-center">
-          <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-            현재 여행 예산이{" "}
-            <span className="text-sm font-bold leading-5 text-[#374151]">
-              {formatCurrency(remainingBudget)}
-            </span>{" "}
-            만큼 여유 있어요!
-          </p>
-        </div>
+        <Button
+          type="button"
+          variant="default"
+          size="lg"
+          className="h-[44px] w-full rounded-[6px] bg-[#18181B] px-8 py-[11.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+        >
+          우리의 여행예산 편집하기
+        </Button>
       </section>
 
       <section className="-mx-4 -mb-40 mt-4 min-h-screen bg-[#F8FAFC] px-4 py-5 pb-44">
