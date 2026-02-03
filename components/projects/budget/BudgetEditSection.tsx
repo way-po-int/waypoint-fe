@@ -5,6 +5,7 @@ import { Check, Pencil, Plus } from "lucide-react";
 import { placeMockData } from "@/mocks/placeMockData";
 import { TimeSlot } from "@/types/block";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import CandidateListDrawer from "@/components/projects/plan/CandidateListDrawer";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 
@@ -36,6 +37,12 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [isBudgetDrawerOpen, setIsBudgetDrawerOpen] = useState(false);
   const [isTotalEditing, setIsTotalEditing] = useState(false);
   const [isPerPersonEditing, setIsPerPersonEditing] = useState(false);
+  const [totalBudgetInput, setTotalBudgetInput] = useState(
+    totalBudget.toLocaleString("ko-KR"),
+  );
+  const [perPersonBudgetInput, setPerPersonBudgetInput] = useState(
+    perPersonBudget.toLocaleString("ko-KR"),
+  );
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -264,18 +271,30 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
         >
           <DrawerTitle className="sr-only">여행 예산 편집</DrawerTitle>
           <div className="flex flex-col gap-4">
-            <div className="flex h-16 items-end justify-between gap-7">
-              <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <p className="text-sm font-medium leading-5 text-[#111827]">
                   여행 총 예산
                 </p>
-                <p className="text-lg font-semibold leading-6 text-[#111827]">
-                  {formatCurrency(totalBudget)}
-                </p>
+                <div className="flex h-10 items-center">
+                  {isTotalEditing ? (
+                    <Input
+                      value={totalBudgetInput}
+                      onChange={(event) =>
+                        setTotalBudgetInput(event.target.value)
+                      }
+                      className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827]"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold leading-6 text-[#111827]">
+                      {formatCurrency(totalBudget)}
+                    </p>
+                  )}
+                </div>
               </div>
               <button
                 type="button"
-                className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+                className="mt-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
                 onClick={() => setIsTotalEditing((prev) => !prev)}
               >
                 {isTotalEditing ? (
@@ -286,18 +305,30 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               </button>
             </div>
 
-            <div className="flex h-16 items-end justify-between gap-7">
-              <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <p className="text-sm font-medium leading-5 text-[#111827]">
                   1인당 비용
                 </p>
-                <p className="text-lg font-semibold leading-6 text-[#111827]">
-                  {formatCurrency(perPersonBudget)}
-                </p>
+                <div className="flex h-10 items-center">
+                  {isPerPersonEditing ? (
+                    <Input
+                      value={perPersonBudgetInput}
+                      onChange={(event) =>
+                        setPerPersonBudgetInput(event.target.value)
+                      }
+                      className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827]"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold leading-6 text-[#111827]">
+                      {formatCurrency(perPersonBudget)}
+                    </p>
+                  )}
+                </div>
               </div>
               <button
                 type="button"
-                className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+                className="mt-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
                 onClick={() => setIsPerPersonEditing((prev) => !prev)}
               >
                 {isPerPersonEditing ? (
