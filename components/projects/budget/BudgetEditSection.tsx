@@ -67,6 +67,17 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [placeBudgetItems, setPlaceBudgetItems] = useState<
     Record<string, { id: string; label: string; amount: number }[]>
   >({});
+  const [isAdditionalExpenseEditOpen, setIsAdditionalExpenseEditOpen] =
+    useState(false);
+  const [editingExpense, setEditingExpense] = useState<{
+    itemId: string;
+    expenseId: string;
+    label: string;
+    amount: string;
+  } | null>(null);
+  const [isEditingExpenseAmount, setIsEditingExpenseAmount] = useState(false);
+  const [editingExpenseAmountInput, setEditingExpenseAmountInput] =
+    useState("");
 
   const formatCurrency = (value: number) =>
     `${value.toLocaleString("ko-KR")}원`;
@@ -277,7 +288,21 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
                   {additionalExpenses[item.id]?.map((expense, expenseIndex) => (
                     <div key={expense.id} className="flex flex-col">
-                      <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                      <button
+                        type="button"
+                        className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white text-left shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                        onClick={() => {
+                          setEditingExpense({
+                            itemId: item.id,
+                            expenseId: expense.id,
+                            label: expense.label,
+                            amount: String(expense.amount),
+                          });
+                          setEditingExpenseAmountInput(String(expense.amount));
+                          setIsEditingExpenseAmount(false);
+                          setIsAdditionalExpenseEditOpen(true);
+                        }}
+                      >
                         <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
                           <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
                             {expense.label}
@@ -286,7 +311,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                             {formatCurrency(expense.amount)}
                           </p>
                         </div>
-                      </div>
+                      </button>
                       <div className="flex justify-center">
                         <div className="flex flex-col items-center">
                           <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -375,7 +400,21 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
 
                 {additionalExpenses[item.id]?.map((expense, expenseIndex) => (
                   <div key={expense.id} className="flex flex-col">
-                    <div className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">
+                    <button
+                      type="button"
+                      className="relative z-10 rounded-lg border border-[#E2E8F0] bg-white text-left shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+                      onClick={() => {
+                        setEditingExpense({
+                          itemId: item.id,
+                          expenseId: expense.id,
+                          label: expense.label,
+                          amount: String(expense.amount),
+                        });
+                        setEditingExpenseAmountInput(String(expense.amount));
+                        setIsEditingExpenseAmount(false);
+                        setIsAdditionalExpenseEditOpen(true);
+                      }}
+                    >
                       <div className="flex h-[46px] w-full items-center justify-between px-4 py-[14px]">
                         <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
                           {expense.label}
@@ -384,7 +423,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                           {formatCurrency(expense.amount)}
                         </p>
                       </div>
-                    </div>
+                    </button>
                     <div className="flex justify-center">
                       <div className="flex flex-col items-center">
                         <div className="h-[10px] w-px bg-[#94A3B8]" />
@@ -716,6 +755,108 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                 setSelectedPlaceTitle("");
                 setSelectedPlaceId(null);
                 setIsPlaceBudgetDrawerOpen(false);
+              }}
+            >
+              저장
+            </Button>
+          </div>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer
+        open={isAdditionalExpenseEditOpen}
+        onOpenChange={setIsAdditionalExpenseEditOpen}
+      >
+        <DrawerContent
+          showHandle={false}
+          className="flex min-h-[280px] flex-col bg-white px-5 pb-8 pt-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
+        >
+          <DrawerTitle className="mb-4 text-lg font-bold leading-6 text-[#111827]">
+            {editingExpense?.label}
+          </DrawerTitle>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
+                <div className="flex h-10 items-center">
+                  {isEditingExpenseAmount ? (
+                    <Input
+                      value={editingExpenseAmountInput}
+                      onChange={(event) =>
+                        setEditingExpenseAmountInput(event.target.value)
+                      }
+                      placeholder="금액을 입력하세요"
+                      className="h-10 w-full rounded-md border border-[#E2E8F0] bg-white px-3 py-2 text-lg font-semibold leading-6 text-[#111827] placeholder:text-sm placeholder:font-normal placeholder:text-[#9CA3AF]"
+                    />
+                  ) : (
+                    <p className="text-lg font-semibold leading-6 text-[#111827]">
+                      {formatCurrency(
+                        parseInt(editingExpenseAmountInput.replace(/,/g, ""), 10) || 0
+                      )}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <button
+                type="button"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] bg-[#18181B] p-2"
+                onClick={() => setIsEditingExpenseAmount((prev) => !prev)}
+              >
+                {isEditingExpenseAmount ? (
+                  <Check className="h-6 w-6 text-white" />
+                ) : (
+                  <Pencil className="h-6 w-6 text-white" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-auto flex h-10 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] border-[#E4E4E7] px-[17px] py-[9.5px] text-sm font-medium leading-5 text-[#09090B]"
+              onClick={() => {
+                if (editingExpense) {
+                  setAdditionalExpenses((prev) => ({
+                    ...prev,
+                    [editingExpense.itemId]: (
+                      prev[editingExpense.itemId] || []
+                    ).filter((e) => e.id !== editingExpense.expenseId),
+                  }));
+                }
+                setEditingExpense(null);
+                setIsEditingExpenseAmount(false);
+                setEditingExpenseAmountInput("");
+                setIsAdditionalExpenseEditOpen(false);
+              }}
+            >
+              삭제
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              size="default"
+              className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+              onClick={() => {
+                if (editingExpense) {
+                  const newAmount =
+                    parseInt(editingExpenseAmountInput.replace(/,/g, ""), 10) || 0;
+                  setAdditionalExpenses((prev) => ({
+                    ...prev,
+                    [editingExpense.itemId]: (
+                      prev[editingExpense.itemId] || []
+                    ).map((e) =>
+                      e.id === editingExpense.expenseId
+                        ? { ...e, amount: newAmount }
+                        : e
+                    ),
+                  }));
+                }
+                setEditingExpense(null);
+                setIsEditingExpenseAmount(false);
+                setEditingExpenseAmountInput("");
+                setIsAdditionalExpenseEditOpen(false);
               }}
             >
               저장
