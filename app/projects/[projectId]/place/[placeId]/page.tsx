@@ -160,6 +160,12 @@ const PlaceDetailContent = ({
     setCommentGroups(initialCommentGroups);
   }, [initialCommentGroups]);
 
+  useEffect(() => {
+    if (!isEditingMemo) {
+      setMemo(initialMemo);
+    }
+  }, [initialMemo, isEditingMemo]);
+
   const { opinions, message } = useMemo(() => {
     const defaultMessage =
       "불가 의견이 반영되었어요.\n다른 장소로 대체해보는 것은 어떨까요?";
