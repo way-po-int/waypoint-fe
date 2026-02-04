@@ -29,7 +29,7 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="w-[329px] gap-[4px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+        className="max-h-[80vh] w-[329px] gap-[4px] overflow-hidden rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] p-0 shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
       >
         <header className="flex h-[40px] items-center justify-end gap-[4px] px-6 py-2">
           <DialogTitle className="sr-only">의견</DialogTitle>
@@ -50,7 +50,7 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
           </button>
         </header>
 
-        <main className="flex w-[329px] flex-col gap-[12px] px-6 pb-[19px] pt-5">
+        <main className="flex max-h-[calc(80vh-44px)] w-[329px] flex-col gap-[12px] overflow-y-auto px-6 pb-[19px] pt-5">
           <div className="flex w-[281px] flex-col gap-[26px]">
             {groups.map((group) => {
               const Icon = moodIconMap[group.mood];
