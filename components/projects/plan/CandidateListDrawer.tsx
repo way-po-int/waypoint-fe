@@ -16,13 +16,12 @@ const CandidateListDrawer = ({
       <DrawerContent
         showHandle={false}
         className="w-full bg-[#FFFFFF] p-5 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
-        style={{ height: "152px" }}
       >
         <div className="flex flex-col gap-[10px]">
           <DrawerTitle className="h-[20px] w-[77px] text-sm font-bold leading-4 text-[#374151]">
             후보지 리스트
           </DrawerTitle>
-          <div className="flex flex-col gap-[10px]">
+          <div className="flex max-h-[calc(80vh-70px)] flex-col gap-[10px] overflow-y-auto">
             {candidates.map((name, index) => (
               <div
                 key={`${name}-${index}`}
