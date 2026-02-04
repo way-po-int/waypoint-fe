@@ -142,7 +142,7 @@ const CandidateCard = ({
         </div>
         <button
           type="button"
-          className={`flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700 ${
+          className={`flex h-[32px] items-center gap-[6px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700 ${
             hasComments ? "cursor-pointer" : "opacity-50"
           }`}
           onClick={(event) => {
@@ -218,7 +218,7 @@ const PlanCandidatesList = ({ candidates, onConfirm }: PlanCandidatesListProps) 
               if (!selectedCandidateId) return;
               onConfirm?.(selectedCandidateId);
             }}
-            className="h-[32px] flex-1 gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-sm font-medium leading-5 text-center text-[#0F172B] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+            className="h-[32px] flex-1 gap-[6px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-sm font-medium leading-5 text-center text-[#0F172B] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
           >
             해당 장소로 확정하기
           </Button>
@@ -228,7 +228,7 @@ const PlanCandidatesList = ({ candidates, onConfirm }: PlanCandidatesListProps) 
           variant="outline"
           size="sm"
           onClick={() => setIsSelecting(true)}
-          className="h-[32px] w-full gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-sm font-medium leading-5 text-center text-[#0F172B] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+          className="h-[32px] w-full gap-[6px] rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-sm font-medium leading-5 text-center text-[#0F172B] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
         >
           후보지 선택하기
         </Button>
