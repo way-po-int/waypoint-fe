@@ -1,19 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ReactionGroup from "./ReactionGroup";
-import ReactionItem from "./ReactionItem";
+import ReactionButtons from "./ReactionButtons";
 import CommentModal from "./CommentModal";
 import ReactionDrawer from "./ReactionDrawer";
 import { commentMockData } from "@/mocks/commentMockData";
-import { ReactionType } from "@/types/reaction";
-import {
-  Angry,
-  Laugh,
-  MessageCircle,
-  Smile,
-  CircleUserRound,
-  ArrowLeft,
-} from "lucide-react";
+import { ReactionSummary, ReactionType } from "@/types/reaction";
+import { MessageCircle, CircleUserRound, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 interface Candidate {
@@ -26,6 +18,7 @@ interface Candidate {
     prefer: number;
     available: number;
     unavailable: number;
+    commentCount?: number;
     myReaction?: ReactionType | null;
   };
   commentCount?: number;
@@ -79,10 +72,17 @@ const CandidateCard = ({
     },
   );
 
-  const reactions = candidate.reactions ?? {
+  const commentCount = candidate.commentCount ?? computedReactions.commentCount;
+  const reactions: ReactionSummary = candidate.reactions
+    ? {
+        ...candidate.reactions,
+        commentCount: candidate.reactions.commentCount ?? commentCount,
+      }
+    : {
     prefer: computedReactions.prefer,
     available: computedReactions.available,
     unavailable: computedReactions.unavailable,
+    commentCount,
     myReaction: computedReactions.myReaction,
   };
   const effectiveMyReaction =
@@ -99,8 +99,11 @@ const CandidateCard = ({
     }
     adjustedReactions[overrideMyReaction] += 1;
   }
-  const commentCount =
-    candidate.commentCount ?? computedReactions.commentCount;
+  const adjustedReactionSummary: ReactionSummary = {
+    ...adjustedReactions,
+    commentCount,
+    myReaction: effectiveMyReaction,
+  };
   const hasComments = commentCount > 0;
   return (
     <Card
@@ -128,38 +131,15 @@ const CandidateCard = ({
         )}
       </CardContent>
       <div className="flex h-[60px] w-full items-center justify-between px-4 py-[14px]">
-        <ReactionGroup onClick={(event) => event.stopPropagation()}>
-          <ReactionItem
-            label="선호"
-            count={adjustedReactions.prefer}
-            active={effectiveMyReaction === "prefer"}
-            icon={<Laugh className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {
-              setSelectedReaction("prefer");
+        <div onClick={(event) => event.stopPropagation()}>
+          <ReactionButtons
+            reactions={adjustedReactionSummary}
+            onSelect={(reactionType) => {
+              setSelectedReaction(reactionType);
               setIsReactionOpen(true);
             }}
           />
-          <ReactionItem
-            label="가능"
-            count={adjustedReactions.available}
-            active={effectiveMyReaction === "available"}
-            icon={<Smile className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {
-              setSelectedReaction("available");
-              setIsReactionOpen(true);
-            }}
-          />
-          <ReactionItem
-            label="불가능"
-            count={adjustedReactions.unavailable}
-            active={effectiveMyReaction === "unavailable"}
-            icon={<Angry className="size-6 text-slate-300" strokeWidth={2.4} />}
-            onClick={() => {
-              setSelectedReaction("unavailable");
-              setIsReactionOpen(true);
-            }}
-          />
-        </ReactionGroup>
+        </div>
         <button
           type="button"
           className={`flex h-[32px] items-center gap-[6px] rounded-(--radius) border border-[#E2E8F0] bg-[#FFFFFF] px-3 py-0 text-slate-700 ${
