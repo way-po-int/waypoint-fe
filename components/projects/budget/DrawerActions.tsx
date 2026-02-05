@@ -7,6 +7,7 @@ interface DrawerActionsProps {
   onSave: () => void;
   cancelText?: string;
   saveText?: string;
+  saveDisabled?: boolean;
 }
 
 export const DrawerActions = ({
@@ -14,6 +15,7 @@ export const DrawerActions = ({
   onSave,
   cancelText = "취소",
   saveText = "저장",
+  saveDisabled = false,
 }: DrawerActionsProps) => {
   return (
     <div className="mt-auto flex h-10 gap-4">
@@ -30,7 +32,8 @@ export const DrawerActions = ({
         type="button"
         variant="default"
         size="default"
-        className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
+        disabled={saveDisabled}
+        className="h-10 flex-1 rounded-[6px] bg-[#18181B] px-4 py-[9.5px] text-sm font-medium leading-5 text-[#FAFAFA] disabled:opacity-50 disabled:pointer-events-none"
         onClick={onSave}
       >
         {saveText}

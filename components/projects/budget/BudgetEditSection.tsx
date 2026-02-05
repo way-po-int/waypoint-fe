@@ -405,6 +405,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               setPerPersonBudgetValue(perPersonVal);
               setIsBudgetDrawerOpen(false);
             }}
+            saveDisabled={isTotalEditing || isPerPersonEditing}
           />
         </DrawerContent>
       </Drawer>
