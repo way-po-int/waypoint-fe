@@ -435,18 +435,13 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
       >
         <DrawerContent
           showHandle={false}
-          className={`flex flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)] ${
-            placeExpenseItems.length >= 4 ? "max-h-[80vh]" : ""
-          }`}
+          className="flex max-h-[80vh] flex-col bg-white px-5 py-6 shadow-[0px_-4px_16px_0px_rgba(0,0,0,0.1)]"
         >
           <DrawerTitle className="mb-4 text-lg font-bold leading-6 text-[#111827]">
             {selectedPlaceTitle}
           </DrawerTitle>
-          <div
-            className={`flex flex-col gap-4 ${
-              placeExpenseItems.length >= 4 ? "flex-1 overflow-y-auto" : ""
-            }`}
-          >
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
+
               {placeExpenseItems.map((item, idx) => (
                 <div key={item.id} className="flex flex-col gap-4">
                   {idx > 0 && (
