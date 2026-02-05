@@ -623,6 +623,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
               setIsAdditionalExpenseEditOpen(false);
             }}
             cancelText="삭제"
+            saveDisabled={isEditingExpenseAmount}
           />
         </DrawerContent>
       </Drawer>
