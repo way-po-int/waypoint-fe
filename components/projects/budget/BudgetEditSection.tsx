@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { placeMockData } from "@/mocks/placeMockData";
@@ -109,12 +109,6 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
       ),
     [],
   );
-
-  useEffect(() => {
-    const nextTotal = perPersonBudgetValue * memberCount;
-    setTotalBudgetValue(nextTotal);
-    setTotalBudgetInput(nextTotal.toLocaleString("ko-KR"));
-  }, [memberCount, perPersonBudgetValue]);
 
   const expenseItems = useMemo(
     () => {
@@ -518,8 +512,11 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                     }));
                   setPlaceBudgetItems((prev) => {
                     if (validItems.length === 0) {
-                      const { [selectedPlaceId]: _removed, ...rest } = prev;
-                      return rest;
+                      return Object.fromEntries(
+                        Object.entries(prev).filter(
+                          ([key]) => key !== selectedPlaceId
+                        )
+                      );
                     }
                     return {
                       ...prev,

@@ -160,7 +160,10 @@ const PlanEditPage = () => {
         ) : tab === "plan" ? (
           <PlanEditSection dayTimeSlots={dayTimeSlots} />
         ) : (
-          <BudgetEditSection dayTimeSlots={dayTimeSlots} />
+          <BudgetEditSection
+            key={projectId}
+            dayTimeSlots={dayTimeSlots}
+          />
         )}
       </main>
 
