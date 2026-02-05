@@ -9,15 +9,23 @@ interface Candidate {
   amount: number;
 }
 
+interface BudgetItem {
+  id: string;
+  label: string;
+  amount: number;
+}
+
 interface CandidatesExpenseCardProps {
   title: string;
   candidates: Candidate[];
+  placeBudgetItems?: Record<string, BudgetItem[]>;
   onCandidateClick?: (candidate: Candidate) => void;
 }
 
 export const CandidatesExpenseCard = ({
   title,
   candidates,
+  placeBudgetItems = {},
   onCandidateClick,
 }: CandidatesExpenseCardProps) => {
   return (
@@ -26,6 +34,10 @@ export const CandidatesExpenseCard = ({
 
       <div className="flex flex-col gap-4">
         {candidates.map((candidate) => {
+          const budgetItems = placeBudgetItems[candidate.id];
+          const hasBudgetItems =
+            budgetItems && budgetItems.length > 0;
+
           const cardContent = (
             <>
               <div className="flex h-10 w-full items-center gap-1 px-4 pt-1">
@@ -33,14 +45,36 @@ export const CandidatesExpenseCard = ({
                   {candidate.title}
                 </p>
               </div>
-              <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
-                <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
-                  {candidate.label}
-                </p>
-                <p className="text-base font-semibold leading-6 text-[#374151]">
-                  {formatCurrency(candidate.amount)}
-                </p>
-              </div>
+              {hasBudgetItems ? (
+                budgetItems.map((budgetItem, budgetIdx) => (
+                  <div
+                    key={budgetItem.id}
+                    className={`flex h-[46px] w-full items-center justify-between px-4 ${
+                      budgetIdx === 0 ? "pt-2" : ""
+                    } ${
+                      budgetIdx === budgetItems.length - 1
+                        ? "pb-[14px]"
+                        : ""
+                    }`}
+                  >
+                    <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                      {budgetItem.label}
+                    </p>
+                    <p className="text-base font-semibold leading-6 text-[#374151]">
+                      {formatCurrency(budgetItem.amount)}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="flex h-[46px] w-full items-center justify-between px-4 pt-2 pb-[14px]">
+                  <p className="text-sm font-medium leading-5 text-[#9CA3AF]">
+                    {candidate.label}
+                  </p>
+                  <p className="text-base font-semibold leading-6 text-[#374151]">
+                    {formatCurrency(candidate.amount)}
+                  </p>
+                </div>
+              )}
             </>
           );
 

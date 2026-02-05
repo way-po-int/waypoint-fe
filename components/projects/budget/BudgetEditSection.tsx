@@ -269,6 +269,7 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                 <CandidatesExpenseCard
                   title={item.title}
                   candidates={item.candidates}
+                  placeBudgetItems={placeBudgetItems}
                   onCandidateClick={(candidate) => {
                     setSelectedPlaceId(candidate.id);
                     setSelectedPlaceTitle(candidate.title);
