@@ -269,6 +269,29 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                 <CandidatesExpenseCard
                   title={item.title}
                   candidates={item.candidates}
+                  onCandidateClick={(candidate) => {
+                    setSelectedPlaceId(candidate.id);
+                    setSelectedPlaceTitle(candidate.title);
+                    const existingItems = placeBudgetItems[candidate.id];
+                    if (existingItems && existingItems.length > 0) {
+                      setPlaceExpenseItems(
+                        existingItems.map((e) => ({
+                          id: e.id,
+                          label: e.label,
+                          amount: String(e.amount),
+                        }))
+                      );
+                    } else {
+                      setPlaceExpenseItems([
+                        {
+                          id: "1",
+                          label: candidate.label,
+                          amount: String(candidate.amount),
+                        },
+                      ]);
+                    }
+                    setIsPlaceBudgetDrawerOpen(true);
+                  }}
                 />
 
                 <AddExpenseButton
