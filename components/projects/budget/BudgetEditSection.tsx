@@ -441,51 +441,48 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
             {selectedPlaceTitle}
           </DrawerTitle>
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
-
-              {placeExpenseItems.map((item, idx) => (
-                <div key={item.id} className="flex flex-col gap-4">
-                  {idx > 0 && (
-                    <div className="w-full border-t border-[#E2E8F0]" />
-                  )}
-                  <FormField
-                    label="예산 항목"
-                    value={item.label}
-                    onChange={(value) => {
-                      const newItems = [...placeExpenseItems];
-                      newItems[idx] = { ...newItems[idx], label: value };
-                      setPlaceExpenseItems(newItems);
-                    }}
-                  />
-
-                  <FormField
-                    label="금액"
-                    value={item.amount}
-                    onChange={(value) => {
-                      const newItems = [...placeExpenseItems];
-                      newItems[idx] = {
-                        ...newItems[idx],
-                        amount: extractNumbers(value),
-                      };
-                      setPlaceExpenseItems(newItems);
-                    }}
-                    placeholder="숫자만 입력하세요"
-                  />
-
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="h-10 w-full rounded-[6px] bg-[#F4F4F5] p-3 text-[#374151] hover:bg-[#E4E4E7]"
-                    onClick={() => {
-                      setPlaceExpenseItems((prev) => [
-                        ...prev,
-                        { id: createClientId("place-item"), label: "", amount: "" },
-                      ]);
-                    }}
-                  >
-                    <Plus className="h-5 w-5" />
-                  </Button>
-                </div>
-              ))}
+            {placeExpenseItems.map((item, idx) => (
+              <div key={item.id} className="flex flex-col gap-4">
+                {idx > 0 && (
+                  <div className="w-full border-t border-[#E2E8F0]" />
+                )}
+                <FormField
+                  label="예산 항목"
+                  value={item.label}
+                  onChange={(value) => {
+                    const newItems = [...placeExpenseItems];
+                    newItems[idx] = { ...newItems[idx], label: value };
+                    setPlaceExpenseItems(newItems);
+                  }}
+                />
+                <FormField
+                  label="금액"
+                  value={item.amount}
+                  onChange={(value) => {
+                    const newItems = [...placeExpenseItems];
+                    newItems[idx] = {
+                      ...newItems[idx],
+                      amount: extractNumbers(value),
+                    };
+                    setPlaceExpenseItems(newItems);
+                  }}
+                  placeholder="숫자만 입력하세요"
+                />
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-10 w-full rounded-[6px] bg-[#F4F4F5] p-3 text-[#374151] hover:bg-[#E4E4E7]"
+              onClick={() => {
+                setPlaceExpenseItems((prev) => [
+                  ...prev,
+                  { id: createClientId("place-item"), label: "", amount: "" },
+                ]);
+              }}
+            >
+              <Plus className="h-5 w-5" />
+            </Button>
           </div>
 
           <div className="mt-4">
