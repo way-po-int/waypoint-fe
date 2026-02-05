@@ -60,6 +60,8 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
   const [perPersonBudgetInput, setPerPersonBudgetInput] = useState(() =>
     initialPerPersonBudget.toLocaleString("ko-KR"),
   );
+  const [draftTotalInput, setDraftTotalInput] = useState("");
+  const [draftPerPersonInput, setDraftPerPersonInput] = useState("");
   const [expenseNameInput, setExpenseNameInput] = useState("");
   const [expenseAmountInput, setExpenseAmountInput] = useState("");
   const [additionalExpenses, setAdditionalExpenses] = useState<
@@ -172,7 +174,11 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           variant="default"
           size="lg"
           className="h-[44px] w-full rounded-[6px] bg-[#18181B] px-8 py-[11.5px] text-sm font-medium leading-5 text-[#FAFAFA]"
-          onClick={() => setIsBudgetDrawerOpen(true)}
+          onClick={() => {
+            setDraftTotalInput(totalBudgetInput);
+            setDraftPerPersonInput(perPersonBudgetInput);
+            setIsBudgetDrawerOpen(true);
+          }}
         >
           우리의 여행예산 편집하기
         </Button>
@@ -358,8 +364,8 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
           <div className="flex flex-col gap-4">
             <EditableField
               label="여행 총 예산"
-              value={totalBudgetValue}
-              inputValue={totalBudgetInput}
+              value={sanitizeNumber(draftTotalInput)}
+              inputValue={draftTotalInput}
               isEditing={isTotalEditing}
               onToggleEdit={() => setIsTotalEditing((prev) => !prev)}
               onInputChange={(value) => {
@@ -367,34 +373,38 @@ const BudgetEditSection = ({ dayTimeSlots }: BudgetEditSectionProps) => {
                 const totalVal = sanitizeNumber(nextValue);
                 const nextPerPerson =
                   memberCount > 0 ? Math.floor(totalVal / memberCount) : 0;
-                setTotalBudgetInput(nextValue);
-                setTotalBudgetValue(totalVal);
-                setPerPersonBudgetValue(nextPerPerson);
-                setPerPersonBudgetInput(nextPerPerson.toLocaleString("ko-KR"));
+                setDraftTotalInput(nextValue);
+                setDraftPerPersonInput(nextPerPerson.toLocaleString("ko-KR"));
               }}
             />
 
             <EditableField
               label="1인당 비용"
-              value={perPersonBudgetValue}
-              inputValue={perPersonBudgetInput}
+              value={sanitizeNumber(draftPerPersonInput)}
+              inputValue={draftPerPersonInput}
               isEditing={isPerPersonEditing}
               onToggleEdit={() => setIsPerPersonEditing((prev) => !prev)}
               onInputChange={(value) => {
                 const nextValue = extractNumbers(value);
                 const perPersonVal = sanitizeNumber(nextValue);
                 const nextTotal = perPersonVal * memberCount;
-                setPerPersonBudgetInput(nextValue);
-                setPerPersonBudgetValue(perPersonVal);
-                setTotalBudgetValue(nextTotal);
-                setTotalBudgetInput(nextTotal.toLocaleString("ko-KR"));
+                setDraftPerPersonInput(nextValue);
+                setDraftTotalInput(nextTotal.toLocaleString("ko-KR"));
               }}
             />
           </div>
 
           <DrawerActions
             onCancel={() => setIsBudgetDrawerOpen(false)}
-            onSave={() => setIsBudgetDrawerOpen(false)}
+            onSave={() => {
+              const totalVal = sanitizeNumber(draftTotalInput);
+              const perPersonVal = sanitizeNumber(draftPerPersonInput);
+              setTotalBudgetInput(draftTotalInput);
+              setTotalBudgetValue(totalVal);
+              setPerPersonBudgetInput(draftPerPersonInput);
+              setPerPersonBudgetValue(perPersonVal);
+              setIsBudgetDrawerOpen(false);
+            }}
           />
         </DrawerContent>
       </Drawer>
