@@ -88,7 +88,12 @@ const PlanEditPage = () => {
 
   // 편집 모드 → 보기 모드 핸들러
   const handleEditToggle = () => {
-    router.push(`/projects/${projectId}`);
+    const query = new URLSearchParams();
+    if (tab === "budget") query.set("tab", "budget");
+    const suffix = query.toString();
+    router.push(
+      suffix ? `/projects/${projectId}?${suffix}` : `/projects/${projectId}`,
+    );
   };
 
   // 컬렉션 가져오기 핸들러
@@ -155,7 +160,10 @@ const PlanEditPage = () => {
         ) : tab === "plan" ? (
           <PlanEditSection dayTimeSlots={dayTimeSlots} />
         ) : (
-          <BudgetEditSection />
+          <BudgetEditSection
+            key={projectId}
+            dayTimeSlots={dayTimeSlots}
+          />
         )}
       </main>
 
