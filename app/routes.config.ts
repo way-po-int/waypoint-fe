@@ -107,6 +107,15 @@ export const getRoutes = (
     params: [{ name: "projectId", placeholder: "Project ID" }],
   },
   {
+    path: `/projects/${dynamicParams.projectId}/place/${dynamicParams.placeId}`,
+    label: "Project Place Detail",
+    description: "프로젝트(여행 플랜) 장소 상세 페이지",
+    params: [
+      { name: "projectId", placeholder: "Project ID" },
+      { name: "placeId", placeholder: "Place ID" },
+    ],
+  },
+  {
     path: `/projects/${dynamicParams.projectId}/edit`,
     label: "Project Edit",
     description: "프로젝트(여행 플랜) 플랜 편집 페이지",

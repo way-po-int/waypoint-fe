@@ -36,7 +36,14 @@ const CommentModal = ({ open, onOpenChange, groups }: CommentModalProps) => {
           <button
             type="button"
             aria-label="닫기"
-            onClick={() => onOpenChange(false)}
+            onPointerDown={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpenChange(false);
+            }}
             className="flex h-8 w-8 items-center justify-center"
           >
             <X className="size-5" strokeWidth={2.4} />

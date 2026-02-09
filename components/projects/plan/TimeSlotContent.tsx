@@ -9,6 +9,7 @@ import FreeTimeCard from "./FreeTimeCard";
 import PlanCandidatesList from "./PlanCandidatesList";
 import PlaceCard from "./PlaceCard";
 import CandidateListDrawer from "./CandidateListDrawer";
+import { useParams } from "next/navigation";
 
 interface CandidatePlace {
   id: string;
@@ -50,6 +51,12 @@ const TimeSlotContent = ({
   setConfirmedBlockId,
   onReactionChange,
 }: TimeSlotContentProps) => {
+  const params = useParams<{ projectId?: string }>();
+  const projectId = params.projectId;
+  const placeId = place?.place_id ?? selectedBlock?.place_id;
+  const placeHref =
+    projectId && placeId ? `/projects/${projectId}/place/${placeId}` : undefined;
+
   return (
     <>
       {slot.type === "FREE" || blockCount === 0 ? (
@@ -66,6 +73,7 @@ const TimeSlotContent = ({
           imageUrl={place?.photos?.[0]}
           reactions={reactionWithCommentCount}
           commentGroups={commentGroups}
+          href={placeHref}
           onConfirmedFooterClick={() => setIsCandidateDrawerOpen(true)}
           onReactionChange={(type) =>
             selectedBlock && onReactionChange(selectedBlock.block_id, type)

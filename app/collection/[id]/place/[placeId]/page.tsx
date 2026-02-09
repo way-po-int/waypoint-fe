@@ -1,6 +1,7 @@
 "use client";
 
 import Divider from "@/components/common/Divider";
+import SourceSection from "@/components/common/SourceSection";
 import Header from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -133,10 +134,7 @@ const PlaceDetailPage = () => {
           {/* 구글 맵이 들어갈 자리 */}
           <div className="w-full h-57 bg-gray-300 rounded-[12px]" />
           {/* 출처 */}
-          <div className="flex flex-col gap-2.5">
-            <Label className="font-bold">출처</Label>
-            <p className="text-sm">출처가 없습니다</p>
-          </div>
+          <SourceSection source={place?.google_maps_uri} />
         </div>
       </main>
     </div>

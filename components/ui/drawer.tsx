@@ -36,6 +36,7 @@ function DrawerOverlay({
   return (
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
+      data-prevent-card-navigation="true"
       className={cn(
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
         className
@@ -49,6 +50,7 @@ function DrawerContent({
   className,
   children,
   showHandle = true,
+  "aria-describedby": ariaDescribedBy,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content> & {
   showHandle?: boolean
@@ -58,6 +60,8 @@ function DrawerContent({
       <DrawerOverlay />
       <DrawerPrimitive.Content
         data-slot="drawer-content"
+        data-prevent-card-navigation="true"
+        aria-describedby={ariaDescribedBy ?? undefined}
         className={cn(
           "group/drawer-content bg-background fixed z-50 flex h-auto flex-col",
           "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
