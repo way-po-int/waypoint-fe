@@ -8,7 +8,7 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       type: "PLACE",
       day: 1,
       start_time: "09:00",
-      end_time: "09:30",
+      end_time: "10:00",
       memo: "풍경이 너무 좋은 거 같아",
       blocks: [
         {
@@ -23,8 +23,8 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       time_slot_id: "ts-002",
       type: "PLACE",
       day: 1,
-      start_time: "09:30",
-      end_time: "12:00",
+      start_time: "10:00",
+      end_time: "11:00",
       memo: "풍경이 너무 좋은 거 같아",
       blocks: [
         {
@@ -39,15 +39,15 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       time_slot_id: "ts-003",
       type: "PLACE",
       day: 1,
-      start_time: "12:00",
-      end_time: "17:00",
+      start_time: "11:00",
+      end_time: "12:00",
       memo: "풍경이 너무 좋은 거 같아",
       blocks: [
         {
           block_id: "ts-003-block-001",
           place_id: "54",
           name: placeMockData.find((p) => p.place_id === "54")!.name, // 성산일출봉
-          selected: true,
+          selected: false,
         },
         {
           block_id: "ts-003-block-002",
@@ -67,8 +67,8 @@ export const blockMockData: Record<string, TimeSlot[]> = {
       time_slot_id: "ts-004",
       type: "FREE",
       day: 1,
-      start_time: "17:00",
-      end_time: "18:00",
+      start_time: "12:00",
+      end_time: "13:00",
       memo: "자유시간이다~",
       blocks: [],
     },
